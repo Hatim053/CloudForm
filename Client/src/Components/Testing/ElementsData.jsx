@@ -1,4 +1,8 @@
+import { User, Mail, Phone, Calendar, ArrowUpRight, Bell } from 'lucide-react';
+import { useState, useEffect, useRef } from "react"; 
+
  // pre build forms : 
+// unique Id : sf001
 export default function ScheduleForm({ heading, subHeading , backgroundColorHexcode , submitButtonText}) {
   const fields = [
     { icon: User, label: "Full name", type: "text", id: "name" },
@@ -51,6 +55,7 @@ export default function ScheduleForm({ heading, subHeading , backgroundColorHexc
     </div>
   );
 }
+// unique Id : wf001 , elements will be : parentId + their Id
 export default function WaitlistForm({heading , subHeading , launchDate , backgroundColorHexcode , submitButtonText })  {
   const [email, setEmail] = useState("");
   const [joined, setJoined] = useState(false);
@@ -142,27 +147,27 @@ backgroundColorHexcode =   backgroundColorHexcode ? backgroundColorHexcode : "#F
 
 
 
-// influencers cards : 
+// influencers cards :
+ // unique Id : ic001
 export default function InfluencerV1({
   name = "@zakirkhanlive",
-  bio = "Zakir's World Tour schedule here",
   banner = "MUMBAI RESIDENCY | LAST FEW SHOWS | LIVE NOW 🚨",
-  avatar = "",
+  avatar = "https://img.staticmb.com/mbcontent/images/crop/uploads/2024/5/famous-places-in-bhopal_0_1200.jpg.webp",
   socials = [],
   links = [],
 }) {
   const defaultSocials = [
-    { platform: "Twitter",   handle: "@zakirkhan",   url: "#", color: "from-blue-400 to-blue-600",   icon: "𝕏",  followers: "1.2M" },
+    { platform: "Twitter",   handle: "@zakirkhan",   url: "https://github.com/Hatim053?tab=repositories", color: "from-blue-400 to-blue-600",   icon: "𝕏",  followers: "1.2M" },
     { platform: "Instagram", handle: "@zakirkhan",   url: "#", color: "from-purple-400 to-pink-500", icon: "📷", followers: "8.4M" },
     { platform: "YouTube",   handle: "@zakirkhan",   url: "#", color: "from-red-400 to-red-700",     icon: "▶️", followers: "12M"  },
     { platform: "LinkedIn",  handle: "/in/zakir",    url: "#", color: "from-blue-600 to-blue-900",   icon: "💼", followers: "120K" },
   ];
 
   const defaultLinks = [
-    "Mumbai Residency | 12th June - 4PM & 9PM",
-    "Mumbai Residency | 13th June - 4PM & 9PM",
-    "Mumbai Residency | 14th June - 4PM & 9PM",
-    "Mumbai Residency | 19th June - 4PM & 9PM",
+    {text: "Mumbai Residency | 12th June - 4PM & 9PM" , url : "#"},
+    {text: "Mumbai Residency | 13th June - 4PM & 9PM" , url : "#"},
+    {text: "Mumbai Residency | 14th June - 4PM & 9PM" , url : "#"},
+    {text: "Mumbai Residency | 19th June - 4PM & 9PM" , url : "#"}
   ];
 
   const displaySocials = socials.length > 0 ? socials : defaultSocials;
@@ -192,7 +197,7 @@ export default function InfluencerV1({
             )}
           </div>
           <h1 className="mt-3 text-xl font-bold text-[#f5e9c2]">{name}</h1>
-          <p className="mt-1 text-sm text-[#f5e9c2]/70">{bio}</p>
+          
         </div>
 
         {/* Dynamic social cards (replaces black rectangles) */}
@@ -235,13 +240,13 @@ export default function InfluencerV1({
 
         {/* Link list */}
         <div className="mt-4 space-y-2.5">
-          {displayLinks.map((t, i) => (
+          {displayLinks.map((linkObj, i) => (
             <a
               key={i}
-              href="#"
+              href={linkObj.url || "#"}
               className="flex items-center justify-between rounded-xl bg-[#f5e9c2] px-4 py-3 text-sm font-medium text-[#1f1f1f] hover:bg-white transition"
             >
-              <span className="truncate">{t}</span>
+              <span className="truncate">{linkObj.text}</span>
               <ArrowUpRight className="h-4 w-4 shrink-0" />
             </a>
           ))}
@@ -250,7 +255,8 @@ export default function InfluencerV1({
     </div>
   );
 }
-export default function  CreatorProfileCard ({ name, bio, avatar, socials = [] })  {
+// unique Id : ic002
+export default function CreatorProfileCard({ name, bio, avatar="https://img.staticmb.com/mbcontent/images/crop/uploads/2024/5/famous-places-in-bhopal_0_1200.jpg.webp", socials = [] }, folllowBtn = { url: "" }) {
   const defaultSocials = [
     { platform: "twitter", url: "#", icon: "𝕏", color: "bg-gray-100 hover:bg-gray-200 text-gray-700" },
     { platform: "instagram", url: "#", icon: "📷", color: "bg-gray-100 hover:bg-pink-100 text-gray-700" },
@@ -259,52 +265,62 @@ export default function  CreatorProfileCard ({ name, bio, avatar, socials = [] }
   ];
 
   const displaySocials = socials.length > 0 ? socials : defaultSocials;
+  const handleClick = () => {
+    console.log('button clicked');
+    window.location.href = folllowBtn.url || "#";
+  };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md mx-auto text-center 
-                    hover:shadow-2xl transition-all duration-500">
-      {/* Avatar */}
-      <div className="w-24 h-24 mx-auto mb-5 rounded-full overflow-hidden ring-4 ring-indigo-100">
-        <img
-          src={avatar || "https://via.placeholder.com/200"}
-          alt={name || "Creator"}
-          className="w-full h-full object-cover"
-        />
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6">
+      <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 w-full max-w-md text-center 
+                      hover:shadow-2xl transition-all duration-500">
+        {/* Avatar */}
+        <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 rounded-full overflow-hidden ring-4 ring-indigo-100">
+          <img
+            src={avatar || "https://via.placeholder.com/200"}
+            alt={name || "Creator"}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Info */}
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">{name || "John Doe"}</h3>
+        <p className="text-sm sm:text-base text-gray-500 mb-6 px-2 sm:px-4">
+          {bio || "Digital creator sharing insights about design, tech, and creativity."}
+        </p>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
+          {displaySocials.map((social, index) => (
+            <a
+              key={index}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center 
+                          text-lg transition-all duration-300 transform hover:scale-110 
+                          hover:shadow-md ${social.color}`}
+              title={social.platform}
+            >
+              {social.icon}
+            </a>
+          ))}
+        </div>
+
+        {/* Follow Button */}
+        <button
+          className="mt-6 px-6 sm:px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
+                     text-white font-semibold rounded-full transition-all 
+                     duration-300 transform hover:scale-105 shadow-md w-full sm:w-auto"
+          onClick={handleClick}
+        >
+          {folllowBtn.name || "follow"}
+        </button>
       </div>
-
-      {/* Info */}
-      <h3 className="text-2xl font-bold text-gray-800 mb-2">{name || "John Doe"}</h3>
-      <p className="text-gray-500 mb-6 px-4">
-        {bio || "Digital creator sharing insights about design, tech, and creativity."}
-      </p>
-
-      {/* Social Links */}
-      <div className="flex justify-center gap-3 flex-wrap">
-        {displaySocials.map((social, index) => (
-          <a
-            key={index}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`w-11 h-11 rounded-xl flex items-center justify-center 
-                        text-lg transition-all duration-300 transform hover:scale-110 
-                        hover:shadow-md ${social.color}`}
-            title={social.platform}
-          >
-            {social.icon}
-          </a>
-        ))}
-      </div>
-
-      {/* Follow Button */}
-      <button className="mt-6 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
-                         text-white font-semibold rounded-full transition-all 
-                         duration-300 transform hover:scale-105 shadow-md">
-        Follow
-      </button>
     </div>
   );
 };
+// unique Id : ic003
 export default function  GlassSocialCard  ({ socials = [] })  {
   const defaultSocials = [
     { platform: "Twitter", url: "#", icon: "𝕏", username: "@creator" },
@@ -358,366 +374,8 @@ export default function  GlassSocialCard  ({ socials = [] })  {
   );
 };
 
-// custom forms : 
-import { useState } from "react";
-
-const COUNTRIES = ["India","United States","United Kingdom","Germany","France","Canada","Australia","Japan","Singapore","UAE"];
-const CITIES = { India:["Mumbai","Delhi","Bangalore","Chennai","Hyderabad"], "United States":["New York","San Francisco","Austin","Chicago","Seattle"], "United Kingdom":["London","Manchester","Edinburgh","Bristol","Leeds"], Germany:["Berlin","Munich","Hamburg","Frankfurt","Cologne"], France:["Paris","Lyon","Marseille","Bordeaux","Nice"], Canada:["Toronto","Vancouver","Montreal","Calgary","Ottawa"], Australia:["Sydney","Melbourne","Brisbane","Perth","Adelaide"], Japan:["Tokyo","Osaka","Kyoto","Yokohama","Sapporo"], Singapore:["Singapore City"], UAE:["Dubai","Abu Dhabi","Sharjah"] };
-const SKILLS = ["React","Vue","Angular","TypeScript","Node.js","Python","Design","DevOps","Marketing","Data Science"];
-const SOCIALS = [
-  { id:"twitter", label:"Twitter / X", icon:"𝕏", placeholder:"@username", color:"#000" },
-  { id:"linkedin", label:"LinkedIn", icon:"in", placeholder:"linkedin.com/in/you", color:"#0077b5" },
-  { id:"github", label:"GitHub", icon:"⌥", placeholder:"github.com/you", color:"#24292e" },
-  { id:"instagram", label:"Instagram", icon:"◈", placeholder:"@handle", color:"#e1306c" },
-];
-
-function StarRating({ value, onChange }) {
-  const [hover, setHover] = useState(0);
-  return (
-    <div className="flex gap-1">
-      {[1,2,3,4,5].map(i => (
-        <button key={i} type="button"
-          onClick={() => onChange(i)}
-          onMouseEnter={() => setHover(i)}
-          onMouseLeave={() => setHover(0)}
-          className="text-2xl transition-all duration-100 hover:scale-110"
-        >
-          <span className={(hover || value) >= i ? "text-amber-400" : "text-stone-200"}>★</span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
-export default function FullForm1_Minimal() {
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [rating, setRating] = useState(0);
-  const [singleFile, setSingleFile] = useState(null);
-  const [multiFiles, setMultiFiles] = useState([]);
-  const [socials, setSocials] = useState({});
-
-  const toggleSkill = (s) => setSkills(v => v.includes(s) ? v.filter(x => x !== s) : [...v, s]);
-
-  return (
-    <div className="font-dm bg-white w-full max-w-2xl mx-auto border border-stone-200 rounded-2xl overflow-hidden">
-      {/* Header */}
-      <div className="px-6 sm:px-8 py-6 border-b border-stone-100">
-        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400">Application Form</span>
-        <h2 className="text-xl sm:text-2xl font-bold text-stone-900 mt-1">Tell us about yourself</h2>
-        <p className="text-sm text-stone-400 mt-1">All fields are required unless marked optional.</p>
-        <div className="mt-4 flex gap-1">
-          {[1,2,3,4,5].map(i => <div key={i} className={`h-1 flex-1 rounded-full ${i <= 2 ? "bg-stone-900" : "bg-stone-100"}`} />)}
-        </div>
-      </div>
-
-      <div className="px-6 sm:px-8 py-8 space-y-7">
-
-        {/* ── SECTION: Personal Info ── */}
-        <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400 mb-5 flex items-center gap-2">
-            <span className="w-4 h-px bg-stone-300 inline-block" /> Personal Info
-          </h3>
-          <div className="space-y-5">
-
-            {/* name-input */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div className="relative">
-                <input id="f1-fname" type="text" placeholder=" "
-                  className="peer w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 pt-5 pb-2 text-sm text-stone-900 bg-transparent outline-none transition-colors" />
-                <label htmlFor="f1-fname"
-                  className="absolute top-4 left-0 text-sm text-stone-400 transition-all duration-200 pointer-events-none
-                  peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:text-stone-900 peer-focus:uppercase peer-focus:tracking-widest
-                  peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:text-[10px] peer-[&:not(:placeholder-shown)]:font-semibold peer-[&:not(:placeholder-shown)]:uppercase peer-[&:not(:placeholder-shown)]:tracking-widest">
-                  First Name
-                </label>
-              </div>
-              <div className="relative">
-                <input id="f1-lname" type="text" placeholder=" "
-                  className="peer w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 pt-5 pb-2 text-sm text-stone-900 bg-transparent outline-none transition-colors" />
-                <label htmlFor="f1-lname"
-                  className="absolute top-4 left-0 text-sm text-stone-400 transition-all duration-200 pointer-events-none
-                  peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:text-stone-900 peer-focus:uppercase peer-focus:tracking-widest
-                  peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:text-[10px] peer-[&:not(:placeholder-shown)]:font-semibold peer-[&:not(:placeholder-shown)]:uppercase peer-[&:not(:placeholder-shown)]:tracking-widest">
-                  Last Name
-                </label>
-              </div>
-            </div>
-
-            {/* email-input */}
-            <div className="relative">
-              <input id="f1-email" type="email" placeholder=" "
-                className="peer w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 pt-5 pb-2 text-sm text-stone-900 bg-transparent outline-none transition-colors" />
-              <label htmlFor="f1-email"
-                className="absolute top-4 left-0 text-sm text-stone-400 transition-all duration-200 pointer-events-none
-                peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:text-stone-900 peer-focus:uppercase peer-focus:tracking-widest
-                peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:text-[10px] peer-[&:not(:placeholder-shown)]:font-semibold peer-[&:not(:placeholder-shown)]:uppercase peer-[&:not(:placeholder-shown)]:tracking-widest">
-                Email Address
-              </label>
-            </div>
-
-            {/* number-input */}
-            <div className="relative">
-              <input id="f1-phone" type="number" placeholder=" "
-                className="peer w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 pt-5 pb-2 text-sm text-stone-900 bg-transparent outline-none transition-colors [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none" />
-              <label htmlFor="f1-phone"
-                className="absolute top-4 left-0 text-sm text-stone-400 transition-all duration-200 pointer-events-none
-                peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:text-stone-900 peer-focus:uppercase peer-focus:tracking-widest
-                peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:text-[10px] peer-[&:not(:placeholder-shown)]:font-semibold peer-[&:not(:placeholder-shown)]:uppercase peer-[&:not(:placeholder-shown)]:tracking-widest">
-                Phone Number
-              </label>
-            </div>
-
-            {/* date-input + time-input */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Date of Birth</label>
-                <input type="date"
-                  className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 text-sm text-stone-700 bg-transparent outline-none transition-colors" />
-              </div>
-              <div>
-                <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Preferred Time</label>
-                <input type="time"
-                  className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 text-sm text-stone-700 bg-transparent outline-none transition-colors" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-stone-100" />
-
-        {/* ── SECTION: Location ── */}
-        <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400 mb-5 flex items-center gap-2">
-            <span className="w-4 h-px bg-stone-300 inline-block" /> Location
-          </h3>
-          <div className="space-y-5">
-
-            {/* country-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Country</label>
-              <div className="relative">
-                <select value={country} onChange={e => { setCountry(e.target.value); setCity(""); }}
-                  className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 pr-6 text-sm text-stone-700 bg-transparent outline-none transition-colors appearance-none">
-                  <option value="">Select country</option>
-                  {COUNTRIES.map(c => <option key={c}>{c}</option>)}
-                </select>
-                <span className="absolute right-0 top-1/2 -translate-y-1/2 text-stone-400 text-xs pointer-events-none">▼</span>
-              </div>
-            </div>
-
-            {/* city-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">City</label>
-              <div className="relative">
-                <select value={city} onChange={e => setCity(e.target.value)} disabled={!country}
-                  className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 pr-6 text-sm text-stone-700 bg-transparent outline-none transition-colors appearance-none disabled:text-stone-300">
-                  <option value="">{country ? "Select city" : "Select country first"}</option>
-                  {(CITIES[country] || []).map(c => <option key={c}>{c}</option>)}
-                </select>
-                <span className="absolute right-0 top-1/2 -translate-y-1/2 text-stone-400 text-xs pointer-events-none">▼</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-stone-100" />
-
-        {/* ── SECTION: About ── */}
-        <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400 mb-5 flex items-center gap-2">
-            <span className="w-4 h-px bg-stone-300 inline-block" /> About You
-          </h3>
-          <div className="space-y-5">
-
-            {/* short-text-input */}
-            <div className="relative">
-              <input id="f1-headline" type="text" placeholder=" " maxLength={80}
-                className="peer w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 pt-5 pb-2 text-sm text-stone-900 bg-transparent outline-none transition-colors" />
-              <label htmlFor="f1-headline"
-                className="absolute top-4 left-0 text-sm text-stone-400 transition-all duration-200 pointer-events-none
-                peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:text-stone-900 peer-focus:uppercase peer-focus:tracking-widest
-                peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:text-[10px] peer-[&:not(:placeholder-shown)]:font-semibold peer-[&:not(:placeholder-shown)]:uppercase peer-[&:not(:placeholder-shown)]:tracking-widest">
-                Headline (short bio)
-              </label>
-            </div>
-
-            {/* long-text-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">About Yourself</label>
-              <textarea rows={4} placeholder="Tell us your story, experience and what drives you..."
-                className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 text-sm text-stone-900 bg-transparent outline-none transition-colors resize-none placeholder-stone-300" />
-            </div>
-
-            {/* dropdown */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Experience Level</label>
-              <div className="relative">
-                <select className="w-full border-0 border-b-2 border-stone-200 focus:border-stone-900 py-2 pr-6 text-sm text-stone-700 bg-transparent outline-none transition-colors appearance-none">
-                  <option value="">Select level</option>
-                  <option>Student</option>
-                  <option>Junior (0–2 years)</option>
-                  <option>Mid-level (2–5 years)</option>
-                  <option>Senior (5–10 years)</option>
-                  <option>Lead / Principal (10+ years)</option>
-                </select>
-                <span className="absolute right-0 top-1/2 -translate-y-1/2 text-stone-400 text-xs pointer-events-none">▼</span>
-              </div>
-            </div>
-
-            {/* multi-select-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-3">Skills <span className="normal-case font-normal text-stone-300">(select all that apply)</span></label>
-              <div className="flex flex-wrap gap-2">
-                {SKILLS.map(s => (
-                  <button key={s} type="button" onClick={() => toggleSkill(s)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all ${skills.includes(s) ? "bg-stone-900 border-stone-900 text-white" : "bg-white border-stone-200 text-stone-600 hover:border-stone-400"}`}>
-                    {skills.includes(s) && "✓ "}{s}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* star-rating */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-3">Overall Experience Rating</label>
-              <StarRating value={rating} onChange={setRating} />
-              {rating > 0 && (
-                <p className="text-xs text-stone-400 mt-2">{["","Poor","Fair","Good","Very Good","Excellent"][rating]}</p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-stone-100" />
-
-        {/* ── SECTION: Socials ── */}
-        <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400 mb-5 flex items-center gap-2">
-            <span className="w-4 h-px bg-stone-300 inline-block" /> Social Profiles
-          </h3>
-
-          {/* social-card */}
-          <div className="space-y-3 mb-6">
-            {SOCIALS.map(s => (
-              <div key={s.id} className="flex items-center gap-3 p-3 border border-stone-200 rounded-xl hover:border-stone-300 transition-colors">
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white text-sm font-black flex-shrink-0"
-                  style={{ background: s.color }}>
-                  {s.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-0.5">{s.label}</p>
-                  <input type="text" placeholder={s.placeholder}
-                    value={socials[s.id] || ""}
-                    onChange={e => setSocials(v => ({ ...v, [s.id]: e.target.value }))}
-                    className="w-full text-sm text-stone-800 bg-transparent outline-none placeholder-stone-300" />
-                </div>
-                {socials[s.id] && <span className="text-green-500 text-xs flex-shrink-0">✓</span>}
-              </div>
-            ))}
-          </div>
-
-          {/* social-grid */}
-          <div>
-            <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-3">Quick Connect</label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {SOCIALS.map(s => (
-                <button key={s.id} type="button"
-                  className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all ${socials[s.id] ? "border-stone-900" : "border-stone-100 hover:border-stone-200"}`}>
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-black"
-                    style={{ background: s.color }}>
-                    {s.icon}
-                  </div>
-                  <span className="text-[10px] font-semibold text-stone-500">{s.label.split(" /")[0]}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-stone-100" />
-
-        {/* ── SECTION: Files ── */}
-        <div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400 mb-5 flex items-center gap-2">
-            <span className="w-4 h-px bg-stone-300 inline-block" /> Uploads
-          </h3>
-          <div className="space-y-5">
-
-            {/* single-file-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Profile Photo</label>
-              <label className="flex items-center gap-4 p-4 border-2 border-dashed border-stone-200 rounded-xl hover:border-stone-400 cursor-pointer transition-colors group">
-                <div className="w-10 h-10 rounded-full bg-stone-100 group-hover:bg-stone-200 flex items-center justify-center flex-shrink-0 transition-colors">
-                  <span className="text-stone-400 text-lg">↑</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  {singleFile
-                    ? <><p className="text-sm font-semibold text-stone-800 truncate">{singleFile.name}</p><p className="text-xs text-stone-400">{(singleFile.size / 1024).toFixed(1)} KB</p></>
-                    : <><p className="text-sm font-semibold text-stone-600">Click to upload photo</p><p className="text-xs text-stone-400">PNG, JPG up to 5MB</p></>
-                  }
-                </div>
-                {singleFile && <button type="button" onClick={e => { e.preventDefault(); setSingleFile(null); }} className="text-stone-300 hover:text-red-400 text-lg transition-colors flex-shrink-0">✕</button>}
-                <input type="file" accept="image/*" className="hidden" onChange={e => setSingleFile(e.target.files[0] || null)} />
-              </label>
-            </div>
-
-            {/* multi-file-input */}
-            <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-2">Portfolio Files <span className="normal-case font-normal text-stone-300">(up to 5)</span></label>
-              <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-stone-200 rounded-xl hover:border-stone-400 cursor-pointer transition-colors text-center">
-                <span className="text-2xl text-stone-300">⊕</span>
-                <p className="text-sm font-semibold text-stone-600">Drop files or click to browse</p>
-                <p className="text-xs text-stone-400">PDF, ZIP, PNG, JPG — max 10MB each</p>
-                <input type="file" multiple accept=".pdf,.zip,.png,.jpg,.jpeg" className="hidden"
-                  onChange={e => setMultiFiles(Array.from(e.target.files).slice(0, 5))} />
-              </label>
-              {multiFiles.length > 0 && (
-                <div className="mt-3 space-y-2">
-                  {multiFiles.map((f, i) => (
-                    <div key={i} className="flex items-center gap-3 px-3 py-2 bg-stone-50 rounded-lg">
-                      <span className="text-stone-400 text-xs">◫</span>
-                      <span className="flex-1 text-xs text-stone-700 truncate">{f.name}</span>
-                      <span className="text-[10px] text-stone-400">{(f.size / 1024).toFixed(0)}KB</span>
-                      <button type="button" onClick={() => setMultiFiles(v => v.filter((_, j) => j !== i))} className="text-stone-300 hover:text-red-400 text-sm transition-colors">✕</button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-stone-100" />
-
-        {/* ── BUTTON ── */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-          <button type="button" className="w-full sm:w-auto order-2 sm:order-1 px-6 py-3 border-2 border-stone-200 text-stone-500 text-sm font-semibold rounded-xl hover:border-stone-400 hover:text-stone-700 active:scale-95 transition-all">
-            Save Draft
-          </button>
-          <button type="submit" className="w-full sm:flex-1 order-1 sm:order-2 py-3 bg-stone-900 text-white text-sm font-bold rounded-xl hover:bg-stone-700 active:scale-95 transition-all">
-            Submit Application →
-          </button>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-
-import { useState } from "react";
-
-const COUNTRIES = ["India","United States","United Kingdom","Germany","France","Canada","Australia","Japan","Singapore","UAE"];
-const CITIES = { India:["Mumbai","Delhi","Bangalore","Chennai","Hyderabad"], "United States":["New York","San Francisco","Austin","Chicago","Seattle"], "United Kingdom":["London","Manchester","Edinburgh","Bristol","Leeds"], Germany:["Berlin","Munich","Hamburg","Frankfurt","Cologne"], France:["Paris","Lyon","Marseille","Bordeaux","Nice"], Canada:["Toronto","Vancouver","Montreal","Calgary","Ottawa"], Australia:["Sydney","Melbourne","Brisbane","Perth","Adelaide"], Japan:["Tokyo","Osaka","Kyoto","Yokohama","Sapporo"], Singapore:["Singapore City"], UAE:["Dubai","Abu Dhabi","Sharjah"] };
-const SKILLS = ["React","Vue","TypeScript","Node.js","Python","Design","DevOps","Marketing","Data Science","Figma"];
-const SOCIALS = [
-  { id:"youtube",   label:"YouTube",    icon:"▶", placeholder:"youtube.com/@you",   color:"#ff0000" },
-  { id:"instagram", label:"Instagram",  icon:"◈", placeholder:"@yourhandle",        color:"#e1306c" },
-  { id:"twitter",   label:"Twitter / X",icon:"𝕏", placeholder:"@username",          color:"#000" },
-  { id:"website",   label:"Website",    icon:"◉", placeholder:"yoursite.com",       color:"#c47a0f" },
-];
+// custom form : 
+// unique Id : cf001
 
 const GLASS = {
   background: "rgba(20,12,0,0.45)",
@@ -732,27 +390,133 @@ const GLASS_FOCUS = {
 };
 
 const INPUT_CLS = "w-full px-4 py-3 text-sm text-white placeholder-white/25 outline-none rounded-2xl transition-all";
-const LABEL_CLS = "block text-[10px] font-bold uppercase tracking-[0.14em] text-white/40 mb-2";
+const LABEL_CLS = "block text-[11px] font-bold uppercase tracking-[0.14em] text-white mb-2";
 
-function GlassInput({ label, type = "text", placeholder, ...props }) {
+// unique Id : cf001sti
+function ShortTextInput({ label, placeholder }) {
   const [focused, setFocused] = useState(false);
   return (
     <div>
       {label && <label className={LABEL_CLS}>{label}</label>}
       <input
-        type={type}
+        type="text"
         placeholder={placeholder}
         style={focused ? GLASS_FOCUS : GLASS}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        className={INPUT_CLS} />
+    </div>
+  );
+}
+// unique Id : cf001lti
+function LongTextInput({ label, placeholder }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label className={LABEL_CLS}>{label || "Message"}</label>
+      <textarea rows={3} placeholder={placeholder || "Tell us why you're attending..."}
+        style={GLASS}
+        className={`${INPUT_CLS} resize-none`} />
+    </div>
+  );
+}
+// unique Id : cf001msi
+function MultiSelectInput({ label, optionList, onToggle }) {
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const handleToggle = (value) => {
+    setSelectedValues(currentValues =>
+      currentValues.includes(value)
+        ? currentValues.filter(existingValue => existingValue !== value)
+        : [...currentValues, value]
+    );
+  };
+
+  return (
+    <div>
+      <label className={LABEL_CLS}>
+        {label} <span className="normal-case font-normal text-white/20">(select all)</span>
+      </label>
+      <div className="flex flex-wrap gap-2">
+        {optionList.map(option => (
+          <button key={option} type="button" onClick={() => handleToggle(option)}
+            className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-95"
+            style={selectedValues.includes(option)
+              ? { background: "rgba(245,166,35,0.25)", border: "1px solid rgba(245,166,35,0.6)", color: "#f5c842" }
+              : { ...GLASS, color: "rgba(255,255,255,0.4)" }}>
+            {selectedValues.includes(option) && "✓ "}{option}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+// unique Id : cf001ni
+function NameInput() {
+  const [focused, setFocused] = useState(false);
+
+  return (<div className="grid grid-cols-2 gap-3">
+    <div>
+      <label className={LABEL_CLS}>"First Name"</label>
+      <input
+        type="text"
+        placeholder="First"
+        style={focused ? GLASS_FOCUS : GLASS}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         className={INPUT_CLS}
-        {...props}
+      />
+    </div>
+    <div>
+      <label className={LABEL_CLS}>"Last Name"</label>
+      <input
+        type="text"
+        placeholder="Last"
+        style={focused ? GLASS_FOCUS : GLASS}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={INPUT_CLS}
+      />
+    </div>
+  </div>)
+}
+// unique Id : cf001ei
+function EmailInput() {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label className={LABEL_CLS}>Email Address</label>
+      <input
+        type="email"
+        placeholder="you@gmail.com"
+        style={focused ? GLASS_FOCUS : GLASS}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={INPUT_CLS}
       />
     </div>
   );
 }
-
-function GlassSelect({ label, children, disabled, value, onChange }) {
+// unique Id : cf001cni
+function ContactNumberInput() {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label className={LABEL_CLS}>Phone Number</label>
+      <input
+        type="number"
+        placeholder="+91 98765 43210"
+        style={focused ? GLASS_FOCUS : GLASS}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={INPUT_CLS}
+      />
+    </div>
+  );
+}
+// unique Id : cf001ds
+function DropdownSelect({ label, optionList, disabled, value }) {
+  const [option, setOption] = useState("");
   const [focused, setFocused] = useState(false);
   return (
     <div>
@@ -760,279 +524,96 @@ function GlassSelect({ label, children, disabled, value, onChange }) {
       <div className="relative">
         <select
           value={value}
-          onChange={onChange}
+          onChange={e => setOption(e.target.value)}
           disabled={disabled}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           style={focused ? GLASS_FOCUS : GLASS}
           className={`${INPUT_CLS} appearance-none pr-8 disabled:opacity-40 disabled:cursor-not-allowed`}
         >
-          {children}
+          <option value="">{`Select ${label}`}</option>
+          {optionList.map(c => <option key={c} className="bg-[#3a2604]">{c}</option>)}
         </select>
         <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 text-xs pointer-events-none">▼</span>
       </div>
     </div>
   );
 }
-
-function StarRating({ value, onChange }) {
+// unique Id : cf001sr
+function StarRating({ label }) {
+  const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   return (
-    <div className="flex gap-2">
-      {[1,2,3,4,5].map(i => (
-        <button key={i} type="button"
-          onClick={() => onChange(i)}
-          onMouseEnter={() => setHover(i)}
-          onMouseLeave={() => setHover(0)}
-          className="text-2xl transition-all hover:scale-125 active:scale-95"
-        >
-          <span style={{ color: (hover || value) >= i ? "#f5a623" : "rgba(255,255,255,0.12)" }}>★</span>
-        </button>
-      ))}
+    <div>
+      <label className={LABEL_CLS}>{label || "Rate Us"}<span className="normal-case font-normal text-white/20">(1–5)</span></label>
+      <div className="flex gap-2">
+        {[1, 2, 3, 4, 5].map(i => (
+          <button key={i} type="button"
+            onClick={() => setRating(i)}
+            onMouseEnter={() => setHover(i)}
+            onMouseLeave={() => setHover(0)}
+            className="text-2xl transition-all hover:scale-125 active:scale-95"
+          >
+            <span style={{ color: (hover || rating) >= i ? "#f5a623" : "rgba(255,255,255,0.12)" }}>★</span>
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-white/35 mt-1.5"></p>
     </div>
   );
 }
-
+// unique Id : cf001sl
 function SectionLabel({ children }) {
   return (
     <div className="flex items-center gap-3 mb-4">
       <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/30 whitespace-nowrap">{children}</span>
-      <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.07)" }} />
+      <div className="flex-1 h-px" style={{ background: "#607456" }} />
     </div>
   );
 }
-
-export default function ZakirForm1() {
-  const [country, setCountry]       = useState("");
-  const [city, setCity]             = useState("");
-  const [skills, setSkills]         = useState([]);
-  const [rating, setRating]         = useState(0);
-  const [singleFile, setSingleFile] = useState(null);
-  const [multiFiles, setMultiFiles] = useState([]);
-  const [socials, setSocials]       = useState({});
-  const [subscribed, setSubscribed] = useState(false);
-
-  const toggleSkill = s => setSkills(v => v.includes(s) ? v.filter(x => x !== s) : [...v, s]);
-
+// unique Id : cf001dati
+function DateAndTimeInput({ dateLabel, timeLabel }) {
+  return (<div className="grid grid-cols-2 gap-3">
+    <DateInput label={dateLabel} />
+    <TimeInput label={timeLabel} />
+  </div>)
+}
+// unique Id : cf001di
+function DateInput({ label }) {
   return (
-    <div
-      className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6"
-      style={{ background: "radial-gradient(ellipse at center, #7a5200 0%, #4a3000 40%, #2a1a00 100%)" }}
-    >
-      <div
-        className="w-full max-w-md relative rounded-3xl overflow-hidden"
-        style={{
-          background: "linear-gradient(160deg,#8a6010 0%,#6b4a08 30%,#4a3205 70%,#3a2604 100%)",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)",
-        }}
-      >
-        {/* noise overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-20"
-          style={{ backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
-        />
-
-        <div className="relative z-10 p-5 sm:p-7">
-
-          {/* ── Top bar ── */}
-          <div className="flex items-center justify-between mb-7">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={GLASS}>
-              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-              </svg>
-            </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setSubscribed(v => !v)}
-                className="px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95"
-                style={{ background: subscribed ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.88)", color: subscribed ? "#fff" : "#1a0f00", border: subscribed ? "1px solid rgba(255,255,255,0.2)" : "none" }}>
-                {subscribed ? "Subscribed ✓" : "Subscribe"}
-              </button>
-              <button className="w-10 h-10 rounded-full flex items-center justify-center" style={GLASS}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                  <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* ── Avatar + handle ── */}
-          <div className="flex flex-col items-center mb-7">
-            <div className="w-20 h-20 rounded-full mb-3 overflow-hidden flex items-center justify-center"
-              style={{ background:"linear-gradient(135deg,#f5a623,#e8941a)", border:"3px solid rgba(255,255,255,0.12)", boxShadow:"0 8px 24px rgba(0,0,0,0.4)" }}>
-              <span className="text-3xl">🧑</span>
-            </div>
-            <h2 className="text-white text-lg font-bold tracking-tight">Event Registration</h2>
-            <p className="text-white/50 text-xs mt-1 text-center">Fill out the form to secure your spot</p>
-          </div>
-
-          <div className="space-y-5">
-
-            {/* ── Personal ── */}
-            <SectionLabel>Personal Info</SectionLabel>
-
-            {/* name-input */}
-            <div className="grid grid-cols-2 gap-3">
-              <GlassInput label="First Name" placeholder="First" />
-              <GlassInput label="Last Name" placeholder="Last" />
-            </div>
-
-            {/* email-input */}
-            <GlassInput label="Email Address" type="email" placeholder="you@email.com" />
-
-            {/* number-input */}
-            <GlassInput label="Phone Number" type="number" placeholder="+91 98765 43210" />
-
-            {/* date-input + time-input */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className={LABEL_CLS}>Event Date</label>
-                <input type="date" style={GLASS}
-                  className={`${INPUT_CLS} [color-scheme:dark]`} />
-              </div>
-              <div>
-                <label className={LABEL_CLS}>Arrival Time</label>
-                <input type="time" style={GLASS}
-                  className={`${INPUT_CLS} [color-scheme:dark]`} />
-              </div>
-            </div>
-
-            <div className="h-px" style={{ background:"rgba(255,255,255,0.06)" }} />
-
-            {/* ── Location ── */}
-            <SectionLabel>Location</SectionLabel>
-
-            {/* country-input */}
-            <GlassSelect label="Country" value={country} onChange={e => { setCountry(e.target.value); setCity(""); }}>
-              <option value="" className="bg-[#3a2604]">Select country</option>
-              {COUNTRIES.map(c => <option key={c} className="bg-[#3a2604]">{c}</option>)}
-            </GlassSelect>
-
-            {/* city-input */}
-            <GlassSelect label="City" value={city} onChange={e => setCity(e.target.value)} disabled={!country}>
-              <option value="" className="bg-[#3a2604]">{country ? "Select city" : "Select country first"}</option>
-              {(CITIES[country] || []).map(c => <option key={c} className="bg-[#3a2604]">{c}</option>)}
-            </GlassSelect>
-
-            <div className="h-px" style={{ background:"rgba(255,255,255,0.06)" }} />
-
-            {/* ── About ── */}
-            <SectionLabel>About You</SectionLabel>
-
-            {/* short-text-input */}
-            <GlassInput label="Tagline" placeholder="One line about yourself" />
-
-            {/* long-text-input */}
-            <div>
-              <label className={LABEL_CLS}>Your Message</label>
-              <textarea rows={3} placeholder="Tell us why you're attending..."
-                style={GLASS}
-                className={`${INPUT_CLS} resize-none`} />
-            </div>
-
-            {/* dropdown */}
-            <div>
-              <label className={LABEL_CLS}>How did you hear about us?</label>
-              <div className="relative">
-                <select style={GLASS} className={`${INPUT_CLS} appearance-none pr-8`}>
-                  <option className="bg-[#3a2604]" value="">Select source</option>
-                  {["Instagram","YouTube","Twitter / X","Friend / Colleague","Google","Newsletter","Podcast"].map(o => (
-                    <option key={o} className="bg-[#3a2604]">{o}</option>
-                  ))}
-                </select>
-                <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 text-xs pointer-events-none">▼</span>
-              </div>
-            </div>
-
-            {/* multi-select-input */}
-            <div>
-              <label className={LABEL_CLS}>Interests <span className="normal-case font-normal text-white/20">(select all)</span></label>
-              <div className="flex flex-wrap gap-2">
-                {SKILLS.map(s => (
-                  <button key={s} type="button" onClick={() => toggleSkill(s)}
-                    className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-95"
-                    style={skills.includes(s)
-                      ? { background:"rgba(245,166,35,0.25)", border:"1px solid rgba(245,166,35,0.6)", color:"#f5c842" }
-                      : { ...GLASS, color:"rgba(255,255,255,0.4)" }}>
-                    {skills.includes(s) && "✓ "}{s}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* star-rating */}
-            <div>
-              <label className={LABEL_CLS}>How excited are you? <span className="normal-case font-normal text-white/20">(1–5)</span></label>
-              <StarRating value={rating} onChange={setRating} />
-              {rating > 0 && (
-                <p className="text-xs text-white/35 mt-1.5">{["","Casual","Interested","Excited","Very Excited","ABSOLUTELY HYPED 🔥"][rating]}</p>
-              )}
-            </div>
-
-            <div className="h-px" style={{ background:"rgba(255,255,255,0.06)" }} />
-
-            {/* ── Socials ── */}
-            <SectionLabel>Social Profiles</SectionLabel>
-
-            {/* social-card — list style */}
-            <div className="space-y-2.5">
-              {SOCIALS.map(s => (
-                <div key={s.id}
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all hover:brightness-110"
-                  style={GLASS}>
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-black flex-shrink-0"
-                    style={{ background: s.color }}>
-                    {s.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-0.5">{s.label}</p>
-                    <input type="text" placeholder={s.placeholder}
-                      value={socials[s.id] || ""}
-                      onChange={e => setSocials(v => ({ ...v, [s.id]: e.target.value }))}
-                      className="w-full text-sm text-white bg-transparent outline-none placeholder-white/20" />
-                  </div>
-                  {socials[s.id] && <span className="text-[#f5a623] text-xs font-bold flex-shrink-0">✓</span>}
-                </div>
-              ))}
-            </div>
-
-            {/* social-grid */}
-            <div>
-              <label className={LABEL_CLS}>Quick Links</label>
-              <div className="grid grid-cols-4 gap-2">
-                {SOCIALS.map(s => (
-                  <div key={s.id}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all cursor-pointer hover:brightness-125"
-                    style={socials[s.id]
-                      ? { background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.4)" }
-                      : GLASS}>
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-black"
-                      style={{ background: s.color }}>
-                      {s.icon}
-                    </div>
-                    <span className="text-[9px] font-semibold text-white/30">{s.label.split(" /")[0]}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-px" style={{ background:"rgba(255,255,255,0.06)" }} />
-
-            {/* ── Files ── */}
-            <SectionLabel>Uploads</SectionLabel>
-
-            {/* single-file-input */}
-            <div>
+    <div>
+      <label className={LABEL_CLS}>{label || "Event Date"}</label>
+      <input type="date" style={GLASS}
+        className={`${INPUT_CLS} [color-scheme:dark]`} />
+    </div>
+  );
+};
+// unique Id : cf001ti
+function TimeInput({ label }) {
+  return (<div>
+    <label className={LABEL_CLS}>{label || "Arrival Time"}</label>
+    <input type="time" style={GLASS}
+      className={`${INPUT_CLS} [color-scheme:dark]`} />
+  </div>
+  );
+};
+// unique Id : cf001sfi
+function SingleFileInput() {
+  const [singleFile, setSingleFile] = useState(null);
+  return (<> <SectionLabel>Uploads</SectionLabel>
+  <div>
               <label className={LABEL_CLS}>Profile Photo</label>
               <label className="flex items-center gap-3 px-4 py-3.5 rounded-2xl cursor-pointer transition-all hover:brightness-110" style={GLASS}>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.2)" }}>
+                  style={{ background: "rgba(245,166,35,0.15)", border: "1px solid rgba(245,166,35,0.2)" }}>
                   <span className="text-[#f5a623] text-base">↑</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   {singleFile
                     ? <><p className="text-sm font-semibold text-white truncate">{singleFile.name}</p>
-                       <p className="text-xs text-white/30">{(singleFile.size/1024).toFixed(1)} KB</p></>
+                      <p className="text-xs text-white/30">{(singleFile.size / 1024).toFixed(1)} KB</p></>
                     : <><p className="text-sm font-semibold text-white/50">Tap to upload photo</p>
-                       <p className="text-xs text-white/25">PNG, JPG — max 5MB</p></>
+                      <p className="text-xs text-white/25">PNG, JPG — max 5MB</p></>
                   }
                 </div>
                 {singleFile && (
@@ -1042,17 +623,22 @@ export default function ZakirForm1() {
                 <input type="file" accept="image/*" className="hidden" onChange={e => setSingleFile(e.target.files[0] || null)} />
               </label>
             </div>
-
-            {/* multi-file-input */}
-            <div>
+            </>)
+}
+// unique Id : cf001mfi
+function MultiFileInput() {
+  const [multiFiles, setMultiFiles] = useState([]);
+  return ( <>
+   <SectionLabel>Uploads</SectionLabel>
+  <div>
               <label className={LABEL_CLS}>Attachments <span className="normal-case font-normal text-white/20">(up to 5)</span></label>
               <label className="flex flex-col items-center gap-2 py-5 rounded-2xl cursor-pointer transition-all hover:brightness-110 text-center"
-                style={{ ...GLASS, borderStyle:"dashed" }}>
-                <span className="text-2xl" style={{ color:"rgba(245,166,35,0.4)" }}>⊕</span>
+                style={{ ...GLASS, borderStyle: "dashed" }}>
+                <span className="text-2xl" style={{ color: "rgba(245,166,35,0.4)" }}>⊕</span>
                 <p className="text-sm font-semibold text-white/40">Drop files or browse</p>
                 <p className="text-xs text-white/20">PDF, ZIP, PNG, JPG — 10MB each</p>
                 <input type="file" multiple accept=".pdf,.zip,.png,.jpg,.jpeg" className="hidden"
-                  onChange={e => setMultiFiles(Array.from(e.target.files).slice(0,5))} />
+                  onChange={e => setMultiFiles(Array.from(e.target.files).slice(0, 5))} />
               </label>
               {multiFiles.length > 0 && (
                 <div className="mt-2 space-y-2">
@@ -1060,25 +646,118 @@ export default function ZakirForm1() {
                     <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={GLASS}>
                       <span className="text-white/30 text-xs">◫</span>
                       <span className="flex-1 text-xs text-white/60 truncate">{f.name}</span>
-                      <span className="text-[10px] text-white/25">{(f.size/1024).toFixed(0)}KB</span>
-                      <button type="button" onClick={() => setMultiFiles(v => v.filter((_,j) => j !== i))}
+                      <span className="text-[10px] text-white/25">{(f.size / 1024).toFixed(0)}KB</span>
+                      <button type="button" onClick={() => setMultiFiles(v => v.filter((_, j) => j !== i))}
                         className="text-white/20 hover:text-red-400 text-sm transition-colors">✕</button>
                     </div>
                   ))}
                 </div>
               )}
             </div>
+          </>
+            )
+}
+// unique Id : cf001shi
+function SocialHandleInput({ selectedSocialHandle }) {
+  const SOCIALS = {
+  "twitter" :{ id: "twitter", label: "Twitter / X", icon: "𝕏", placeholder: "@username", color: "#000" },
+  "linkedin" : { id: "linkedin", label: "LinkedIn", icon: "in", placeholder: "linkedin.com/in/you", color: "#0077b5" },
+   "github" : { id: "github", label: "GitHub", icon: "⌥", placeholder: "github.com/you", color: "#24292e" },
+  "instagram" : { id: "instagram", label: "Instagram", icon: "◈", placeholder: "@handle", color: "#e1306c" },
+};
+  return ( <div className="space-y-2.5">
+                <div
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all hover:brightness-110"
+                  style={GLASS}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-black flex-shrink-0"
+                    style={{ background: SOCIALS[selectedSocialHandle].color }}>
+                    {SOCIALS[selectedSocialHandle].icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-0.5">{SOCIALS[selectedSocialHandle].label}</p>
+                    <input type="text" placeholder={SOCIALS[selectedSocialHandle].placeholder}
+                      value={SOCIALS[selectedSocialHandle].id}
+                      // onChange={}
+                      className="w-full text-sm text-white bg-transparent outline-none placeholder-white" />
+                  </div>
+                  {SOCIALS[selectedSocialHandle].id && <span className="text-[#f5a623] text-xs font-bold flex-shrink-0">✓</span>}
+                </div>
+            </div>)
+}
+// unique Id : cf001
+export default function CustomForm({ avatarImgSrc = null }) {
 
+  
+  return (
+    <div
+      className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6"
+      style={{ background: "#EEE0CC" }}
+    >
+      <div
+        className="w-full max-w-md relative rounded-3xl overflow-hidden"
+        style={{
+          background: "#BA6A4C",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* noise overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-20"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+        />
+
+        <div className="relative z-10 p-5 sm:p-7">
+
+          {/* ── Avatar + handle ── */}
+          <div className="flex flex-col items-center mb-7">
+            {avatarImgSrc && <div className="w-20 h-20 rounded-full mb-3 overflow-hidden flex items-center justify-center"
+              style={{ background: "#EEE0CC", border: "3px solid rgba(255,255,255,0.12)", boxShadow: "0 8px 24px rgba(0,0,0,0.4)" }}>
+              <img className="w-full h-full object-cover" src={avatarImgSrc} />
+            </div>}
+            <h2 className="text-white text-lg font-bold tracking-tight">Event Registration</h2>
+            <p className="text-white/50 text-xs mt-1 text-center">Fill out the form to secure your spot</p>
+          </div>
+          <div className="space-y-5">
+
+            {/* name-input */}
+            <NameInput />
+            {/* email-input */}
+            <EmailInput />
+            {/* number-input */}
+            <ContactNumberInput />
+            {/* date-input + time-input */}
+            <DateAndTimeInput />
+
+            {/* ── Location ── */}
+            <SectionLabel>Location</SectionLabel>
+
+            {/* Dropdown */}
+            <DropdownSelect label={"country"} value={""} optionList={COUNTRIES}></DropdownSelect>
+            {/* ── About ── */}
+            <SectionLabel>About You</SectionLabel>
+
+            {/* short-text-input */}
+            <ShortTextInput label={"Address"} placeholder={"full address"} />
+
+            {/* long-text-input */}
+            <LongTextInput />
+
+            {/* multi-select-input */}
+            <MultiSelectInput label={"Interest"} optionList={SKILLS} />
+            {/* star-rating */}
+            <StarRating />
+
+            {/* ── Socials ── */}
+           <SocialHandleInput selectedSocialHandle = {"github"}/>
+
+            {/* single-file-input */}
+            <SingleFileInput />
+            {/* multi-file-input */}
+             <MultiFileInput />
             {/* ── Button ── */}
             <div className="flex gap-3 pt-2">
-              <button type="button"
-                className="px-5 py-3.5 rounded-2xl text-sm font-semibold text-white/40 hover:text-white/60 transition-all active:scale-95"
-                style={GLASS}>
-                Save
-              </button>
               <button type="submit"
                 className="flex-1 py-3.5 rounded-2xl text-sm font-bold transition-all hover:opacity-90 active:scale-[0.98]"
-                style={{ background:"linear-gradient(135deg,rgba(245,166,35,0.9),rgba(230,140,10,0.95))", color:"#1a0f00", boxShadow:"0 8px 24px rgba(245,166,35,0.25)" }}>
+                style={{ background: "linear-gradient(135deg,rgba(245,166,35,0.9),rgba(230,140,10,0.95))", color: "#1a0f00", boxShadow: "0 8px 24px rgba(245,166,35,0.25)" }}>
                 Register Now →
               </button>
             </div>
@@ -1093,3 +772,4 @@ export default function ZakirForm1() {
     </div>
   );
 }
+

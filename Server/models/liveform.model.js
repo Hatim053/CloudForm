@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const liveformSchema = new mongoose.Schema({
+const liveFormSchema = new mongoose.Schema({
 userId : {
     type : mongoose.Schema.Types.ObjectId,
     ref : 'User',
@@ -27,6 +27,8 @@ analyticsData : {
 } , { timestamps : true} );
 
 
-const Liveform = mongoose.model("Liveform" , liveformSchema);
+const LiveForm = mongoose.model("LiveForm" , liveFormSchema);
 
-export default Liveform;
+export default LiveForm;
+
+

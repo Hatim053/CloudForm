@@ -2,7 +2,7 @@ import express , {urlencoded} from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-
+import  pushElementsToDb  from './controllers/dev.js';
 
 
 const app = express();
@@ -17,6 +17,10 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded( {extended : true , limit : '5mb'} ));
+
+
+
+
 
 
 export {
