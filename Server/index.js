@@ -1,5 +1,5 @@
 import { app } from './app.js';
-import { connectDb } from './db/index.js';
+import { connectDb } from './src/DB/index.js';
 
 const PORT = process.env.PORT;
 
