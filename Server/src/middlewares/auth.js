@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
+import User from "../User/model.js"
 
-const authenticateUser = async function(req , res , next) {
+const authenticateUser =  function(req , res , next) {
 
 const token = req.cookies?.accessToken;
 if(! token) {
@@ -17,7 +17,11 @@ if(! decodedToken) {
         message : 'access token expired'
     }) // redirect user for login on frontend
 }
-const user = await User.findById(decodedToken._id).select("username email");
+const user = {
+    _id : decodedToken._id,
+    role : decodedToken.role
+};
+
 if(! user) {
     return res.json({
         status : 401,
@@ -28,4 +32,21 @@ req.user = user;
 next();
 };
 
-export default authenticateUser;
+
+const requieAdmin = function(req , res , next) {
+    const role = req?.user?.role;
+    if(role !== "admin") {
+        return res
+        .status(405)
+        .json({
+            status : 405,
+            message : "restricted routes",
+        });
+    } 
+    next();
+};
+
+export {
+    authenticateUser,
+    requieAdmin
+};

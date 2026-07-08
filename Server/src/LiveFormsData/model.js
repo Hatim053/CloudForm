@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const formDataSchema = new mongoose.Schema({
+const liveFormDataSchema = new mongoose.Schema({
 formId : {
     type : mongoose.Schema.Types.ObjectId,
     ref : 'liveForm'
@@ -18,6 +18,6 @@ responses : {
 //     date : "",
 // }]
 
-const formData = mongoose.model('formData' , formDataSchema);
+const liveFormData = mongoose.model('liveFormData' , liveFormDataSchema);
 
-export default formData;
+export default liveFormData;

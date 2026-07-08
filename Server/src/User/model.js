@@ -5,11 +5,19 @@ const userSchema = new mongoose.Schema({
     username : {
         type : String,
         required : true,
-        lowercase : true
     },
     email : {
         type : String,
+        unique : true,
         required : true,
+    },
+    profileImage : {
+        type : String,
+    },
+    role : {
+        type : String,
+        required : true,
+        enum : ["user" , "admin"]
     },
     userCreatedForms : [{
         type : mongoose.Schema.Types.ObjectId,
@@ -21,7 +29,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAccessToken = function() {
     return jwt.sign({
         _id : this._id,
-        username : this.username,
+        role : this.role,
     },
 process.env.ACCESSTOKENSECRET,
 {expiresIn : process.env.ACCESSTOKENEXPIRY})

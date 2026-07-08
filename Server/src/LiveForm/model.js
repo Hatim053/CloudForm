@@ -15,20 +15,29 @@ domain : {
     type : String, // for now keeping it as string
 },
 selectedElement : {
-    type : Object,
+    type : Array,
     required : true,
 },
-backgroundImage : {
+backgroundImage : {  // preview image
 type : String
-},
-analyticsData : {
-    type : Object
-} 
+}, 
 } , { timestamps : true} );
 
 
 const LiveForm = mongoose.model("LiveForm" , liveFormSchema);
 
 export default LiveForm;
+
+selectedElement : [
+location_block : {
+_id : mongoose.Schema.Types.ObjectId,
+appearance_order : // 1 , order at which the question will appear
+logic_rule : {
+block_Id : // id of the block / questions on which current block is depends
+operator : // contains , less_than , greater_than , less_than_equals , greater_than_equals
+value : // value against which it will be compared
+},
+}
+]
 
 
