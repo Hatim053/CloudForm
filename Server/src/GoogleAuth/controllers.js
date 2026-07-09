@@ -38,10 +38,10 @@ const Signup = async (req , res) => {
     })
     const accessToken = newUser.generateAccessToken();
     
-    return res.
-    status(500).
-    cookie('accessToken' , accessToken , options).
-    json({
+    return res
+    .status(500)
+    .cookie('accessToken' , accessToken , options)
+    .json({
         status : 500,
         message : "user registered successfully",
         username : username,
@@ -49,6 +49,45 @@ const Signup = async (req , res) => {
     })
 };
 
+
+const Login = async(req , res) => {
+const { code } = req.query;
+
+const googleRes = await oauth2client.getToken(code);
+const tokens = googleRes.tokens;
+oauth2client.setCredentials(tokens);
+
+const access_token = tokens.access_token;
+const userRes = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`);
+
+const userInfo = await userRes.json();
+const { email , username : username , profileImage } = userInfo;
+
+const existingUser = await User.find({email : email});
+if(!existingUser) {
+    return res
+           .status(407)
+           .json({
+            status : 407,
+            message : "user doesn't exist in the database"
+           });
+}
+const accessToken = existingUser.generateAccessToken();
+      return res
+             .status(201)
+             .cookie("accessToken" , accessToken , options)
+             .json({
+                status : 201,
+                message : "user loggedin successfully",
+                user : existingUser
+             });
+
+};
+
+
+const Logout = async(req , res) => {
+
+};
 
 export {
 Signup,

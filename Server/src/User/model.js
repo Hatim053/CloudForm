@@ -19,10 +19,6 @@ const userSchema = new mongoose.Schema({
         required : true,
         enum : ["user" , "admin"]
     },
-    userCreatedForms : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Liveform'
-    }],
 } , { timestamps : true });
 
 
