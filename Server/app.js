@@ -1,9 +1,10 @@
-import express , {urlencoded} from 'express';
-import 'dotenv/config';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import authRoutes from './src/GoogleAuth/routes.js';
-import formElementsRoutes from './src/FormElements/routes.js';
+import express , {urlencoded} from "express";
+import "dotenv/config";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import authRoutes from "./src/Auth/routes.js";
+import formElementsRoutes from "./src/FormElements/routes.js";
+import userRoutes from "./src/User/routes.js";
 
 const app = express();
 const corsOptions = {
@@ -20,6 +21,7 @@ app.use(express.urlencoded( {extended : true , limit : '5mb'} ));
 
 
 app.use("/auth" , authRoutes);
+app.use("/user" , userRoutes);
 app.use("/createFormElement" , formElementsRoutes);
 
 

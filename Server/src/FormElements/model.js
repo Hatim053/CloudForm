@@ -16,6 +16,12 @@ const elementSchema = new mongoose.Schema({
           ["form" , "custom-form" , "social-card" , "social-grid"].indexOf(this.category)  == -1 ? false : true;
         },
     },
+     image : {
+        type : String,
+        required : function () {
+          ["form" , "custom-form" , "social-card" , "social-grid"].indexOf(this.category)  == -1 ? false : true;
+        },
+    },
     ui_code : {
         type : String,
         required : true

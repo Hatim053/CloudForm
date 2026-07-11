@@ -2,8 +2,8 @@ import { app } from './app.js';
 import { connectDb } from './src/DB/index.js';
 import seedAdmin from './src/Admin/admin.js';
 
-const PORT = process.env.PORT;
 
+const PORT = process.env.PORT;
 
 
 // connecting with database
@@ -24,5 +24,7 @@ const startServer = async() => {
         console.log(error);
     }
 };
+
+
 
 startServer();

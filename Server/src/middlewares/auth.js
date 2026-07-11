@@ -3,21 +3,17 @@ import User from "../User/model.js"
 
 const authenticateUser =  function(req , res , next) {
 
-const token = req.cookies?.accessToken;
-if(! token) {
+const accessToken = req.cookies?.accessToken;
+if(! accessToken) {
     return res.json({
         status : 404,
         message : 'access token not found'
     }) // redirect user for login on frontend
 }
-const decodedToken = jwt.verify(token , process.env.ACCESSTOKENSECRET);
-if(! decodedToken) {
-    return res.json({
-        status : 404,
-        message : 'access token expired'
-    }) // redirect user for login on frontend
-}
-const user = {
+
+try {
+    const decodedToken = jwt.verify(accessToken , process.env.ACCESSTOKENSECRET);
+    const user = {
     _id : decodedToken._id,
     role : decodedToken.role
 };
@@ -30,6 +26,26 @@ if(! user) {
 }
 req.user = user;
 next();
+} catch (err) {
+    if(err.name === "TokenExpiredError") {
+          return res
+          .status(404)
+          .json({
+            status : 408,
+            message : "access token expired"
+          })
+        }
+        if(err.name === "JsonWebTokenError") {
+            // invalid token
+            return res
+            .status(406)
+            .json({
+                status : 406,
+                message : "invalid access token"
+            })
+        }
+}
+
 };
 
 

@@ -1,11 +1,5 @@
-import oauth2client from './config.js';
-import User from '../User/user.model.js';
-
-
-const options = {
-    httpOnly : true,
-    secure : true
-}
+import User from "./model.js";
+import { generateAccessAndRefreshToken , accessCookieOptions , refreshCookieOptions } from "../Auth/controllers.js";
 
 
 const Signup = async (req , res) => {
@@ -36,11 +30,13 @@ const Signup = async (req , res) => {
         profileImage : profileImage ? profileImage : null,
         role : "user"
     })
-    const accessToken = newUser.generateAccessToken();
+    
+    const {accessToken , refreshToken} = await generateAccessAndRefreshToken(newUser);
     
     return res
     .status(500)
-    .cookie('accessToken' , accessToken , options)
+    .cookie('accessToken' , accessToken , accessCookieOptions)
+    .cookie('refreshToken' , refreshToken , refreshCookieOptions)
     .json({
         status : 500,
         message : "user registered successfully",
@@ -72,10 +68,12 @@ if(!existingUser) {
             message : "user doesn't exist in the database"
            });
 }
-const accessToken = existingUser.generateAccessToken();
+const {accessToken , refreshToken} = await generateAccessAndRefreshToken(existingUser);
+
       return res
              .status(201)
-             .cookie("accessToken" , accessToken , options)
+               .cookie('accessToken' , accessToken , accessCookieOptions)
+               .cookie('refreshToken' , refreshToken , refreshCookieOptions)
              .json({
                 status : 201,
                 message : "user loggedin successfully",
@@ -90,5 +88,6 @@ const Logout = async(req , res) => {
 };
 
 export {
-Signup,
-};
+    Signup,
+    Login
+}
