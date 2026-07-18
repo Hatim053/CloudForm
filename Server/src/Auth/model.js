@@ -1,6 +1,10 @@
 import mongoose, { mongo } from "mongoose";
 
 const refreshTokenSchema = new mongoose.Schema({
+    user_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        required : true
+    },
     token : {
         type : String,
         required : true
@@ -15,7 +19,7 @@ const refreshTokenSchema = new mongoose.Schema({
     },
     expires_at : {
         type : Date,
-        required : true
+        required : true 
     }
 } , {timestamps : true} );
 

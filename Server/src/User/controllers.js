@@ -1,4 +1,5 @@
 import User from "./model.js";
+import RefreshToken from "../Auth/model.js";
 import { generateAccessAndRefreshToken , accessCookieOptions , refreshCookieOptions } from "../Auth/controllers.js";
 
 
@@ -84,10 +85,38 @@ const {accessToken , refreshToken} = await generateAccessAndRefreshToken(existin
 
 
 const Logout = async(req , res) => {
+const user = req?.user;
+if(!user) {
+    return res
+           .status(404)
+           .json({
+            status : 404,
+            message : "no user found"
+           });
+}
+// revoking all the refresh tokens for the current user
+const currentUserAllRefreshToken = await RefreshToken.updateMany(
+    {user_id : user?._id},
+    {
+        $set : {
+            revoked_at : new Date(Date.now())
+        }
+    }
+);
 
+return res
+       .status(205)
+       .clearCookie('refreshToken')
+       .clearCookie('accessToken')
+       .json({
+        status : 205,
+        message : "user logout successfully"
+       });
+       
 };
 
 export {
     Signup,
-    Login
+    Login,
+    Logout
 }

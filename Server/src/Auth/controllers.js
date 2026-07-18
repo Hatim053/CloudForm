@@ -43,6 +43,7 @@ const generateAccessAndRefreshToken = async (user) => {
     const accessToken = generateAccessToken(user);
     const { refreshToken , uid } = generateRefreshToken(user);
     const refreshTokenDocument = await RefreshToken.create({
+        user_id : user._id,
         token : refreshToken,
         uid : uid,
         revoked_at : null,
@@ -55,6 +56,7 @@ const generateAccessAndRefreshToken = async (user) => {
 
 
 const renewAccessToken = async(req , res) => {
+    const user = req?.user;
     const refreshToken = req?.cookies?.refreshToken;
     if(!refreshToken) {
         return res
@@ -63,6 +65,29 @@ const renewAccessToken = async(req , res) => {
             status : 405,
             message : "refresh token not found"
         })
+    }
+    // check if the refresh token is revoked or valid
+    const isRefreshTokenRevoked =  await RefreshToken.findOne({token : refreshToken});
+    if(isRefreshTokenRevoked.revoked_at) {
+        // means getting request from a revoked token 
+        // revoking all the tokens for the user and making force logout
+        const currentUserAllRefreshToken = await RefreshToken.updateMany(
+            {user_id : user?._id},
+            {
+                $set : {
+                    revoked_at : new Date(Date.now())
+                }
+            }
+        );
+               
+        return res
+               .status(408)
+               .clearCookie('refreshToken')
+               .json({
+                status : 408,
+                message : "refresh token is revoked",
+                warning : "force logout user"
+               });
     }
     try {
         const decodedToken = jwt.verify(refreshToken , process.env.REFRESHTOKENSECRET);
