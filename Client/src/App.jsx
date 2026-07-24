@@ -1,10 +1,6 @@
 import GoogleSignup from './Components/Signup.jsx';
 
 
-// const formElementsMap = [{id : "g1" , element : function renderElement(label) {
-//   return <GoogleSignup name = {label}/>
-// }}]
-
 
 function App() {
 
