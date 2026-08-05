@@ -1,50 +1,61 @@
-import CreatorProfileCard from "../ComponentsRegistry/CreatorProfileCard/CreatorProfileCard";
-import CustomForm from "../ComponentsRegistry/CustomForm/CustomForm";
-import ScheduleForm from "../ComponentsRegistry/ScheduleForm/ScheduleForm";
-import SocialCard from "../ComponentsRegistry/SocialCard/SocialCard";
-import WaitlistForm from "../ComponentsRegistry/WaitlistForm/WaitlistForm";
+import { lazy , Suspense, useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
+const CreatorProfileCard = lazy(() => import("../ComponentsRegistry/CreatorProfileCard/CreatorProfileCard"));
+const CustomForm  = lazy(() => import("../ComponentsRegistry/CustomForm/CustomForm"));
+const ScheduleForm = lazy(() => import("../ComponentsRegistry/ScheduleForm/ScheduleForm"));
+const SocialCard = lazy(() => import("../ComponentsRegistry/SocialCard/SocialCard"));
+const WaitlistForm = lazy(() => import("../ComponentsRegistry/WaitlistForm/WaitlistForm"));
+const InfluencerCard = lazy(() => import("../ComponentsRegistry/InfluencerCard/InfluencerCard.jsx"));
 
-const formElementsToIdMap = [
-    {
-        id : "cf001",
-        element : function renderElement(props) {
+const formElementsToIdMap = {
+    "cf001" : function renderElement(props) {
           return < CustomForm props = {props} />
-        }
-    }, 
-     {
-        id : "ic001",
-        element : function renderElement(props) {
+    },  
+    "ic001" : function renderElement(props) {
           return <InfluencerCard props = {props} />
-        }
-    },   
-    {
-        id : "ic002",
-        element : function renderElement(props) {
+        },   
+    "ic002" : function renderElement(props) {
           return <CreatorProfileCard props = {props} />
-        }
-    },
-    {
-        id : "sf001",
-        element : function renderElement(props) {
+        },
+     "sf001" : function renderElement(props) {
          return <ScheduleForm props = {props} />
-        }
-    },
-    {
-        id : "ic003",
-        element : function renderElement(props) {
+        },
+     "ic003" : function renderElement(props) {
         return <SocialCard props = {props} />
-        }
     },
-    {
-        id : "wf001",
-        element : function renderElement(props) {
-         return <WaitlistForm />
-        }
+      "wf001" : function renderElement(props) {
+         return <WaitlistForm props = {props} />
     },
-];
+};
 
 function LiveFormRender() {
+    const {id , status} = useParams();
+    const [formId , setFormId] = useState("");
+    const [formElements , setFormElements] = useState([]);
+    
+    const getFormData = useCallback(async(id , status) => {
+       try {
+         const formData = await fetch(`${import.meta.env.VITE_SERVER_URL}/liveform/show/${id}/status=${status}`);
+         const jonFormData = await formData.json();
+         setFormId(jonFormData?.form_id);
+         setFormElements(jonFormData?.elements);
+       } catch (error) {
+        console.log('something went wrong' , error);
+       }
+    });
+
+    useEffect(() => {
+
+     getFormData(id , status);
+
+    } , [id , status]);
+
+    return (
+        <Suspense fallback = {<h1>Loading...</h1>}>
+          {formId && formElementsToIdMap.formId(formElements)}
+        </Suspense>
+    )
 
 }
 
