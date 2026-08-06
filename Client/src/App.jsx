@@ -1,7 +1,7 @@
 import GoogleSignup from "./Components/Signup.jsx";
 import FormCreationPage from "./Components/FormCreationPage.jsx";
 import TemplateListPage from "./Components/TemplateListPage.jsx";
-import ResponseDetailPage from "./pages/ResponseDetailPage.jsx";
+import ResponseDetailPage from "./Components/ResponseDetailPage.jsx";
 import ResponsesList from "./pages/ResponsesList.jsx";
 
 function App() {
