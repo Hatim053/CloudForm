@@ -117,7 +117,7 @@ function ResponseCard({ name, initials, location, device, date, status, pct, tim
   );
 }
 
-export default function ResponsesList() {
+export default function ResponsesListPage() {
   const [activeToggle, setActiveToggle] = useState("All");
   const [filtersOpen, setFiltersOpen] = useState(false);
 

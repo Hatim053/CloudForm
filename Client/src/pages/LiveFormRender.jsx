@@ -1,33 +1,6 @@
-import { lazy , Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-const CreatorProfileCard = lazy(() => import("../ComponentsRegistry/CreatorProfileCard/CreatorProfileCard"));
-const CustomForm  = lazy(() => import("../ComponentsRegistry/CustomForm/CustomForm"));
-const ScheduleForm = lazy(() => import("../ComponentsRegistry/ScheduleForm/ScheduleForm"));
-const SocialCard = lazy(() => import("../ComponentsRegistry/SocialCard/SocialCard"));
-const WaitlistForm = lazy(() => import("../ComponentsRegistry/WaitlistForm/WaitlistForm"));
-const InfluencerCard = lazy(() => import("../ComponentsRegistry/InfluencerCard/InfluencerCard.jsx"));
-
-const formElementsToIdMap = {
-    "cf001" : function renderElement(props) {
-          return < CustomForm props = {props} />
-    },  
-    "ic001" : function renderElement(props) {
-          return <InfluencerCard props = {props} />
-        },   
-    "ic002" : function renderElement(props) {
-          return <CreatorProfileCard props = {props} />
-        },
-     "sf001" : function renderElement(props) {
-         return <ScheduleForm props = {props} />
-        },
-     "ic003" : function renderElement(props) {
-        return <SocialCard props = {props} />
-    },
-      "wf001" : function renderElement(props) {
-         return <WaitlistForm props = {props} />
-    },
-};
+import formElementsToIdMap from "../utils/FormElementsToIdMap";
 
 function LiveFormRender() {
     const {id , status} = useParams();
@@ -50,10 +23,12 @@ function LiveFormRender() {
      getFormData(id , status);
 
     } , [id , status]);
-
+    
+   const component =  formId && formElementsToIdMap.formId
+    
     return (
         <Suspense fallback = {<h1>Loading...</h1>}>
-          {formId && formElementsToIdMap.formId(formElements)}
+          {component && <component props = {formElements} />}
         </Suspense>
     )
 

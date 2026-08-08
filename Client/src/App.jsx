@@ -1,14 +1,14 @@
-import GoogleSignup from "./Components/Signup.jsx";
-import FormCreationPage from "./Components/FormCreationPage.jsx";
-import TemplateListPage from "./Components/TemplateListPage.jsx";
-import ResponseDetailPage from "./Components/ResponseDetailPage.jsx";
-import ResponsesList from "./pages/ResponsesList.jsx";
+import GoogleSignup from "./components/Signup.jsx";
+import FormCreationPage from "./pages/FormCreationPage.jsx";
+import TemplateListPage from "./pages/TemplateListPage.jsx";
+import ResponseDetailPage from "./pages/ResponseDetailPage.jsx";
+import ResponsesListPage from "./pages/ResponsesListPage.jsx";
 
 function App() {
 
 
   return (
-    <ResponsesList />
+    <TemplateListPage />
     // <ResponseDetailPage />
     // <FormCreationPage />
     // <TemplateListPage />
