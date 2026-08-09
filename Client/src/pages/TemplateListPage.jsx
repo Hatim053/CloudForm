@@ -1,23 +1,21 @@
-import { useCallback, useMemo, useState } from "react";
 import CategoryPanel from "../components/CategoryPanel.jsx";
-import templatesCategoryList from "../utils/templatesCategoryList.js";
 import TemplateCard from "../components/TemplateCard.jsx";
 import TemplateTopBar from "../components/TemplateTopBar.jsx";
+import { useSelector } from "react-redux";
 
 
 function TemplateListPage() {
-  
-  const [selectedCategory , setSelectedCategory] = useState("All Templates");
+  const templateCategoryList = useSelector((state) => state.template.templatesCategoryList);
 
 
   return (
     <div className="min-h-screen bg-white font-sans">
 
-      <TemplateTopBar searchFilter={searchFilter} />
+      <TemplateTopBar />
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-12 gap-5 bg-[#faf9f6] p-6">
 
-        <CategoryPanel selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+        <CategoryPanel />
 
         <section className="col-span-9 rounded-2xl bg-[#f4f3ef] p-6">
           <div className="mb-5 flex items-center justify-between">
@@ -28,7 +26,7 @@ function TemplateListPage() {
 
           <div className="grid grid-cols-3 gap-5">
 
-            {filterTemplateCategoryList.map((propsObj) => {
+            {templateCategoryList.map((propsObj) => {
               const { id, name, description, icon, tag, cover } = propsObj;
          
               return <TemplateCard key={id} name={name} description={description} icon={icon} tag={tag} cover={cover} />

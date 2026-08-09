@@ -1,6 +1,8 @@
+import IconMap from "../utils/IconMap";
 
-
-function TemplateCard({ name , cover , tag , icon : Icon , description }) {
+function TemplateCard({ name , cover , tag , icon  , description }) {
+  console.log("icon in templatecardcomponent" , icon);
+  const Icon = IconMap[icon];
 
 return (
      <div

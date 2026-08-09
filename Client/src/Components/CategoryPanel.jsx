@@ -2,6 +2,10 @@ import {
     LayoutGrid, Star, MessageSquareText, CalendarCheck2, Briefcase,
     GraduationCap, HeartHandshake, ShoppingBag,
 } from "lucide-react";
+import { useEffect , useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addFilterTemplateCategoryList , removeFilterTemplateCategoryList } from "../app/TemplateSlice.js";
+
 
 const categories = [
     { icon: LayoutGrid, label: "All Templates" },
@@ -14,7 +18,30 @@ const categories = [
     { icon: ShoppingBag, label: "Orders & requests" },
 ];
 
-function CategoryPanel({ selectedCategory , setSelectedCategory }) {
+function CategoryPanel() {
+
+const [selectedCategory , setSelectedCategory] = useState("All Templates");
+const templateCategoryList = useSelector((state) => state.template.templatesCategoryList);
+
+const dispatch = useDispatch();
+
+
+const applyFilter = () => {
+
+    if(selectedCategory === "All Templates") { 
+        dispatch(removeFilterTemplateCategoryList());
+        return;
+        }
+    const filteredList = templateCategoryList.filter((templateObj) => {
+        if(templateObj.tag === selectedCategory) return templateObj;
+    });
+    dispatch(addFilterTemplateCategoryList(filteredList));
+
+};
+
+useEffect(() => {
+   applyFilter(); 
+} , [selectedCategory]);
 
     return (
         <div className="col-span-3 rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
@@ -31,7 +58,11 @@ function CategoryPanel({ selectedCategory , setSelectedCategory }) {
                     return (
                     <div
                         key={i}
-                        onClick={() => setSelectedCategory(label)}
+                        onClick={() => { 
+                            setSelectedCategory(label)
+                           
+                        }}
+                        
                         className={`flex items-center gap-2.5 rounded-xl px-3 py-3 cursor-pointer ${active ? "bg-[#fdf6e8]" : "bg-[#f4f3ef]"
                             }`}
                     >

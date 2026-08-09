@@ -1,8 +1,3 @@
-import {
-  MessageSquareText, CalendarCheck2, Briefcase,
-  GraduationCap, HeartHandshake, ShoppingBag, ClipboardList, Users, Sparkles,
-  Pen , PanelsRightBottom , Clock10 , UserRoundCheck , User2 , UserCircle2Icon
-} from "lucide-react";
 
 
 const templatesCategory = [
@@ -12,7 +7,7 @@ const templatesCategory = [
     description: "Start from Blank",
     tag: "Custom",
     cover: "from-[#4f8a9h] to-[#28252f]",
-    icon: Pen,
+    icon: "Pen",
   },
       {
     id : "ic001",
@@ -20,7 +15,7 @@ const templatesCategory = [
     description: "Engage Your Audience",
     tag: "Influencers",
     cover: "from-[#1f7a8d] to-[42c4m3b]",
-    icon: PanelsRightBottom,
+    icon: "PanelsRightBottom",
   },
       {
     id : "ic002",
@@ -28,7 +23,7 @@ const templatesCategory = [
     description: "Showcase Your Work",
     tag: "Influencers",
     cover: "from-[#f2a93j] to-[#e3433b]",
-    icon: UserRoundCheck,
+    icon: "UserRoundCheck",
   },
       {
     id : "sf001",
@@ -36,7 +31,7 @@ const templatesCategory = [
     description: "Pin Your Next move",
     tag: "Schedule Timer",
     cover: "from-[#h3903f] to-[#6f3f98]",
-    icon: Clock10,
+    icon: "Clock10",
   },
       {
     id : "ic003",
@@ -44,7 +39,7 @@ const templatesCategory = [
     description: "Make your Presence Noticeble",
     tag: "Influencers",
     cover: "from-[#4a4b4f] to-[#4c8c2a]",
-    icon: UserCircle2Icon,
+    icon: "UserCircle2Icon",
   },
       {
     id : "wf001",
@@ -52,7 +47,7 @@ const templatesCategory = [
     description: "Make Your Next Launch Big",
     tag: "WaitList Form",
     cover: "from-[#8br43] to-[#4c2]",
-    icon: Sparkles,
+    icon: "Sparkles",
   },
   { 
     id : "01",
@@ -60,7 +55,7 @@ const templatesCategory = [
     description: "Rate, review, and tell us how we're doing",
     tag: "Feedback",
     cover: "from-[#f2a93b] to-[#e8833b]",
-    icon: MessageSquareText,
+    icon: "MessageSquareText",
   },
   { 
     id : "02",
@@ -68,7 +63,7 @@ const templatesCategory = [
     description: "Collect guest counts and dietary notes",
     tag: "Events",
     cover: "from-[#6f9a8d] to-[#2c4a3b]",
-    icon: CalendarCheck2,
+    icon: "CalendarCheck2",
   },
   { 
     id : "03",
@@ -76,7 +71,7 @@ const templatesCategory = [
     description: "Resume, portfolio link, and screening questions",
     tag: "HR",
     cover: "from-[#c9603f] to-[#7a3a2c]",
-    icon: Briefcase,
+    icon: "Briefcase",
   },
   {
     id : "04",
@@ -84,7 +79,7 @@ const templatesCategory = [
     description: "Sign students up with prerequisites check",
     tag: "Education",
     cover: "from-[#3b6b8f] to-[#1f3b52]",
-    icon: GraduationCap,
+    icon: "GraduationCap",
   },
   {
     id : "05",
@@ -92,7 +87,7 @@ const templatesCategory = [
     description: "Match volunteers to shifts and skills",
     tag: "Nonprofit",
     cover: "from-[#8a9b4f] to-[#4d5c2a]",
-    icon: HeartHandshake,
+    icon: "HeartHandshake",
   },
   {
     id : "06",
@@ -100,7 +95,7 @@ const templatesCategory = [
     description: "Quantities, variants, and delivery details",
     tag: "Orders",
     cover: "from-[#d9a441] to-[#a5741f]",
-    icon: ShoppingBag,
+    icon: "ShoppingBag",
   },
   {
     id : "07",
@@ -108,7 +103,7 @@ const templatesCategory = [
     description: "Documents, IT setup, and team intros",
     tag: "HR",
     cover: "from-[#5c6b60] to-[#2c4a3b]",
-    icon: Users,
+    icon: "Users",
   },
   {
     id : "08",
@@ -116,7 +111,7 @@ const templatesCategory = [
     description: "Scope, timeline, and budget questions",
     tag: "Operations",
     cover: "from-[#b3703f] to-[#6b3f22]",
-    icon: ClipboardList,
+    icon: "ClipboardList",
   },
   {
     id : "09",
@@ -124,7 +119,7 @@ const templatesCategory = [
     description: "Gather local input on new initiatives",
     tag: "Nonprofit",
     cover: "from-[#4f8a7a] to-[#28453c]",
-    icon: Sparkles,
+    icon: "Sparkles",
   },
 ];
 

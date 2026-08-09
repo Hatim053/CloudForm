@@ -1,6 +1,6 @@
 import TemplateSearchBar from "./TemplateSearchBar.jsx";
 
-function TemplateTopBar({ searchFilter }) {
+function TemplateTopBar() {
 
     return (
          <div className="flex items-center justify-between bg-[#2c4a3b] px-6 py-4">
@@ -19,7 +19,7 @@ function TemplateTopBar({ searchFilter }) {
         </div>
 
         <div className="flex items-center gap-3">
-          <TemplateSearchBar searchFilter={searchFilter} />
+          <TemplateSearchBar />
           <span className="rounded-full bg-[#f2a93b] px-5 py-2 text-sm font-medium text-[#2c4a3b]">
            Generate With AI
           </span>
