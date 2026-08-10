@@ -29,7 +29,7 @@ function TemplateListPage() {
             {templateCategoryList.map((propsObj) => {
               const { id, name, description, icon, tag, cover } = propsObj;
          
-              return <TemplateCard key={id} name={name} description={description} icon={icon} tag={tag} cover={cover} />
+              return <TemplateCard key={id} id={id} name={name} description={description} icon={icon} tag={tag} cover={cover} />
             })}
 
           </div>

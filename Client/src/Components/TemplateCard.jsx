@@ -1,11 +1,12 @@
 import IconMap from "../utils/IconMap";
+import { NavLink } from "react-router-dom";
 
-function TemplateCard({ name , cover , tag , icon  , description }) {
+function TemplateCard({ id , name , cover , tag , icon  , description }) {
   console.log("icon in templatecardcomponent" , icon);
   const Icon = IconMap[icon];
 
 return (
-     <div
+     <NavLink to={`/createform/${id}`}
                 className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-shadow hover:shadow-md"
               >
                 {/* Cover image */}
@@ -40,7 +41,7 @@ return (
                     </span>
                   </div>
                 </div>
-              </div>
+              </NavLink>
 )
 
 };
