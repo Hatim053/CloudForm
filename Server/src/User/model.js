@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from "mongoose";
 import jwt from 'jsonwebtoken';
 
 
@@ -26,6 +26,6 @@ const userSchema = new mongoose.Schema({
 
 
 
-const User = mongoose.model('User' , userSchema);
+const User = mongoose.model("User" , userSchema);
 
 export default User;

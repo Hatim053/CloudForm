@@ -18,7 +18,5 @@ if(!admin) {
     return console.log("could not create Admin something went wrong");
 }
 console.log('Admin created successfully');
-
 };
-
 export default seedAdmin;

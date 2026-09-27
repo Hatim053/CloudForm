@@ -6,6 +6,6 @@ const liveFormsRoutes = Router();
 
 liveFormsRoutes.get("form/:formId" , authenticateUser , getFormData);
 liveFormsRoutes.get("/allforms" , authenticateUser , getAllUserFormsList);
-liveFormsRoutes.get("show/:formId/status=:status" , authenticateFormViewer , showLiveForm);
+liveFormsRoutes.get("/show/:formId/status=:status" , authenticateFormViewer , showLiveForm);
 
 export default liveFormsRoutes;

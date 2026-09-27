@@ -38,7 +38,7 @@ const getFormData = async (req , res) => {
 // controller to fetch list of all the forms specific user has created
 const getAllUserFormsList = async (req , res) => {
     const userId = req?.user?._id;
-    const forms = await LiveForms.find({user_id : userId});
+    const forms = await LiveForms.find({user_id : userId}).select("name form_status");
 
     if(!forms) {
         return res
@@ -66,7 +66,7 @@ const showLiveForm = async (req , res) => {
     const status = req?.params?.status;
     const formId = req?.params?.formId;
 
-    const form = await LiveForms.findById(formId).select("form_status accessible_users elements");
+    const form = await LiveForms.findById(formId).select("form_status elements");
 
     if(!form) {
         return res
@@ -103,7 +103,7 @@ const showLiveForm = async (req , res) => {
               .json({
                 status : 200,
                 message : "request sucessfull",
-                formElements : form.elements
+                form : form
               });
 
 };

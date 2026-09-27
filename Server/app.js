@@ -5,6 +5,8 @@ import cors from "cors";
 import authRoutes from "./src/Auth/routes.js";
 import userRoutes from "./src/User/routes.js";
 import liveFormsRoutes from "./src/LiveForms/routes.js";
+import templatePreviewDataRoutes from "./src/TemplatePreviewData/routes.js";
+import templateCategoryListRoutes from "./src/TemplatesCategoryList/routes.js";
 
 const app = express();
 const corsOptions = {
@@ -23,8 +25,8 @@ app.use(express.urlencoded( {extended : true , limit : '5mb'} ));
 app.use("/auth" , authRoutes);
 app.use("/user" , userRoutes);
 app.use("/liveform" , liveFormsRoutes);
-
-
+app.use("/template-preview-data" , templatePreviewDataRoutes);
+app.use("/template-category-list" , templateCategoryListRoutes);
 
 export {
     app

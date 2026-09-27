@@ -11,6 +11,10 @@ live_link : { // livelink of the forms : frontendbaseurl/liveformrender/:formId/
     type : String,
     required : true
 },
+form_id : {
+    type : String,
+    required : true
+},
 name : {
 type : String,
 required : true
@@ -24,14 +28,22 @@ form_status : {
 },
 authorize_users : {
     type : Array, // contains emails of the authourize users who are allowed to access the form
-    // bye default at the creation of the form add the gmail of creator of the form
+    // by default at the creation of the form add the gmail of creator of the form
 },
-elements : {
-    type : Array, // [{elementId , label , placeholder , props : {}},{}}]
+elements_data : {
+    type : {},
     required : true
 }
 } , { timestamps : true} );
 
+// elements_data : { // fields can be less or more completly depending on the type of template user has selected  but format is going to be the same
+
+// name : event form,
+// heading : secure your slot,
+// links : [{}],
+// socialhandles : [{}],
+// inputElements : [{}],
+// }
 
 const LiveForms = mongoose.model("LiveForms" , liveFormsSchema);
 

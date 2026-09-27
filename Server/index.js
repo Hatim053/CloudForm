@@ -16,7 +16,7 @@ const startServer = async() => {
         console.log('DataBase connection successful');
 
         await seedAdmin();
-        
+       
         app.listen(PORT , () => {
         console.log('server is listening on port' , PORT);
         });

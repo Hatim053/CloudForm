@@ -1,10 +1,26 @@
 import jwt from "jsonwebtoken";
 import User from "../User/model.js";
 
+
+const requieAdmin = (req , res , next) => {
+    const role = req?.user?.role;
+
+    if(role !== "admin") {
+        return res
+        .status(405)
+        .json({
+            status : 405,
+            message : "restricted routes",
+        });
+    } 
+    next();
+};
+
 const authenticateUser =  (req , res , next) => {
 
 const accessToken = req.cookies?.accessToken;
 if(! accessToken) {
+    console.log("login failed");
     return res.json({
         status : 404,
         message : 'access token not found'
@@ -48,21 +64,7 @@ next();
 
 };
 
-
-const requieAdmin = (req , res , next) => {
-    const role = req?.user?.role;
-    if(role !== "admin") {
-        return res
-        .status(405)
-        .json({
-            status : 405,
-            message : "restricted routes",
-        });
-    } 
-    next();
-};
-
-const authenticateFormViewer = (req , res , next) => {
+const authenticateFormViewer = async (req , res , next) => {
     const status = req?.params?.status;
     if(status === "public") {
         next(); // means anyone with the link can view the form
@@ -77,7 +79,7 @@ if(! accessToken) {
 
 try {
     const decodedToken = jwt.verify(accessToken , process.env.ACCESSTOKENSECRET);
-    const user = await User.findById(decodedToken._id).select("email");
+    const user = await User.findById(decodedToken._id).select("email role");
 
 if(! user) {
     return res.json({
