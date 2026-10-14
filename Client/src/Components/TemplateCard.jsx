@@ -1,9 +1,8 @@
-import IconMap from "../utils/IconMap";
+import { TemplatesIconMap } from "../utils/IconMap";
 import { NavLink } from "react-router-dom";
 
 function TemplateCard({ id , name , cover , tag , icon  , description }) {
-  console.log("icon in templatecardcomponent" , icon);
-  const Icon = IconMap[icon];
+  const Icon = TemplatesIconMap[icon];
 
 return (
      <NavLink to={`/createform/${id}`}

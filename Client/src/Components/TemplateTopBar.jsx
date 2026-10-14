@@ -3,7 +3,7 @@ import TemplateSearchBar from "./TemplateSearchBar.jsx";
 function TemplateTopBar() {
 
     return (
-         <div className="flex items-center justify-between bg-[#2c4a3b] px-6 py-4">
+         <div className="flex items-center justify-between bg-[#2f4d3a] px-6 py-4">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f2a93b]">
             <span className="text-lg font-bold text-[#2c4a3b]">C</span>

@@ -6,27 +6,13 @@ function InfluencerCard({
   name = "@zakirkhanlive",
   banner = "MUMBAI RESIDENCY | LAST FEW SHOWS | LIVE NOW 🚨",
   avatar = "https://img.staticmb.com/mbcontent/images/crop/uploads/2024/5/famous-places-in-bhopal_0_1200.jpg.webp",
-  socials = [],
+  socialhandles = [],
   links = [],
   backgroundColorHexcode = "#6b5a14",
   cardColorHexcode = "#8a7218"
 }) {
-  const defaultSocials = [
-    { platform: "Twitter",   handle: "@zakirkhan",   url: "https://github.com/Hatim053?tab=repositories", color: "from-blue-400 to-blue-600",   icon: "𝕏",  followers: "1.2M" },
-    { platform: "Instagram", handle: "@zakirkhan",   url: "#", color: "from-purple-400 to-pink-500", icon: "📷", followers: "8.4M" },
-    { platform: "YouTube",   handle: "@zakirkhan",   url: "#", color: "from-red-400 to-red-700",     icon: "▶️", followers: "12M"  },
-    { platform: "LinkedIn",  handle: "/in/zakir",    url: "#", color: "from-blue-600 to-blue-900",   icon: "💼", followers: "120K" },
-  ];
+  
 
-  const defaultLinks = [
-    {text: "Mumbai Residency | 12th June - 4PM & 9PM" , url : "#"},
-    {text: "Mumbai Residency | 13th June - 4PM & 9PM" , url : "#"},
-    {text: "Mumbai Residency | 14th June - 4PM & 9PM" , url : "#"},
-    {text: "Mumbai Residency | 19th June - 4PM & 9PM" , url : "#"}
-  ];
-
-  const displaySocials = socials.length > 0 ? socials : defaultSocials;
-  const displayLinks   = links.length   > 0 ? links   : defaultLinks;
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6" style={{backgroundColor : backgroundColorHexcode}}>
@@ -57,7 +43,7 @@ function InfluencerCard({
 
         {/* Dynamic social cards (replaces black rectangles) */}
         <div className="mt-6 grid grid-cols-2 gap-3">
-          {displaySocials.map((social, i) => (
+          {socialhandles.map((social, i) => (
             <a
               key={i}
               href={social.url || "#"}
@@ -95,7 +81,7 @@ function InfluencerCard({
 
         {/* Link list */}
         <div className="mt-4 space-y-2.5">
-          {displayLinks.map((linkObj, i) => (
+          {links.map((linkObj, i) => (
             <a
               key={i}
               href={linkObj.url || "#"}

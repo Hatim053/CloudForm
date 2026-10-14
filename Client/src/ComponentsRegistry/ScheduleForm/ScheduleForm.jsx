@@ -5,49 +5,35 @@ import { User , Mail , Phone , Calendar } from "lucide-react";
 
 
 // unique Id : sf001
-function ScheduleForm({ heading, subHeading , backgroundColorHexcode , submitButtonText , fieldsData}) {
+function ScheduleForm({ heading, subHeading , backgroundColorHexcode = "#FEF3C7", submitButtonText , inputElements= [
+    { id: "name" , icon: "User", label: "name", placeholder : "enter your name",  type: "text" },
+    { id: "email" , icon: "Mail", label: "email", placeholder : "enter your email" , type: "email" },
+    { id: "phone" , icon: "Phone", label: "phone", placeholder : "enter your phone" ,type: "tel" },
+    { id: "date" , icon: "Calendar", label: "date", placeholder : "enter your date" ,type: "date" },
+  ]}) {
 
-    // fieldsData : {
-    //     name : {
-    //         label : "username",
-    //         placeholder : "enter your username"
-    //     }
-    // }
 
   const [formData , setFormData] = useState({});
-  const [isSubmitted , setIsSubmitted] = useState(false);
-  const [requiredFieldsAlert , setRequiredFieldsAlert] = useState(false);
+  const [isSubmitting , setIsSubmitting] = useState(false);
 
-  const fields = [
-    { icon: User, label: fieldsData[this.id].label, placeholder : fieldsData[this.id].placeholder,  type: "text", id: "name" },
-    { icon: Mail, label: fieldsData[this.id].label, placeholder : fieldsData[this.id].placeholder , type: "email", id: "email" },
-    { icon: Phone, label: fieldsData[this.id].label, placeholder : fieldsData[this.id].placeholder ,type: "tel", id: "phone" },
-    { icon: Calendar, label: fieldsData[this.id].label, placeholder : fieldsData[this.id].placeholder ,type: "date", id: "date" },
-  ];
- backgroundColorHexcode =   backgroundColorHexcode ? backgroundColorHexcode : "#FEF3C7";
   const handleSubmit = (e) => {
     e.preventDefault();
-    for(const field of fields) {
-      if(!formData[field]) {
-        console.log('All Fields Are Required');
-        return;
-      }
-    }
-    setRequiredFieldsAlert(false);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
     // API CALL BE MADE HERE
     // AFTER API CALL CHNAGE ISSUBMITTED TO FALSE AGAIN
     console.log('Form submitted successfully' , formData);
     
   }
   return (
-    <div className="flex items-center justify-center p-6 min-h-[100vh] " style={{backgroundColor : backgroundColorHexcode}}>
+  
+  <div className="flex items-center justify-center p-6 min-h-[100vh] " style={{backgroundColor : backgroundColorHexcode}}>
+    
       <div className="w-full max-w-[420px] bg-white border border-neutral-200 rounded-xl p-8">
         <h2 className="text-xl font-medium text-neutral-900">{heading || "Book a demo"}</h2>
         <p className="text-sm text-neutral-400 mt-1">{subHeading || "30-minute walkthrough with our team."}</p>
 
         <form className="mt-6 space-y-4">
-          {fields.map(({ icon: Icon, label, placeholder, type, id }) => (
+          {inputElements.map(({ icon: Icon, label, placeholder, type, id }) => (
             <div key={id} className="relative">
               <Icon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none z-10" />
               <input
@@ -72,7 +58,7 @@ function ScheduleForm({ heading, subHeading , backgroundColorHexcode , submitBut
             onClick={handleSubmit}
           >
             <Calendar className="h-4 w-4" />
-            {submitButtonText || "Schedule demo "}
+            {isSubmitting ? "submitting" : (submitButtonText || "Schedule demo") }
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

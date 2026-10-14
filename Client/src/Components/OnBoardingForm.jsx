@@ -6,7 +6,8 @@ const questions = [
   { q: "How often do you build forms?", options: ["Daily", "Weekly", "Monthly", "Rarely"] },
 ];
 
-export default function SurveyForm() {
+
+export default function OnBoardingForm() {
   const [qIndex, setQIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [done, setDone] = useState(false);

@@ -2,18 +2,17 @@ import { useState , useEffect } from "react";
 
 
 // unique Id : wf001 ,
-function WaitlistForm({ companyOrEventName , companyOrEventNameColor , heading , subHeading , launchDate , backgroundColorHexcode , submitButtonText , backgroundImageUrl })  {
+function WaitlistForm({ brandOrEventName , brandOrEventNameColor , heading , subHeading , launchDate , backgroundColorHexcode ="#FEF3C7" , submitButtonText , backgroundImageUrl })  {
   const [email, setEmail] = useState("");
   const [joined, setJoined] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-backgroundColorHexcode =   backgroundColorHexcode ? backgroundColorHexcode : "#FEF3C7";
+  
   useEffect(() => {
     // date input format = 2026-7-21
-    const targetDate = launchDate ? new Date(launchDate) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     const timer = setInterval(() => {
       const now = new Date();
-      const diff = targetDate - now;
+      const diff = launchDate - now;
 
       if (diff > 0) {
         setTimeLeft({
@@ -57,14 +56,14 @@ backgroundColorHexcode =   backgroundColorHexcode ? backgroundColorHexcode : "#F
   }}
 >
   {/* Company name heading */}
-  <h1 className="text-4xl font-extrabold tracking-wide mb-6 drop-shadow-lg" style={{color : (companyOrEventNameColor || "black")}}>
-    {companyOrEventName || "company/event name"}
+  <h1 className="text-4xl font-extrabold tracking-wide mb-6 drop-shadow-lg" style={{color : (brandOrEventNameColor || "black")}}>
+    {brandOrEventName || ""}
   </h1>
 
   <div className="max-w-md w-full mx-auto bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
     <div className="text-center mb-8">
-      <h2 className="text-3xl font-bold text-gray-800">{heading || "Join the Waitlist"}</h2>
-      <p className="text-gray-500 mt-2">{subHeading || "Be the first to know when we launch"}</p>
+      <h2 className="text-3xl font-bold text-gray-800">{heading || ""}</h2>
+      <p className="text-gray-500 mt-2">{subHeading || ""}</p>
     </div>
 
     {/* Countdown Timer */}

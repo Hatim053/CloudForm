@@ -2,15 +2,8 @@ import { NavLink } from "react-router-dom";
 
 
 // unique Id : ic003
-function  SocialCard  ({ socials = []  , backgroundColorHexcode = "#FFF8F0" , cardColorHexcode = "#C08552"})  {
-  const defaultSocials = [
-    { platform: "Twitter", url: "#", icon: "𝕏", username: "@creator" },
-    { platform: "Instagram", url: "#", icon: "📷", username: "@creator" },
-    { platform: "GitHub", url: "#", icon: "🐙", username: "@creator" },
-    { platform: "Discord", url: "#", icon: "💬", username: "creator#1234" },
-  ];
+function  SocialCard  ({ socialHandles = []  , backgroundColorHexcode = "#FFF8F0" , cardColorHexcode = "#C08552"})  {
 
-  const displaySocials = socials.length > 0 ? socials : defaultSocials;
 
   return (
    <div className="min-h-screen flex items-center justify-center p-4" style={{backgroundColor : backgroundColorHexcode}}>
@@ -27,7 +20,7 @@ function  SocialCard  ({ socials = []  , backgroundColorHexcode = "#FFF8F0" , ca
           </h3>
 
           <div className="space-y-4">
-            {displaySocials.map((social, index) => (
+            {socialHandles.map((social, index) => (
               <NavLink
                 key={index}
                 to={social.url}

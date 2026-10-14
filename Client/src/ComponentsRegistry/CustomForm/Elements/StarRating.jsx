@@ -1,12 +1,14 @@
+import { useState } from "react";
+
 // unique Id : cf001sr
-function StarRating({ label , formData , setFormData }) {
+function StarRating({ LABEL_CLS , label , ratingLevel ,  formData , setFormData }) {
   const [hover, setHover] = useState(0);
 
   return (
     <div>
-      <label className={LABEL_CLS}>{label || "Rate Us"}<span className="normal-case font-normal text-white/20">(1–5)</span></label>
+      <label className={LABEL_CLS}>{label}<span className="normal-case font-normal text-white/20">(1–5)</span></label>
       <div className="flex gap-2">
-        {[1, 2, 3, 4, 5].map(i => (
+        {ratingLevel.map(i => (
           <button key={i} type="button"
             onClick={() => setFormData({...formData , [label] : i})}
             onMouseEnter={() => setHover(i)}
@@ -14,7 +16,7 @@ function StarRating({ label , formData , setFormData }) {
             className="text-2xl transition-all hover:scale-125 active:scale-95"
           >
             
-            <span style={{ color: (hover || (formData[label] || 0)) >= i ? "#f5a623" : "rgba(255,255,255,0.12)" }}>★</span>
+            <span style={{ color: (hover || (formData[label] || 0)) >= i ? "#f5a623" : "#808080" }}>★</span>
           </button>
         ))}
       </div>

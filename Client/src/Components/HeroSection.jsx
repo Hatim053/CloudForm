@@ -1,23 +1,23 @@
-import React from "react";
+import { FlipWords } from "../animations/FlipWords.jsx";
 
 
-function HeroSection() {
+function HeroSection({ ml="ml-[2.5vw]" , mr="mr-[2.5vw]"}) {
 
 
-    return ( <header className="w-full bg-[#0a0a0a] font-dm">
+    return ( <header className={`${ml} ${mr} bg-[#2f4d3a] rounded-2xl font-dm`}>
      
 
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-white/60 mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          v2.0 just shipped — see what's new
+          see what's new
         </div>
 
         <h1 className="font-syne text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
           Build forms that<br />
           <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg,#a78bfa,#f472b6)" }}>
-            actually convert
+            actually {<FlipWords words={["connect" ,"matter" , "convert" , "get results" , "influence"]}/>}
           </span>
         </h1>
 

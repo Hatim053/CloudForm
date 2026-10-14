@@ -1,8 +1,8 @@
 
 
 // unique Id : cf001lti
-function LongTextInput({ label, placeholder , formData , setFormData }) {
-  const [focused, setFocused] = useState(false);
+function LongTextInput({ LABEL_CLS , GLASS , INPUT_CLS , label, placeholder , formData , setFormData }) {
+  
   return (
     <div>
       <label className={LABEL_CLS}>{label || "Message"}</label>

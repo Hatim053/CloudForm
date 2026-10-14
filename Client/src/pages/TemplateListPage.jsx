@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import CategoryPanel from "../components/CategoryPanel.jsx";
 import TemplateCard from "../components/TemplateCard.jsx";
 import TemplateTopBar from "../components/TemplateTopBar.jsx";
 import { useSelector } from "react-redux";
 
-
 function TemplateListPage() {
-  const templateCategoryList = useSelector((state) => state.template.templatesCategoryList);
+
+  const [templateCategoryList, setTemplateCategoryList] = useState([]);
+
+  const fetchTemplateListData = async () => {
+
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/template-category-list/fetch-data`);
+    const jsonResponse = await response.json();
+    const list = jsonResponse?.templateCategoryList;
+    setTemplateCategoryList(list);
+  };
+
+  useEffect(() => {
+
+    fetchTemplateListData();
+  }, []);
 
 
   return (
@@ -28,7 +42,7 @@ function TemplateListPage() {
 
             {templateCategoryList.map((propsObj) => {
               const { id, name, description, icon, tag, cover } = propsObj;
-         
+
               return <TemplateCard key={id} id={id} name={name} description={description} icon={icon} tag={tag} cover={cover} />
             })}
 

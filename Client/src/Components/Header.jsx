@@ -1,4 +1,4 @@
-import Signup from "./Signup.jsx";
+import Login from "./Signup.jsx";
 import { NavLink } from "react-router-dom";
 
 function Header() {
@@ -23,16 +23,16 @@ function Header() {
                     <NavLink to={"/templates"} className="text-sm font-medium text-[#cdd9cf]">
                         templates
                     </NavLink>
-                    <span className="text-sm font-medium text-[#cdd9cf]">
+                    <NavLink to={"/admin-panel"} className="text-sm font-medium text-[#cdd9cf]">
                         pricing
-                    </span>
+                    </NavLink>
                     <span className="text-sm font-medium text-[#cdd9cf]">
                         About us
                     </span>
                 </nav>
 
                 {/* Login / Logout */}
-                <Signup name={"Login"} />
+                <Login name={"Login"} />
             </div>
         </header>
 

@@ -1,7 +1,7 @@
 
 
 // unique Id : cf001mfi
-function MultiFileInput({ label = "FilesUpload" , formData , setFormData , SectionLabel}) {
+function MultiFileInput({ LABEL_CLS , GLASS ,  label = "FilesUpload" , formData , setFormData , SectionLabel}) {
   
   const handleFileUpload = (e) => {
    const multiFiles = Array.from(e.target.files).slice(0, 5);

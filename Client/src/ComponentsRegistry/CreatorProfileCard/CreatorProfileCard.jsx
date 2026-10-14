@@ -1,24 +1,16 @@
 
 
 // unique Id : ic002
-function CreatorProfileCard({ name, bio, avatar="https://img.staticmb.com/mbcontent/images/crop/uploads/2024/5/famous-places-in-bhopal_0_1200.jpg.webp", backgroundColorHexcode , cardColorHexcode ,   socials = [] }, folllowBtn = { name : "" , url: "" }) {
-  const defaultSocials = [
-    { platform: "twitter", url: "#", icon: "𝕏", color: "bg-gray-100 hover:bg-gray-200 text-gray-700" },
-    { platform: "instagram", url: "#", icon: "📷", color: "bg-gray-100 hover:bg-pink-100 text-gray-700" },
-    { platform: "linkedin", url: "#", icon: "💼", color: "bg-gray-100 hover:bg-blue-100 text-gray-700" },
-    { platform: "website", url: "#", icon: "🌐", color: "bg-gray-100 hover:bg-green-100 text-gray-700" },
-  ];
-
-  const displaySocials = socials.length > 0 ? socials : defaultSocials;
+function CreatorProfileCard({ name, bio, avatar="https://img.staticmb.com/mbcontent/images/crop/uploads/2024/5/famous-places-in-bhopal_0_1200.jpg.webp", backgroundColorHexcode = "#ffff" , cardColorHexcode = "#8B0000" ,   socialhandles = [] , folllowBtn = { name : "" , url: "" }}) {
   
   const handleClick = () => {
     window.location.href = folllowBtn.url || "#";
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6" style={{backgroundColor : (backgroundColorHexcode|| "#ffff")}}>
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6" style={{backgroundColor : backgroundColorHexcode}}>
       <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 w-full max-w-md text-center 
-                      hover:shadow-2xl transition-all duration-500" style={{backgroundColor : (cardColorHexcode || "#8B0000")}}>
+                      hover:shadow-2xl transition-all duration-500" style={{backgroundColor : cardColorHexcode}}>
         {/* Avatar */}
         <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 rounded-full overflow-hidden ring-4 ring-indigo-100">
           <img
@@ -36,7 +28,7 @@ function CreatorProfileCard({ name, bio, avatar="https://img.staticmb.com/mbcont
 
         {/* Social Links */}
         <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
-          {displaySocials.map((social, index) => (
+          {socialhandles.map((social, index) => (
             <a
               key={index}
               href={social.url}

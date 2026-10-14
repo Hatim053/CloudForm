@@ -1,7 +1,7 @@
 
 
 // unique Id : cf001msi
-function MultiSelectInput({ label, optionList, formData  , setFormData }) { 
+function MultiSelectInput({ LABEL_CLS , GLASS , label, optionList, formData  , setFormData }) { 
 
 
   const handleToggle = (value) => {
@@ -23,8 +23,8 @@ function MultiSelectInput({ label, optionList, formData  , setFormData }) {
           <button key={option} type="button" onClick={() => handleToggle(option)}
             className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-95"
             style={formData[label]&& formData[label].includes(option)
-              ? { background: "rgba(245,166,35,0.25)", border: "1px solid rgba(245,166,35,0.6)", color: "#f5c842" }
-              : { ...GLASS, color: "rgba(255,255,255,0.4)" }}>
+              ? { background: "rgba(245,166,35,0.25)", border: "1px solid rgba(245,166,35,0.6)", color: "#000" }
+              : { ...GLASS, color: "#000" }}>
             {formData[label] && formData[label].includes(option) && "✓ "}{option}
           </button>
         ))}

@@ -1,13 +1,13 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import formElementsToIdMap from "../utils/FormElementsToIdMap";
+import templatesToIdMap from "../utils/templatesToIdMap";
 
 function LiveFormRender() {
     const {id , status} = useParams();
     const [formId , setFormId] = useState("");
     const [formElements , setFormElements] = useState([]);
     
-    const getFormData = useCallback(async(id , status) => {
+    const getActualFormPreviewData = useCallback(async(id , status) => {
        try {
          const formData = await fetch(`${import.meta.env.VITE_SERVER_URL}/liveform/show/${id}/status=${status}`);
          const jonFormData = await formData.json();
@@ -20,11 +20,11 @@ function LiveFormRender() {
 
     useEffect(() => {
 
-     getFormData(id , status);
+     getActualFormPreviewData(id , status);
 
     } , [id , status]);
     
-   const component =  formId && formElementsToIdMap.formId
+   const component =  formId && templatesToIdMap.formId
     
     return (
         <Suspense fallback = {<h1>Loading...</h1>}>

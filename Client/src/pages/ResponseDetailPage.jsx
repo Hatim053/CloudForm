@@ -24,7 +24,7 @@ function InfoTile({ icon: Icon, label, value, sub }) {
   );
 }
 
-export default function ResponseDetailPage() {
+function ResponseDetailPage() {
   const answers = [
     { q: "What's your full name?", a: "Anjali Mehta", answered: true, time: "4s" },
     { q: "How did you hear about us?", a: "Instagram ad", answered: true, time: "9s" },
@@ -137,3 +137,5 @@ export default function ResponseDetailPage() {
     </div>
   );
 }
+
+export default ResponseDetailPage;

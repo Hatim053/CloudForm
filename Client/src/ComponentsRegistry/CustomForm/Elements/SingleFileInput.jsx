@@ -1,5 +1,5 @@
 // unique Id : cf001sfi
-function SingleFileInput({ label = "Uploads" , formData , setFormData , SectionLabel , setSingleFile }) {
+function SingleFileInput({ LABEL_CLS , GLASS , label = "Uploads" , formData , setFormData , SectionLabel , setSingleFile }) {
   return (
   <> <SectionLabel>{label}</SectionLabel>
   <div>

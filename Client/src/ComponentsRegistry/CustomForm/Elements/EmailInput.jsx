@@ -1,6 +1,7 @@
+import { useState } from "react";
 
 // unique Id : cf001ei
-function EmailInput({ formData , setFormData }) {
+function EmailInput({ LABEL_CLS , GLASS_FOCUS , GLASS , INPUT_CLS , formData , setFormData }) {
   const [focused, setFocused] = useState(false);
   return (
     <div>
