@@ -190,7 +190,7 @@ function TemplateElements() {
   const sectionNames = useSelector(selectSectionNames, shallowEqual);
 
   return (
-    <div className="col-span-3 rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
+    <div className="col-span-3 max-h-screen overflow-y-auto rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
       <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#8a9690]">
         Template elements
       </p>

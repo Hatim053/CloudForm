@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import CategoryPanel from "../components/CategoryPanel.jsx";
 import TemplateCard from "../components/TemplateCard.jsx";
 import TemplateTopBar from "../components/TemplateTopBar.jsx";
-import { useSelector } from "react-redux";
 
 function TemplateListPage() {
 

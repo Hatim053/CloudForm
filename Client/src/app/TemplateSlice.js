@@ -42,7 +42,8 @@
 
 import { createSlice, createSelector, nanoid } from "@reduxjs/toolkit";
 import TemplatesCategoryList from "../utils/TemplatesCategoryList.js";
-import { act } from "react";
+
+
 
 /* ------------------------------------------------------------------ */
 /*  Tweakable constants + shape helpers                                */
