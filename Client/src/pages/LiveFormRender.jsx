@@ -1,6 +1,6 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import templatesToIdMap from "../utils/templatesToIdMap";
+import templatesToIdMap from "../utils/TemplatesToIdMap";
 
 function LiveFormRender() {
     const {id , status} = useParams();

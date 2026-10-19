@@ -12,7 +12,7 @@ import {
   RefreshCw,
   Pointer,
 } from "lucide-react";
-import StatCard from "../components/StatCard.jsx";
+import StatCard from "../Components/StatCard.jsx";
 
 
 function AdminPanelPage() {

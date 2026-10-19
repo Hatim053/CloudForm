@@ -46,10 +46,10 @@
 
 
 import { useParams } from "react-router-dom";
-import FormPreview from "../components/FormPreview";
-import TemplateElements from "../components/TemplateElements";
-import ElementsConfiguration from "../components/ElementsConfiguration.jsx";
-import Header from "../components/Header.jsx";
+import FormPreview from "../Components/FormPreview";
+import TemplateElements from "../Components/TemplateElements";
+import ElementsConfiguration from "../Components/ElementsConfiguration.jsx";
+import Header from "../Components/Header.jsx";
 import { useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 // adjust this path to wherever TemplateSlice.js lives in your project
