@@ -1,7 +1,7 @@
-import Header from "../Components/Header.jsx";
-import HeroSection from "../Components/HeroSection.jsx";
+import Header from "../components/Header.jsx";
+import HeroSection from "../components/HeroSection.jsx";
 import { ContainerScroll } from "../animations/ContainerScroll.jsx";
-import OnBoardingForm from "../Components/OnBoardingForm.jsx";
+import OnBoardingForm from "../components/OnBoardingForm.jsx";
 import { HeroScroll } from "../animations/HeroScroll.jsx";
 
 function Home() {

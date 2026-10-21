@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react";
-import CategoryPanel from "../Components/CategoryPanel.jsx";
-import TemplateCard from "../Components/TemplateCard.jsx";
-import TemplateTopBar from "../Components/TemplateTopBar.jsx";
+import CategoryPanel from "../components/CategoryPanel.jsx";
+import TemplateCard from "../components/TemplateCard.jsx";
+import TemplateTopBar from "../components/TemplateTopBar.jsx";
+import useFetchTemplateCategoryList from "../CustomHooks/useFetchTemplateCategoryList.js"
 
 function TemplateListPage() {
 
-  const [templateCategoryList, setTemplateCategoryList] = useState([]);
+  const { templateCategoryList , isLoading , error } = useFetchTemplateCategoryList();
+console.log(templateCategoryList);
 
-  const fetchTemplateListData = async () => {
-
-    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/template-category-list/fetch-data`);
-    const jsonResponse = await response.json();
-    const list = jsonResponse?.templateCategoryList;
-    setTemplateCategoryList(list);
-  };
-
-  useEffect(() => {
-
-    fetchTemplateListData();
-  }, []);
-
+   if(isLoading) {
+    return <div>loading ...</div>
+   }
 
   return (
     <div className="min-h-screen bg-white font-sans">

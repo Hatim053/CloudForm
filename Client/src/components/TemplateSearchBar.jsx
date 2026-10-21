@@ -2,7 +2,7 @@ import { useState , useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import {  useDispatch } from "react-redux";
 import { addFilterTemplateCategoryList } from "../app/TemplateSlice.js";
-import templatesCategory from "../utils/TemplatesCategoryList";
+import templatesCategory from "../utils/TemplatesCategoryList.js";
 
 function TemplateSearchBar() {
 

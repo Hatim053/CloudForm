@@ -12,55 +12,18 @@ import {
   RefreshCw,
   Pointer,
 } from "lucide-react";
-import StatCard from "../Components/StatCard.jsx";
+import StatCard from "../components/StatCard.jsx";
+import useAddTemplateCategory from "../CustomHooks/useAddTemplateCategory.js";
+import useAddTemplatePreviewData from "../CustomHooks/useAddTemplatePreviewData.js";
 
 
 function AdminPanelPage() {
-console.log(import.meta.env.VITE_SERVER_URL);
+
   const templeCatrgoryRef = useRef(null);
   const templatePreviewDataRef = useRef(null);
 
-  const addTemplateCategory = async () => {
-    console.log("function started");
-    const categoryObj = templeCatrgoryRef.current.value;
-    const jsonCategoryObj = JSON.parse(categoryObj);
-    const requiredFields = ["id" , "name" , "description" , "tag" , "cover" ,"icon"];
-    requiredFields.forEach((field) => {
-     if(!jsonCategoryObj[field]) {
-      alert(`${field} is required`);
-      return;      
-    }
-  })
-
-  const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/template-category-list/create-data` , {
-    method : "POST",
-   credentials: "include",
-  headers: {
-    "Content-Type": "application/json"
-  },
-    body : JSON.stringify(jsonCategoryObj)
-  });
- templeCatrgoryRef.current.value = "";
-  console.log(response);
-
-  };
-  const addTemplatePreviewData = async () => {
-    const templatepreviewData = templatePreviewDataRef.current.value;
-    const jsonTemplatePreviewData = JSON.parse(templatepreviewData);
-     const { id , previewData } = jsonTemplatePreviewData;
-
-     const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/template-preview-data/create-data` , {
-      method : "POST",
-      credentials : "include",
-      headers : {
-        "Content-Type" : "application/json"
-      },
-      body : JSON.stringify({id , previewData})
-     });
-    templatePreviewDataRef.current.value = "";
-     console.log(response);
-
-    }
+  const { addTemplateCategory } = useAddTemplateCategory(templeCatrgoryRef);
+  const { addTemplatePreviewData } = useAddTemplatePreviewData(templatePreviewDataRef);
 
 
   return (
@@ -72,7 +35,6 @@ console.log(import.meta.env.VITE_SERVER_URL);
       `}</style>
 
       <div className="mx-auto max-w-[1200px] px-6 py-8">
-        {/* Stats overview */}
         <div className="mb-8">
           <div className="mb-5 flex items-end justify-between">
             <div>
@@ -103,7 +65,7 @@ console.log(import.meta.env.VITE_SERVER_URL);
           </div>
         </div>
 
-        {/* Manage templates */}
+    
         <div className="mb-4">
           <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#8a9690]">
             Manage
@@ -113,8 +75,6 @@ console.log(import.meta.env.VITE_SERVER_URL);
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-5">
-          {/* Add template preview data */}
           <div className="rounded-2xl bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
             <div className="mb-4 flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1a2b21]">
@@ -196,7 +156,6 @@ console.log(import.meta.env.VITE_SERVER_URL);
           </div>
         </div>
       </div>
-    </div>
   );
 
 
