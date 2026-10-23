@@ -5,6 +5,8 @@ import { HeroScroll } from "../animations/HeroScroll.jsx";
 import AnalyticsSection from "@/components/AnalyticsSection.jsx";
 import PartialSubmissionsSection from "@/components/PartialSubmissionsSection.jsx";
 import SectionLink from "@/components/SectionLink.jsx";
+import Footer from "@/components/Footer.jsx";
+import Accordion from "@/components/Accordian.jsx";
 
 function Home() {
     
@@ -15,12 +17,13 @@ function Home() {
          <HeroSection />
          <TimeLine />
         {/* <ContainerScroll children={<HeroSection mr="" ml=""/>}/> */}
-            <HeroScroll />
+            {/* <HeroScroll /> */}
           {/* <OnBoardingForm /> */}
           <AnalyticsSection/>
           <PartialSubmissionsSection/>
-          {/* <SectionLink/> */}
-        </>
+          <Accordion/>
+         <Footer />
+         </>
     )
 };
 

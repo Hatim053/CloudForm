@@ -128,3 +128,20 @@
     @apply font-sans;
     }
 }
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+
+  --color-cf-bg: #f5f3ee;
+  --color-cf-ink: #232a25;
+  --color-cf-muted: #6b716c;
+  --color-cf-forest: #2f5a45;
+  --color-cf-sage: #e5edd6;
+  --color-cf-line: #e3e0d9;
+
+  --color-cf-violet-tile: #f0e8fb;
+  --color-cf-blue-tile: #e3edfb;
+  --color-cf-green-tile: #e2f2e6;
+  --color-cf-amber-tile: #f7efd8;
+  --color-cf-gray-tile: #ececec;
+}
