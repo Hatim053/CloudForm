@@ -1,21 +1,25 @@
 import Header from "../components/Header.jsx";
 import HeroSection from "../components/HeroSection.jsx";
-import { ContainerScroll } from "../animations/ContainerScroll.jsx";
-import OnBoardingForm from "../components/OnBoardingForm.jsx";
+import { TimeLine } from "../animations/TimeLine.jsx";
 import { HeroScroll } from "../animations/HeroScroll.jsx";
+import AnalyticsSection from "@/components/AnalyticsSection.jsx";
+import PartialSubmissionsSection from "@/components/PartialSubmissionsSection.jsx";
+import SectionLink from "@/components/SectionLink.jsx";
 
 function Home() {
     
     return (
         <>
         <Header />
-    
+     
          <HeroSection />
-         
-        <ContainerScroll children={<HeroSection mr="" ml=""/>}/>
+         <TimeLine />
+        {/* <ContainerScroll children={<HeroSection mr="" ml=""/>}/> */}
             <HeroScroll />
-          <OnBoardingForm />
-      
+          {/* <OnBoardingForm /> */}
+          <AnalyticsSection/>
+          <PartialSubmissionsSection/>
+          {/* <SectionLink/> */}
         </>
     )
 };

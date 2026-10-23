@@ -1,76 +1,7 @@
-
-// import { Star } from "lucide-react";
-
-// function ElementsConfiguration() {
-
-
-//     return (
-//            <div className="col-span-3 flex flex-col justify-between rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
-//                   <div>
-//                     <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#8a9690]">
-//                       Element settings
-//                     </p>
-//                     <div className="mb-4 flex items-center gap-2">
-//                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1a2b21]">
-//                         <Star size={12} className="text-[#f2a93b]" />
-//                       </span>
-//                       <span className="text-sm font-medium text-[#1a2b21]">
-//                         Rating scale
-//                       </span>
-//                     </div>
-        
-//                     <div className="flex flex-col gap-4">
-//                       <div>
-//                         <label className="mb-1.5 block text-xs font-medium text-[#5c6b60]">
-//                           Question
-//                         </label>
-//                         <div className="rounded-lg bg-[#f4f3ef] px-3 py-2 text-sm text-[#1a2b21]">
-//                           How likely are you to recommend us to a friend?
-//                         </div>
-//                       </div>
-        
-//                       <div>
-//                         <label className="mb-1.5 block text-xs font-medium text-[#5c6b60]">
-//                           Placeholder / helper text
-//                         </label>
-//                         <div className="rounded-lg bg-[#f4f3ef] px-3 py-2 text-sm text-[#8a9690]">
-//                           Optional helper text
-//                         </div>
-//                       </div>
-        
-//                       <div>
-//                         <label className="mb-1.5 block text-xs font-medium text-[#5c6b60]">
-//                           Scale range
-//                         </label>
-//                         <div className="rounded-lg bg-[#f4f3ef] px-3 py-2 text-sm text-[#1a2b21]">
-//                           1 to 5
-//                         </div>
-//                       </div>
-        
-//                       <div className="flex items-center justify-between rounded-lg bg-[#f4f3ef] px-3 py-2.5">
-//                         <span className="text-sm font-medium text-[#1a2b21]">
-//                           Required
-//                         </span>
-//                         <span className="flex h-5 w-9 items-center rounded-full bg-[#1a2b21] p-0.5">
-//                           <span className="h-4 w-4 translate-x-4 rounded-full bg-white" />
-//                         </span>
-//                       </div>
-//                     </div>
-//                   </div>
-        
-//                   <span className="mt-6 w-full rounded-full bg-[#f2a93b] py-2.5 text-center text-sm font-semibold text-[#2c4a3b]">
-//                     Next
-//                   </span>
-//                 </div>
-//     )
-// }
-
-// export default ElementsConfiguration;
-
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Pencil, Plus, X, Globe, Link2, Lock, CheckCircle2 } from "lucide-react";
 // adjust this path to wherever TemplateSlice.js lives in your project
 import {
@@ -80,19 +11,15 @@ import {
   selectEditing,
   selectField,
   selectItem,
-  selectPreviewData,
   updateField,
   updateItemValue,
   addListEntry,
   removeListEntry,
 } from "../app/TemplateSlice.js";
+import usePublishLiveForm from "../CustomHooks/usePublishLiveForm.js";
 
 // TODO: set this to your real "My forms" route
 const MY_FORMS_PATH = "/my-forms";
-
-// TODO: return the user's current access token from wherever your app keeps it.
-// (If you use an axios instance with an interceptor, call it instead of fetch in handlePublish and delete this.)
-const getAccessToken = () => "";
 
 const labelClass = "mb-1.5 block text-xs font-medium text-[#5c6b60]";
 const inputClass =
@@ -273,24 +200,22 @@ function FieldEditor({ field }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Publish popup: form status (+ authorized emails) -> API -> success */
-/*  Its state is local on purpose: it's UI-only and resets on each open */
-/* ------------------------------------------------------------------ */
 
 function PublishModal({ templateId, onClose }) {
   const navigate = useNavigate();
-  const store = useStore();
 
   const [name, setName] = useState("");
   const [status, setStatus] = useState("public");
   const [emails, setEmails] = useState([]);
   const [emailInput, setEmailInput] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const [published, setPublished] = useState(false);
-  const [liveLink, setLiveLink] = useState("");
+  const {
+    publishForm,
+    isLoading: submitting,
+    error,
+    isPublished: published,
+    liveLink,
+  } = usePublishLiveForm(templateId);
 
   const canPublish =
     name.trim().length > 0 && (status !== "restricted" || emails.length > 0) && !submitting;
@@ -311,48 +236,7 @@ function PublishModal({ templateId, onClose }) {
     setEmailError("");
   };
 
-  const handlePublish = async () => {
-    setSubmitting(true);
-    setError("");
-    try {
-      // read at click time -> exactly what the live preview shows (selected elements, edited values)
-      const previewData = selectPreviewData(store.getState());
-      if (!previewData) throw new Error("Nothing to publish yet");
-
-      const formName = name.trim();
-      const token = getAccessToken();
-
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/liveform/create`, {
-        method: "POST",
-        credentials : "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({
-          name: formName,
-          form_id: templateId, // template id: tells the live page which template to render
-          form_status: status,
-          authorize_users: status === "restricted" ? emails : [],
-          elements_data: { ...previewData, name: formName },
-        }),
-      });
-
-      if (!response.ok) {
-        const errorBody = await response.json().catch(() => null);
-        throw new Error(errorBody?.error ?? errorBody?.message ?? "Could not publish the form");
-      }
-
-      // the form already exists at this point, so a bad body must not turn into a "failed" popup
-      const successBody = await response.json().catch(() => null);
-      setLiveLink(successBody?.live_link ?? "");
-      setPublished(true);
-    } catch (err) {
-      setError(err.message || "Could not publish the form");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const handlePublish = () => publishForm({ name, status, emails });
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1a2b21]/50 p-4">
