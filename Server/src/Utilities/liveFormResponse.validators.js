@@ -138,4 +138,69 @@ const sanitizeProgress = ({ totalElements , lastElementId , timeSpentSeconds } ,
     timeSpentSeconds : status === "viewed" ? 0 : Math.round(clamp(timeSpentSeconds , 0 , MAX_TIME_SPENT_SECONDS))
 });
 
-export { sanitizeAnswers , sanitizeProgress , ValidationError };
+
+// ---------- query params of the creator's responses list ----------
+const LIST_STATUSES = ["partial" , "completed"]; // "viewed" sessions never answered anything , they only feed the views count
+const DEVICE_TYPES = ["desktop" , "mobile" , "tablet"];
+const MAX_FILTER_LENGTH = 100;
+const MAX_PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 20;
+
+const parseFilterText = (value , name) => {
+    if(typeof value !== "string" || !value.trim() || value.trim().length > MAX_FILTER_LENGTH) {
+        throw new ValidationError(`invalid ${name} filter`);
+    }
+    return value.trim();
+};
+
+// date only values ("2026-08-04") for "to" mean the end of that day
+const parseFilterDate = (value , name , endOfDay = false) => {
+    if(typeof value !== "string") throw new ValidationError(`invalid ${name} date`);
+    const date = new Date(value);
+    if(Number.isNaN(date.getTime())) throw new ValidationError(`invalid ${name} date`);
+    if(endOfDay && /^\d{4}-\d{2}-\d{2}$/.test(value)) date.setTime(date.getTime() + 24 * 60 * 60 * 1000 - 1);
+    return date;
+};
+
+const parsePositiveInt = (value , fallback , max) => {
+    const number = Number.parseInt(value , 10);
+    return Number.isFinite(number) && number >= 1 ? Math.min(number , max) : fallback;
+};
+
+// every value comes from the query string , so anything that is not a plain string
+// (for example ?country[$ne]=x , which express turns into an object) is rejected
+const parseResponseListQuery = (query) => {
+    const { status , country , city , deviceType , from , to , page , limit } = query ?? {};
+    const filter = {};
+
+    if(status === undefined || status === "all") {
+        filter.status = { $in : LIST_STATUSES };
+    } else if(LIST_STATUSES.includes(status)) {
+        filter.status = status;
+    } else {
+        throw new ValidationError("invalid status filter");
+    }
+
+    if(country !== undefined) filter["viewer.country"] = parseFilterText(country , "country");
+    if(city !== undefined) filter["viewer.city"] = parseFilterText(city , "city");
+    if(deviceType !== undefined) {
+        if(!DEVICE_TYPES.includes(deviceType)) throw new ValidationError("invalid deviceType filter");
+        filter["viewer.deviceType"] = deviceType;
+    }
+
+    if(from !== undefined || to !== undefined) {
+        const range = {};
+        if(from !== undefined) range.$gte = parseFilterDate(from , "from");
+        if(to !== undefined) range.$lte = parseFilterDate(to , "to" , true);
+        if(range.$gte && range.$lte && range.$gte > range.$lte) throw new ValidationError("from date is after to date");
+        filter.createdAt = range;
+    }
+
+    return {
+        filter,
+        page : parsePositiveInt(page , 1 , 1000000),
+        limit : parsePositiveInt(limit , DEFAULT_PAGE_SIZE , MAX_PAGE_SIZE)
+    };
+};
+
+export { sanitizeAnswers , sanitizeProgress , parseResponseListQuery , ValidationError };
