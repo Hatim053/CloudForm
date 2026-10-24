@@ -11,7 +11,7 @@ live_link : { // livelink of the forms : frontendbaseurl/liveformrender/:formId/
     type : String,
     required : true
 },
-form_id : {
+form_id : { // template id from frontend to get the template at the time of showing the requested form to the users.
     type : String,
     required : true
 },
@@ -22,7 +22,7 @@ required : true
 domain : {
     type : String, // for now keeping it as string
 },
-form_status : {
+form_status : { 
     type : String,
     enum : ["public" , "restricted" , "unlisted"]
 },
@@ -30,7 +30,7 @@ authorize_users : {
     type : Array, // contains emails of the authourize users who are allowed to access the form
     // by default at the creation of the form add the gmail of creator of the form
 },
-elements_data : {
+elements_data : { // whole preview data obj
     type : {},
     required : true
 }

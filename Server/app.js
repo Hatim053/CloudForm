@@ -7,11 +7,13 @@ import userRoutes from "./src/User/routes.js";
 import liveFormsRoutes from "./src/LiveForms/routes.js";
 import templatePreviewDataRoutes from "./src/TemplatePreviewData/routes.js";
 import templateCategoryListRoutes from "./src/TemplatesCategoryList/routes.js";
+import adminRoutes from "./src/Admin/routes.js";
+import liveFormResponse from "./src/LiveFormsResponses/routes.js";
 
 const app = express();
 const corsOptions = {
     origin : process.env.CLIENT_ENDPOINT,
-    methods : ['GET' , 'POST'],
+    methods : ['GET' , 'POST' , 'PUT'],
     credentials : true  
 };
 
@@ -27,7 +29,13 @@ app.use("/user" , userRoutes);
 app.use("/liveform" , liveFormsRoutes);
 app.use("/template-preview-data" , templatePreviewDataRoutes);
 app.use("/template-category-list" , templateCategoryListRoutes);
+app.use("/admin" , adminRoutes);
+app.use("t")
+
 
 export {
     app
 }
+
+
+// http://localhost:5000/template-category-list/create-data

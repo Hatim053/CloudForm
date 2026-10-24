@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from "uuid";
 
 const accessCookieOptions = {
     httpOnly : true,
-    secure : true,
+    secure : false,
     sameSite : "strict"
 };
 
 const refreshCookieOptions = {
     httpOnly : true,
-    secure : true,
+    secure : false,
     sameSite : "strict",
     path : "/auth/refresh"
 };
@@ -31,9 +31,11 @@ const generateRefreshToken = (user) => {
 };
 
 const generateAccessToken = (user) => {
+    console.log("Generating AccessToken" , user);
     return jwt.sign({
-        _id : this._id,
-        role : this.role
+        _id : user?._id,
+        role : user?.role,
+        email : user?.email
     },
 process.env.ACCESSTOKENSECRET,
 {expiresIn : process.env.ACCESSTOKENEXPIRY})

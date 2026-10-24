@@ -1,6 +1,6 @@
 import TemplatePreviewData from "./model.js";
 
-const createPreviewData = async() => {
+const createPreviewData = async(req , res) => {
 const { id , previewData } = req.body;
 if(!id || !previewData) {
     return res
@@ -34,8 +34,20 @@ return res
 
 };
 
-const fetchPreviewData = async() => {
- const templatePreviewData = await TemplatePreviewData.find().sort({createdAt : 1})
+const fetchPreviewData = async(req , res) => {
+
+    const templateId = req?.params?.templateId;
+    console.log("template id at backend" , templateId);
+    if(!templateId) {
+        return res
+               .status(404)
+               .json({
+                status : 404,
+                message : "template id not found"
+               });
+    }
+
+ const templatePreviewData = await TemplatePreviewData.findOne({ id : templateId });
 
  if(!templatePreviewData) {
     return res
@@ -56,7 +68,51 @@ const fetchPreviewData = async() => {
 
 };
 
+const updatePreviewData = async(req , res) => {
+
+    const templateId = req?.params?.templateId;
+    const updatedPreviewData = req?.body?.previewData;
+     if(!templateId) {
+        return res
+               .status(404)
+               .json({
+                status : 404,
+                message : "template id not found"
+               });
+    }
+
+    const result = await TemplatePreviewData.replaceOne(
+        { id : templateId },
+        updatePreviewData
+    );
+
+    if(result.matchedCount === 0) {
+        return res
+               .status(404)
+               .json({
+                status : 404,
+                message : "document not found"
+               })
+    } else if(result.modifiedCount === 0) {
+              return res
+                     .status(405)
+                     .json({
+                        status : 405,
+                        message : "document not updated"
+                     })
+    } else {
+        return res
+               .status(201)
+               .json({
+                status : 201,
+                messaage : "Document updated successfully"
+               })
+    } 
+
+};
+
 export {
     createPreviewData,
-    fetchPreviewData
+    fetchPreviewData,
+    updatePreviewData
 }

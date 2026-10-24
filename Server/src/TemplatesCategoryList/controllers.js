@@ -1,6 +1,6 @@
 import TemplatesCategoryList from "./model.js";
 
-const createListData = async() => {
+const createListData = async(req , res) => {
     const { id , name , description , tag , cover , icon } = req.body;
     
     if(!id || !name || !description || !tag || !cover || !icon) {
@@ -40,8 +40,8 @@ const createListData = async() => {
 
 };
 
-const fetchListData = async() => {
-    const templateCategoryList = (await TemplatesCategoryList.find()).sort({ createdAt : 1 });
+const fetchListData = async(req , res) => {
+    const templateCategoryList = await TemplatesCategoryList.find().sort({ createdAt : 1 });
      
     if(!templateCategoryList) {
         return res

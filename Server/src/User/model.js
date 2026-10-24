@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         required : true,
         enum : ["user" , "admin"]
     },
+    location : {
+        type : String,
+        required : false
+    }
 } , { timestamps : true });
 
 

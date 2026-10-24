@@ -15,7 +15,7 @@ const refreshTokenSchema = new mongoose.Schema({
     },
     revoked_at : {
         type : String,
-        required : true
+        required : false // we dont need it at the time of creation
     },
     expires_at : {
         type : Date,

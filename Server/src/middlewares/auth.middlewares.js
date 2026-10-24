@@ -19,6 +19,7 @@ const requieAdmin = (req , res , next) => {
 const authenticateUser =  (req , res , next) => {
 
 const accessToken = req.cookies?.accessToken;
+console.log("Authenticate user" , req.cookies);
 if(! accessToken) {
     console.log("login failed");
     return res.json({
@@ -30,8 +31,9 @@ if(! accessToken) {
 try {
     const decodedToken = jwt.verify(accessToken , process.env.ACCESSTOKENSECRET);
     const user = {
-    _id : decodedToken._id,
-    role : decodedToken.role
+    _id : decodedToken?._id,
+    role : decodedToken?.role,
+    email : decodedToken?.email
 };
 
 if(! user) {
@@ -40,6 +42,7 @@ if(! user) {
         message : 'no such user exist'
     }) // redirect user for signup on frontend
 }
+console.log("Authorization Check Passed");
 req.user = user;
 next();
 } catch (err) {
