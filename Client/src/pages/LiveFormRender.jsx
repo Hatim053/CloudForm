@@ -1,34 +1,32 @@
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { useParams } from "react-router-dom";
-import templatesToIdMap from "../utils/TemplatesToIdMap";
+import templatesToIdMap from "../utils/TemplatesToIdMap.js";
+import useFetchLiveForm from "../CustomHooks/useFetchLiveForm.js";
+import useLiveFormSession from "../CustomHook/useLiveFormSession.js";
 
 function LiveFormRender() {
-    const {id , status} = useParams();
-    const [formId , setFormId] = useState("");
-    const [formElements , setFormElements] = useState([]);
-    
-    const getActualFormPreviewData = useCallback(async(id , status) => {
-       try {
-         const formData = await fetch(`${import.meta.env.VITE_SERVER_URL}/liveform/show/${id}/status=${status}`);
-         const jonFormData = await formData.json();
-         setFormId(jonFormData?.form_id);
-         setFormElements(jonFormData?.elements);
-       } catch (error) {
-        console.log('something went wrong' , error);
-       }
+    const {id , status : rawStatus} = useParams();
+    // the link looks like .../liveformrender/<id>/status=public , and depending on how the route is declared
+    // the param can still carry the "status=" prefix , so it is removed here (a plain "public" is left alone)
+    const status = rawStatus?.replace(/^status=/ , "");
+
+    const { form , isLoading , error } = useFetchLiveForm(id , status);
+    const { onAnswer , onSubmit } = useLiveFormSession({
+        formId : id,
+        linkStatus : status,
+        templateId : form?.form_id,
+        elementsData : form?.elements_data
     });
 
-    useEffect(() => {
+    const Component = form?.form_id ? templatesToIdMap[form.form_id] : undefined;
 
-     getActualFormPreviewData(id , status);
+    if(isLoading) return <h1>Loading...</h1>;
+    if(error) return <h1>{error}</h1>;
+    if(!Component) return <h1>This form is no longer available</h1>;
 
-    } , [id , status]);
-    
-   const component =  formId && templatesToIdMap.formId
-    
     return (
         <Suspense fallback = {<h1>Loading...</h1>}>
-          {component && <component props = {formElements} />}
+          <Component {...form.elements_data} onAnswer = {onAnswer} onSubmit = {onSubmit} />
         </Suspense>
     )
 
