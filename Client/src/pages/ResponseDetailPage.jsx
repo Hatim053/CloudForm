@@ -1,139 +1,141 @@
+import { Link, useParams } from "react-router-dom";
+import { ArrowLeft , MapPin , Monitor , Smartphone , Calendar , Timer , CheckCircle2 , XCircle , Eye } from "lucide-react";
+import Header from "../components/Header.jsx";
+import InfoTile from "../components/InfoTile.jsx";
+import AnswerCard from "../components/AnswerCard.jsx";
+import StatusBadge from "../components/StatusBadge.jsx";
+import StateMessage from "../components/StateMessage.jsx";
+import useFetchResponseDetail from "../CustomHooks/useFetchResponseDetail.js";
+import { ANALYTICS_PATHS } from "../utils/analyticsPaths.js";
 import {
-  ArrowLeft,
-  MapPin,
-  Monitor,
-  Smartphone,
-  Calendar,
-  Timer,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+  formatDate,
+  formatTime,
+  formatDuration,
+  formatOs,
+  formatLabel,
+  formatAnswerValue,
+  getRespondentLabel,
+  shortId
+} from "../utils/analyticsFormatters.js";
 
-function InfoTile({ icon: Icon, label, value, sub }) {
-  return (
-    <div className="rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#f4f3ef]">
-        <Icon size={15} className="text-[#2c4a3b]" />
-      </div>
-      <p className="mb-0.5 text-[11px] font-medium uppercase tracking-wide text-[#8a9690]">
-        {label}
-      </p>
-      <p className="text-sm font-semibold text-[#1a2b21]">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-[#8a9690]">{sub}</p>}
-    </div>
-  );
-}
+const BANNER_STYLES = {
+  completed : { icon : CheckCircle2 , box : "bg-[#e6f0ea]" , iconColor : "text-[#2c4a3b]" },
+  partial : { icon : XCircle , box : "bg-[#fdf6e8]" , iconColor : "text-[#c9922f]" },
+  viewed : { icon : Eye , box : "bg-[#f4f3ef]" , iconColor : "text-[#5c6b60]" }
+};
 
+const getBannerText = (response) => {
+  if(response.status === "completed") return `Submitted on ${formatDate(response.completedAt)} at ${formatTime(response.completedAt)}`;
+  if(response.status === "partial") {
+    return response.totalElements > 0
+      ? `Left partway through — ${response.answeredCount} of ${response.totalElements} questions answered`
+      : "Left partway through";
+  }
+  return "Opened the page but did not answer anything";
+};
+
+// step 3 of the creator analytics : everything about one respondent
 function ResponseDetailPage() {
-  const answers = [
-    { q: "What's your full name?", a: "Anjali Mehta", answered: true, time: "4s" },
-    { q: "How did you hear about us?", a: "Instagram ad", answered: true, time: "9s" },
-    { q: "Rate your overall experience", a: "4 / 5", answered: true, time: "6s" },
-    { q: "What could we improve?", a: "Faster customer support replies, and a mobile app would be great.", answered: true, time: "38s" },
-    { q: "Would you recommend us to a friend?", a: null, answered: false, time: null },
-    { q: "Any additional comments?", a: null, answered: false, time: null },
-  ];
+  const { responseId } = useParams();
+  const { response, isLoading, error, reload } = useFetchResponseDetail(responseId);
+
+  const backTo = response ? ANALYTICS_PATHS.formResponses(response.formId) : ANALYTICS_PATHS.forms;
+  const viewer = response?.viewer;
+  const banner = response ? BANNER_STYLES[response.status] ?? BANNER_STYLES.viewed : null;
+  const BannerIcon = banner?.icon;
+  const unansweredCount = response ? Math.max(0 , (response.totalElements ?? 0) - (response.answeredCount ?? 0)) : 0;
 
   return (
     <div className="min-h-screen bg-[#faf9f6] font-sans">
-      {/* Top bar */}
-      <div className="flex items-center gap-4 bg-[#2c4a3b] px-6 py-4">
-        <span className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/10 hover:bg-white/20">
-          <ArrowLeft size={16} className="text-white" />
-        </span>
-        <div>
-          <p className="text-[11px] font-medium uppercase tracking-wide text-white/50">
-            Customer Feedback Survey
-          </p>
-          <p className="text-base font-semibold text-white">Anjali Mehta's response</p>
-        </div>
-      </div>
+      <Header />
 
-      <div className="mx-auto max-w-[900px] px-6 py-8">
-        {/* Status banner */}
-        <div className="mb-6 flex items-center justify-between rounded-2xl bg-[#fdf6e8] px-5 py-4">
-          <div className="flex items-center gap-2.5">
-            <XCircle size={18} className="text-[#c9922f]" />
-            <span className="text-sm font-medium text-[#1a2b21]">
-              This response was left partway through — 4 of 6 questions answered
-            </span>
-          </div>
-          <span className="rounded-full bg-[#f2a93b] px-3 py-1 text-xs font-semibold text-[#2c4a3b]">
-            67% complete
-          </span>
-        </div>
+      <main className="mx-auto max-w-[900px] px-4 py-6 sm:px-6 sm:py-8">
+        <Link to={backTo} className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#5c6b60] hover:text-[#1a2b21]">
+          <ArrowLeft size={15} />
+          Back to responses
+        </Link>
 
-        {/* Metadata grid */}
-        <div className="mb-6 grid grid-cols-4 gap-4">
-          <InfoTile
-            icon={MapPin}
-            label="Location"
-            value="Mumbai, Maharashtra"
-            sub="India"
-          />
-          <InfoTile icon={Monitor} label="Device" value="Desktop" sub="Chrome browser" />
-          <InfoTile icon={Smartphone} label="Operating System" value="Windows 11" />
-          <InfoTile icon={Calendar} label="Submitted" value="Aug 4, 2026" sub="10:42 AM" />
-        </div>
+        {error ? (
+          <StateMessage type="error" title="Could not load this response" message={error} actionLabel="Try again" onAction={reload} />
+        ) : !response || isLoading ? (
+          <StateMessage type="loading" title="Loading response..." />
+        ) : (
+          <>
+            <div className="mb-5">
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#8a9690]">Response #{shortId(response._id)}</p>
+              <h1 className="break-words text-xl font-semibold text-[#1a2b21] sm:text-2xl">{getRespondentLabel(response)}</h1>
+            </div>
 
-        <div className="mb-6 flex items-center gap-2 rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f4f3ef]">
-            <Timer size={15} className="text-[#2c4a3b]" />
-          </span>
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-wide text-[#8a9690]">
-              Total time spent on form
-            </p>
-            <p className="text-sm font-semibold text-[#1a2b21]">1 minute 57 seconds</p>
-          </div>
-        </div>
+            <div className={`mb-5 flex flex-col gap-3 rounded-2xl px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 ${banner.box}`}>
+              <div className="flex items-start gap-2.5">
+                <BannerIcon size={18} className={`mt-0.5 shrink-0 ${banner.iconColor}`} />
+                <span className="text-sm font-medium text-[#1a2b21]">{getBannerText(response)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <StatusBadge status={response.status} />
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#2c4a3b]">{response.completionPercent}% complete</span>
+              </div>
+            </div>
 
-        {/* Answers */}
-        <p className="mb-3 text-sm font-semibold text-[#1a2b21]">Responses</p>
-        <div className="flex flex-col gap-3">
-          {answers.map((item, i) => (
-            <div key={i}>
-              <div
-                className={`rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] ${
-                  item.answered ? "bg-white" : "bg-[#faf9f6]"
-                }`}
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {item.answered ? (
-                      <CheckCircle2 size={14} className="text-[#1a2b21]" />
-                    ) : (
-                      <XCircle size={14} className="text-[#c3cbc4]" />
-                    )}
-                    <span className="text-xs font-medium text-[#8a9690]">
-                      Question {i + 1}
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              <InfoTile
+                icon={MapPin}
+                label="Location"
+                value={[viewer?.city , viewer?.state].filter(Boolean).join(", ") || "Unknown"}
+                sub={viewer?.country}
+              />
+              <InfoTile
+                icon={viewer?.deviceType === "mobile" || viewer?.deviceType === "tablet" ? Smartphone : Monitor}
+                label="Device"
+                value={viewer?.deviceType ? viewer.deviceType.charAt(0).toUpperCase() + viewer.deviceType.slice(1) : "Unknown"}
+                sub={viewer?.browser}
+              />
+              <InfoTile icon={Monitor} label="Operating system" value={formatOs(viewer)} />
+              <InfoTile icon={Calendar} label="Started" value={formatDate(response.startedAt ?? response.createdAt)} sub={formatTime(response.startedAt ?? response.createdAt)} />
+            </div>
+
+            <div className="mb-6 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.08)] sm:p-5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f4f3ef]">
+                <Timer size={15} className="text-[#2c4a3b]" />
+              </span>
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-[#8a9690]">Total time spent on the form</p>
+                <p className="text-sm font-semibold text-[#1a2b21]">{formatDuration(response.timeSpentSeconds)}</p>
+              </div>
+            </div>
+
+            <h2 className="mb-3 text-sm font-semibold text-[#1a2b21]">Answers</h2>
+
+            {response.answers?.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {response.answers.map((answer , index) => (
+                  <AnswerCard
+                    key={answer.elementId}
+                    index={index + 1}
+                    label={formatLabel(answer.elementLabel) || answer.elementName || answer.elementId}
+                    tag={answer.elementName}
+                    value={formatAnswerValue(answer.value)}
+                    time={answer.timeSpentMs > 0 ? formatDuration(answer.timeSpentMs / 1000) : undefined}
+                  />
+                ))}
+
+                {response.status === "partial" && (
+                  <div className="my-1 flex items-center gap-3">
+                    <div className="h-px flex-1 bg-[#e8988a]" />
+                    <span className="text-center text-xs font-medium text-[#c96a4e]">
+                      Respondent left the form here
+                      {unansweredCount > 0 ? ` · ${unansweredCount} more ${unansweredCount === 1 ? "question" : "questions"} not answered` : ""}
                     </span>
+                    <div className="h-px flex-1 bg-[#e8988a]" />
                   </div>
-                  {item.time && (
-                    <span className="text-xs text-[#8a9690]">{item.time}</span>
-                  )}
-                </div>
-                <p className="mb-2 text-sm font-medium text-[#1a2b21]">{item.q}</p>
-                {item.answered ? (
-                  <p className="text-sm text-[#5c6b60]">{item.a}</p>
-                ) : (
-                  <p className="text-sm italic text-[#c3cbc4]">Not answered</p>
                 )}
               </div>
-
-              {i === 3 && (
-                <div className="my-3 flex items-center gap-3">
-                  <div className="h-px flex-1 bg-[#e8988a]" />
-                  <span className="text-xs font-medium text-[#c96a4e]">
-                    Respondent left the form here
-                  </span>
-                  <div className="h-px flex-1 bg-[#e8988a]" />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+            ) : (
+              <StateMessage type="empty" title="No answers" message="This visitor opened the form but did not fill in anything." />
+            )}
+          </>
+        )}
+      </main>
     </div>
   );
 }

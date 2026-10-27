@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 import templatesToIdMap from "../utils/TemplatesToIdMap.js";
 import useFetchLiveForm from "../CustomHooks/useFetchLiveForm.js";
-import useLiveFormSession from "../CustomHook/useLiveFormSession.js";
+import useLiveFormSession from "../CustomHooks/useLiveFormSession.js";
 
 function LiveFormRender() {
     const {id , status : rawStatus} = useParams();

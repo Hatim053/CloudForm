@@ -16,7 +16,7 @@ function HeroSection({ ml="ml-[2.5vw]" , mr="mr-[2.5vw]"}) {
 
         <h1 className="font-syne text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
           Build forms that<br />
-          <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg,#a78bfa,#f472b6)" }}>
+          <span>
             actually {<FlipWords words={["connect" ,"matter" , "convert" , "get results" , "influence"]}/>}
           </span>
         </h1>

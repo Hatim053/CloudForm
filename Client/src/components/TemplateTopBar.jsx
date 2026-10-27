@@ -1,4 +1,5 @@
 import TemplateSearchBar from "./TemplateSearchBar.jsx";
+import { NavLink } from "react-router-dom";
 
 function TemplateTopBar() {
 
@@ -20,9 +21,9 @@ function TemplateTopBar() {
 
         <div className="flex items-center gap-3">
           <TemplateSearchBar />
-          <span className="rounded-full bg-[#f2a93b] px-5 py-2 text-sm font-medium text-[#2c4a3b]">
+          <NavLink to={"/create-ai-template"} className="rounded-full bg-[#f2a93b] px-5 py-2 text-sm font-medium text-[#2c4a3b]">
            Generate With AI
-          </span>
+          </NavLink>
         </div>
       </div>
 
