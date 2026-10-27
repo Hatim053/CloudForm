@@ -133,17 +133,15 @@ const showLiveForm = async (req , res) => {
 };
 
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
 const createForm = async(req , res) => {
-
+ 
     try {
         const { name , form_id , form_status , authorize_users , elements_data } = req?.body ?? {};
         const userId = req?.user?._id;
         const creatorEmail = req?.user?.email?.toLowerCase();
-        console.log("userObject" , req.user);
-        console.log(`UserId : ${userId} , "CreatorEmail : ${creatorEmail}`);
-
+ 
         if(!userId || !creatorEmail) {
             return res
                    .status(401)
@@ -152,7 +150,7 @@ const createForm = async(req , res) => {
                     message : "unauthorized request"
                    });
         }
-
+ 
         const formName = typeof name === "string" ? name.trim() : "";
         if(!formName) {
             return res
@@ -162,7 +160,7 @@ const createForm = async(req , res) => {
                     message : "form name is required"
                    });
         }
-
+ 
         if(typeof form_id !== "string" || !form_id.trim()) {
             return res
                    .status(400)
@@ -171,7 +169,7 @@ const createForm = async(req , res) => {
                     message : "template id is required"
                    });
         }
-
+ 
         if(!["public" , "restricted" , "unlisted"].includes(form_status)) {
             return res
                    .status(400)
@@ -180,7 +178,7 @@ const createForm = async(req , res) => {
                     message : "invalid form status"
                    });
         }
-
+ 
         const isElementsDataValid = elements_data !== null
                                     && typeof elements_data === "object"
                                     && !Array.isArray(elements_data)
@@ -193,14 +191,14 @@ const createForm = async(req , res) => {
                     message : "form data is required"
                    });
         }
-
+ 
         // only restricted forms use the email list sent by the client
         const requestedEmails = form_status === "restricted" && Array.isArray(authorize_users)
                                 ? authorize_users
                                   .filter((email) => typeof email === "string")
                                   .map((email) => email.trim().toLowerCase())
                                 : [];
-
+ 
         if(requestedEmails.some((email) => !EMAIL_REGEX.test(email))) {
             return res
                    .status(400)
@@ -209,11 +207,11 @@ const createForm = async(req , res) => {
                     message : "one or more authorized emails are invalid"
                    });
         }
-
+ 
         // creator is always authorized, duplicates removed
         const authorizedUsers = [...new Set([creatorEmail , ...requestedEmails])];
-
-        const baseUrl = (process.env.CLIENT_ENDPOINT ?? "").replace(/\/$/ , "");
+ 
+        const baseUrl = (process.env.FRONTEND_BASE_URL ?? "").replace(/\/$/ , "");
         if(!baseUrl) {
             console.log("FRONTEND_BASE_URL is not set");
             return res
@@ -223,11 +221,11 @@ const createForm = async(req , res) => {
                     message : "server configuration error"
                    });
         }
-
+ 
         // id is generated first because the live link needs it and live_link is required on the document
         const liveFormId = new mongoose.Types.ObjectId();
         const liveLink = `${baseUrl}/liveformrender/${liveFormId}/status=${form_status}`;
-
+ 
         await LiveForms.create({
             _id : liveFormId,
             user_id : userId,
@@ -236,9 +234,9 @@ const createForm = async(req , res) => {
             name : formName,
             form_status : form_status,
             authorize_users : authorizedUsers,
-            elements_data : { ...elements_data , name : formName }
+            elements_data : { name : formName , ...elements_data } // the template's own "name" (e.g. a profile card's person) wins over the form name
         });
-
+ 
         return res
                .status(200)
                .json({
@@ -246,7 +244,7 @@ const createForm = async(req , res) => {
                 message : "form created successfully",
                 live_link : liveLink
                });
-
+ 
     } catch (error) {
         console.log("error while creating the form" , error);
         return res
@@ -256,8 +254,9 @@ const createForm = async(req , res) => {
                 message : "something went wrong while creating the form"
                });
     }
-
+ 
 };
+ 
     
 export {
 getFormData,

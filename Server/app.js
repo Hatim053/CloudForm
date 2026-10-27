@@ -30,7 +30,7 @@ app.use("/liveform" , liveFormsRoutes);
 app.use("/template-preview-data" , templatePreviewDataRoutes);
 app.use("/template-category-list" , templateCategoryListRoutes);
 app.use("/admin" , adminRoutes);
-app.use("live-form-response" , liveFormResponse);
+app.use("/live-form-response" , liveFormResponse);
 
 
 export {

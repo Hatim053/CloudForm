@@ -1,5 +1,5 @@
-import LiveForms from "./model.js";
-import liveFormResponses from "../LiveFormsResponses/model.js";
+import LiveForms from "../LiveForms/model.js";
+import liveFormResponses from "./model.js";
 import { getViewerDetails } from "../Utilities/viewerDetails.util.js";
 import { sanitizeAnswers , sanitizeProgress , parseResponseListQuery } from "../Utilities/liveFormResponse.validators.js";
 
@@ -178,6 +178,7 @@ const getCompletionPercent = ({ status , answeredCount , totalElements }) => {
 const getMyForms = async (req , res) => {
     try {
         const userId = req?.user?._id?.toString();
+        console.log(userId , "requested user");
         if(!userId || !OBJECT_ID_REGEX.test(userId)) {
             return res
                    .status(401)
@@ -188,7 +189,7 @@ const getMyForms = async (req , res) => {
         }
 
         const forms = await LiveForms.find({ user_id : userId }).select("name live_link").sort({ createdAt : -1 }).lean();
-
+        console.log("forms fetched" , forms);
         return res
                .status(200)
                .json({
@@ -211,6 +212,7 @@ const getMyForms = async (req , res) => {
 // 2. the responses of one form (newest first , paginated) with optional filters :
 //    ?status=completed|partial  &country=  &city=  &deviceType=desktop|mobile|tablet  &from=YYYY-MM-DD  &to=YYYY-MM-DD  &page=  &limit=
 const getFormResponses = async (req , res) => {
+    console.log("user requested for his form responses");
     try {
         const userId = req?.user?._id?.toString();
         const formId = req?.params?.formId;
@@ -271,7 +273,7 @@ const getFormResponses = async (req , res) => {
                              .lean(),
             liveFormResponses.countDocuments(responseFilter)
         ]);
-
+        console.log(responses , "responses");
         return res
                .status(200)
                .json({
