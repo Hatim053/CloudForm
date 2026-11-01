@@ -21,7 +21,7 @@ function TemplateTopBar() {
 
         <div className="flex items-center gap-3">
           <TemplateSearchBar />
-          <NavLink to={"/create-ai-template"} className="rounded-full bg-[#f2a93b] px-5 py-2 text-sm font-medium text-[#2c4a3b]">
+          <NavLink to={"/generate-ai-template"} className="rounded-full bg-[#f2a93b] px-5 py-2 text-sm font-medium text-[#2c4a3b]">
            Generate With AI
           </NavLink>
         </div>

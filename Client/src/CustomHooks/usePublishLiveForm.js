@@ -3,14 +3,16 @@ import { useStore } from "react-redux";
 // adjust this path to wherever TemplateSlice.js lives in your project
 import { selectPreviewData } from "../app/TemplateSlice.js";
 
+const getAccessToken = () => "";
+ 
 function usePublishLiveForm(templateId) {
   const store = useStore();
-
+ 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isPublished, setIsPublished] = useState(false);
   const [liveLink, setLiveLink] = useState("");
-
+ 
   // name / status / emails come from the popup's form fields, so the component passes them in
   const publishForm = async ({ name, status, emails }) => {
     setIsLoading(true);
@@ -19,29 +21,31 @@ function usePublishLiveForm(templateId) {
       // read at click time -> exactly what the live preview shows (selected elements, edited values)
       const previewData = selectPreviewData(store.getState());
       if (!previewData) throw new Error("Nothing to publish yet");
-
+ 
       const formName = name.trim();
-
+      const token = getAccessToken();
+ 
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/liveform/create`, {
         method: "POST",
         credentials : "include",
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           name: formName,
           form_id: templateId, // template id: tells the live page which template to render
           form_status: status,
           authorize_users: status === "restricted" ? emails : [],
-          elements_data: { ...previewData, name: formName },
+          elements_data: { name: formName, ...previewData }, // the template's own "name" (e.g. a profile card's person) wins over the form name
         }),
       });
-
+ 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => null);
         throw new Error(errorBody?.error ?? errorBody?.message ?? "Could not publish the form");
       }
-
+ 
       // the form already exists at this point, so a bad body must not turn into a "failed" popup
       const successBody = await response.json().catch(() => null);
       setLiveLink(successBody?.live_link ?? "");
@@ -52,8 +56,8 @@ function usePublishLiveForm(templateId) {
       setIsLoading(false);
     }
   };
-
+ 
   return { publishForm, isLoading, error, isPublished, liveLink };
 }
-
+ 
 export default usePublishLiveForm;
