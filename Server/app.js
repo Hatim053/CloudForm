@@ -9,6 +9,7 @@ import templatePreviewDataRoutes from "./src/TemplatePreviewData/routes.js";
 import templateCategoryListRoutes from "./src/TemplatesCategoryList/routes.js";
 import adminRoutes from "./src/Admin/routes.js";
 import liveFormResponse from "./src/LiveFormsResponses/routes.js";
+import AiTemplateRoutes from "./src/AiTemplates/routes.js";
 
 const app = express();
 const corsOptions = {
@@ -31,11 +32,9 @@ app.use("/template-preview-data" , templatePreviewDataRoutes);
 app.use("/template-category-list" , templateCategoryListRoutes);
 app.use("/admin" , adminRoutes);
 app.use("/live-form-response" , liveFormResponse);
+app.use("/ai-template" , AiTemplateRoutes);
 
 
 export {
     app
-}
-
-
-// http://localhost:5000/template-category-list/create-data
+};
