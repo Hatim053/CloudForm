@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import FormPreview from "../components/FormPreview.jsx";
 import TemplateElements from "../components/TemplateElements.jsx";
 import ElementsConfiguration from "../components/ElementsConfiguration.jsx";
@@ -7,7 +7,9 @@ import useFetchTemplatePreviewData from "../CustomHooks/useFetchTemplatePreviewD
 
 function FormCreationPage() {
   const { id } = useParams();
-  const { isLoading, error } = useFetchTemplatePreviewData(id);
+  const location = useLocation();
+  
+  const { isLoading, error } = useFetchTemplatePreviewData(id, location.state?.aiDraft);
 
   if (isLoading) {
     return (

@@ -3,15 +3,6 @@ import { Bell , ArrowUpRight } from "lucide-react";
 import { getSafeUrl } from "../../utils/safeUrl.js";
 import { getReadableTextColor } from "../../utils/colorUtils.js";
 
-// unique Id : ic001
-// a landing page : it only ever produces a "viewed" record , so it needs no onAnswer / onSubmit
-// every previewData field arrives as a flat prop . isPreview : true inside the builder (links never leave the builder)
-// name / banner / avatar / subscribeText / subscribeUrl have NO built in sample values : text that is not in the data would show up on every
-// creator's live page and could not be edited in the builder , so the sample content belongs in the stored previewData
-
-// the hover gradient of each card comes from the platform NAME and not from the stored data :
-// tailwind only creates css for class names written in source files , class names that live inside data get no styles
-// (to support another platform add a line here)
 const PLATFORM_GRADIENTS = {
   twitter : "from-blue-400 to-blue-600",
   x : "from-gray-600 to-gray-900",
@@ -132,14 +123,16 @@ function InfluencerCard({
                     <div className="text-sm font-semibold text-[#f5e9c2] group-hover:text-white truncate">
                       {social.handle}
                     </div>
-                    <div className="mt-1 flex items-baseline gap-1">
-                      <span className="text-base font-bold text-[#f5e9c2] group-hover:text-white">
-                        {social.followers}
-                      </span>
-                      <span className="text-[11px] text-[#f5e9c2]/60 group-hover:text-white/70">
-                        Followers
-                      </span>
-                    </div>
+                    {String(social.followers ?? "").trim() !== "" && (
+                      <div className="mt-1 flex items-baseline gap-1">
+                        <span className="text-base font-bold text-[#f5e9c2] group-hover:text-white">
+                          {social.followers}
+                        </span>
+                        <span className="text-[11px] text-[#f5e9c2]/60 group-hover:text-white/70">
+                          Followers
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </>
               );

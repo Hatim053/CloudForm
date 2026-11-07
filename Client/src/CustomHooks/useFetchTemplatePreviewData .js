@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
-// adjust this path to wherever TemplateSlice.js lives in your project
 import {
   addTemplatePreviewData,
   loadDraft,
@@ -8,7 +7,7 @@ import {
   selectCachedPreviewData,
 } from "../app/TemplateSlice.js";
 
-function useFetchTemplatePreviewData(id) {
+function useFetchTemplatePreviewData(id , seedData) {
 
   const dispatch = useDispatch();
   const store = useStore();
@@ -17,6 +16,14 @@ function useFetchTemplatePreviewData(id) {
 
   useEffect(() => {
     setError(null);
+
+    // 0. the creator came from "Create with AI" : its page is the starting point , so nothing is fetched
+    //    (seedData is the previewData the AI page passed through the router state)
+    if(seedData && typeof seedData === "object" && !Array.isArray(seedData)) {
+      dispatch(loadDraft(id, seedData));
+      setIsLoading(false);
+      return;
+    }
 
     // 1. cache hit -> no network request, just rebuild a fresh editable draft from the pristine copy
     const cachedPreviewData = selectCachedPreviewData(store.getState(), id);
@@ -60,7 +67,7 @@ function useFetchTemplatePreviewData(id) {
 
     fetchTemplatePreviewData();
     return () => controller.abort(); // ignore stale responses if the id changes / page unmounts
-  }, [id, dispatch, store]);
+  }, [id, seedData, dispatch, store]);
 
   return { isLoading, error };
 }
