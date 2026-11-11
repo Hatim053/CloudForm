@@ -1,66 +1,16 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import TemplatesCategoryList from "../utils/TemplatesCategoryList.js";
-// import { act } from "react";
-
-// const initialState = {
-// templatesCategoryList : TemplatesCategoryList,
-// templatePreviewData : [],
-// };
-
-// export const TemplateSlice = createSlice({
-//     name : "template",
-//     initialState,
-//     reducers : {
-//         addFilterTemplateCategoryList : (state , action) => {
-//             // payloadStructure ---> [{}]
-//             const updatedList = action.payload;
-//             state.templatesCategoryList = updatedList;
-//         },
-//         removeFilterTemplateCategoryList : (state , action) => {
-//             // return the initail list
-//             const currentTemplateCategoryList = state.templatesCategoryList;
-//             const isListAlreadyUpdated = currentTemplateCategoryList.length === TemplatesCategoryList.length;
-//             console.log(isListAlreadyUpdated , "store");
-//             if(isListAlreadyUpdated) return;
-//             else {
-//             state.templatesCategoryList = TemplatesCategoryList;
-//             }
-//         },
-//         addTemplatePreviewData : (state , action) => {
-//             // payload ---> {id , data}
-//             const previewData = action.payload;
-//             state.templatePreviewData.push(previewData);
-//         },
-//          getTemplatePreviewData : (state , action) => {
-//           return state.templatePreviewData;
-//         } 
-//     }
-// });
-
-// export const { addFilterTemplateCategoryList , removeFilterTemplateCategoryList } = TemplateSlice.actions;
-// export default TemplateSlice.reducer;
 
 import { createSlice, createSelector, nanoid } from "@reduxjs/toolkit";
 import TemplatesCategoryList from "../utils/TemplatesCategoryList.js";
 
 
-
-/* ------------------------------------------------------------------ */
-/*  Tweakable constants + shape helpers                                */
-/*  (preview data differs per template, so nothing below assumes a     */
-/*  fixed shape: "sections" = arrays of objects, "fields" = strings)   */
-/* ------------------------------------------------------------------ */
-
-// Keys that identify an element or drive how it renders -> never shown in the config panel
 export const HIDDEN_KEYS = ["_key", "enabled", "id", "name", "platform", "type", "icon", "color", "selectedOption"];
 
-// Top-level string values that are NOT listed / edited as plain text
 const NON_EDITABLE_FIELDS = ["id", "launchDate"];
 
-// The first of these found on an item is used as its title in the lists
+
 const TITLE_KEYS = ["name", "platform", "text", "label"];
 
-// Nicer labels for specific keys (everything else is derived from the key name)
+
 const KEY_LABELS = { isRequired: "Required" };
 
 export const formatKey = (key) =>
