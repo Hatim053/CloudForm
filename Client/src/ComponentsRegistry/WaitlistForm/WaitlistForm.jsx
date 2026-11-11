@@ -2,10 +2,14 @@ import { useState , useEffect } from "react";
 
 
 // unique Id : wf001 ,
-function WaitlistForm({ brandOrEventName , brandOrEventNameColor , heading , subHeading , launchDate , backgroundColorHexcode ="#FEF3C7" , submitButtonText , backgroundImageUrl })  {
+function WaitlistForm({ brandOrEventName, brandOrEventNameColor, heading, subHeading, launchDate,
+  backgroundColorHexcode = "#FEF3C7", submitButtonText, backgroundImageUrl,
+  onAnswer, onSubmit   })  {
   const [email, setEmail] = useState("");
   const [joined, setJoined] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+   const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   
   useEffect(() => {
     // date input format = 2026-7-21
@@ -27,10 +31,19 @@ function WaitlistForm({ brandOrEventName , brandOrEventNameColor , heading , sub
     return () => clearInterval(timer);
   }, [launchDate]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // API CALL WILL BE MADE
-    setJoined(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();                      // now on the form's onSubmit, see below
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      await onSubmit?.({ email });           // key must match the element id
+      setJoined(true);                       // only show success AFTER it saved
+    } catch (err) {
+      setSubmitError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (joined) {
@@ -83,25 +96,32 @@ function WaitlistForm({ brandOrEventName , brandOrEventNameColor , heading , sub
       ))}
     </div>
 
-    <form className="space-y-3">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl 
-                   focus:outline-none focus:border-indigo-500 transition-colors"
-        required
-      />
-      <button
-        type="submit"
-        onClick={handleSubmit}
-        className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold 
-                   rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
-      >
-        {submitButtonText || "Join the Waitlist 🚀"}
-      </button>
-    </form>
+  <form className="space-y-3" onSubmit={handleSubmit}>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => {
+      setEmail(e.target.value);
+      onAnswer?.("email", e.target.value);   // "email" must match the element id from getTemplateElements
+    }}
+    placeholder="Enter your email"
+    className="w-full px-5 py-3.5 border-2 border-gray-200 rounded-xl 
+               focus:outline-none focus:border-indigo-500 transition-colors"
+    required
+  />
+
+  {submitError && <p className="text-red-500 text-sm">{submitError}</p>}
+
+  <button
+    type="submit"
+    disabled={submitting}
+    className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold 
+               rounded-xl transition-all duration-300 shadow-md hover:shadow-lg
+               disabled:opacity-60 disabled:cursor-not-allowed"
+  >
+    {submitting ? "Joining..." : (submitButtonText || "Join the Waitlist 🚀")}
+  </button>
+</form>
 
     <p className="text-center text-gray-400 text-xs mt-4">
       🔒 We respect your privacy. No spam.

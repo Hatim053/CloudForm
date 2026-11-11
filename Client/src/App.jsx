@@ -27,7 +27,7 @@ function App() {
         <Route path="/analytics/:formId" element={<FormResponsesPage />} />
         <Route path="/analytics/response/:responseId" element={<ResponseDetailPage />} />
         <Route path="/pricing" element={<PricingPage/>} />
-        <Route path="/about-us" element={<AboutPage/>} />
+        <Route path="/about-us" element={<MyFormsPage/>} />
         <Route path="/generate-ai-template" element={<AiTemplatePage />}/>
       </Routes>
     </div>

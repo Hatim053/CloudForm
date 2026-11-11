@@ -6,7 +6,7 @@ const links = [
     { to: "/", label: "Home", end: true },
     { to: "/templates", label: "Templates" },
     { to: "/pricing", label: "Pricing" },
-    { to: "/admin-panel", label: "About us" },
+    { to: "/about-us", label: "About us" },
 ];
 
 function Header() {

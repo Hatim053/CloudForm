@@ -60,7 +60,7 @@ function useLiveFormSession({ formId , linkStatus , templateId , elementsData })
     const s = sessionRef.current;
     const now = Date.now();
     const activeMs = s.activeMs + (s.visibleSince ? now - s.visibleSince : 0);
-
+        console.log(s);
     const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/live-form-response/save/${currentLinkStatus}` , {
       method : "POST",
       credentials : "include",

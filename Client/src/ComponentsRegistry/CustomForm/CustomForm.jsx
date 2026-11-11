@@ -17,13 +17,6 @@ import StarRating from "./Elements/StarRating.jsx";
 import DateInput from "./Elements/DateInput.jsx";
 import TimeInput from "./Elements/TimeInput.jsx";
 
-// unique Id : cf001
-// every previewData field arrives as a flat prop (FormPreview and the live page spread previewData into this component)
-// isPreview : true inside the builder -> nothing is submitted
-// onAnswer(elementId , value) : called on every change , onSubmit(answers) : async , called once on submit , answers = { [elementId] : value }
-// uploadFile(file) : optional , stores a file and resolves { url } . Without it the file fields are left out of a live page
-//
-// the form is drawn from inputElements : each element's "name" (its type) picks the component below , the element's id keys the answer
 
 const ELEMENTS = {
   "name" : NameInput,
