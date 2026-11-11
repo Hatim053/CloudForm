@@ -1,22 +1,25 @@
-import { useState } from "react";
+import FieldShell from "./FieldShell.jsx";
 
 // unique Id : cf001cni
-function ContactNumberInput({LABEL_CLS , GLASS_FOCUS , GLASS , INPUT_CLS , formData , setFormData , label }) {
-  const [focused, setFocused] = useState(false);
+// a phone number is text , not a number : "+91 98765 43210" and a leading 0 must survive
+function ContactNumberInput({ element , id , value , onChange , theme , readOnly , error }) {
   return (
-    <div>
-      <label className={LABEL_CLS}>{label}</label>
+    <FieldShell id={id} label={element.label} required={element.isRequired === true} theme={theme} error={error}>
       <input
-        type="number"
-        placeholder="+91 98765 43210"
-        style={focused ? GLASS_FOCUS : GLASS}
-        onChange={(e) => setFormData({...formData , [label] : e.target.value})}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className={INPUT_CLS}
+        id={id}
+        type="tel"
+        inputMode="tel"
+        autoComplete="tel"
+        placeholder={element.placeholder}
+        value={typeof value === "string" ? value : ""}
+        readOnly={readOnly}
+        aria-invalid={Boolean(error)}
+        maxLength={25}
+        onChange={(event) => onChange(event.target.value)}
+        className={theme.input}
       />
-    </div>
+    </FieldShell>
   );
-};
+}
 
 export default ContactNumberInput;

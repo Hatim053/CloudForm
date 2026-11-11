@@ -1,20 +1,21 @@
-import { useState } from "react";
+import FieldShell from "./FieldShell.jsx";
 
 // unique Id : cf001sti
-function ShortTextInput({ label, placeholder , formData , setFormData , LABEL_CLS , GLASS_FOCUS , GLASS , INPUT_CLS }) {
-  const [focused, setFocused] = useState(false);
+function ShortTextInput({ element , id , value , onChange , theme , readOnly , error }) {
   return (
-    <div>
-      {label && <label className={LABEL_CLS}>{label}</label>}
+    <FieldShell id={id} label={element.label} required={element.isRequired === true} theme={theme} error={error}>
       <input
+        id={id}
         type="text"
-        placeholder={placeholder}
-        style={focused ? GLASS_FOCUS : GLASS}
-        onChange={(e) => setFormData({...formData , [label] : e.target.value})}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className={INPUT_CLS} />
-    </div>
+        placeholder={element.placeholder}
+        value={typeof value === "string" ? value : ""}
+        readOnly={readOnly}
+        aria-invalid={Boolean(error)}
+        maxLength={500}
+        onChange={(event) => onChange(event.target.value)}
+        className={theme.input}
+      />
+    </FieldShell>
   );
 }
 

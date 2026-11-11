@@ -1,21 +1,23 @@
-import { useState } from "react";
+import FieldShell from "./FieldShell.jsx";
 
 // unique Id : cf001ei
-function EmailInput({ LABEL_CLS , GLASS_FOCUS , GLASS , INPUT_CLS , formData , setFormData }) {
-  const [focused, setFocused] = useState(false);
+function EmailInput({ element , id , value , onChange , theme , readOnly , error }) {
   return (
-    <div>
-      <label className={LABEL_CLS}>Email Address</label>
+    <FieldShell id={id} label={element.label} required={element.isRequired === true} theme={theme} error={error}>
       <input
+        id={id}
         type="email"
-        placeholder="you@gmail.com"
-        style={focused ? GLASS_FOCUS : GLASS}
-        onChange={(e) => setFormData({...formData , "email" : e.target.value})}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className={INPUT_CLS}
+        inputMode="email"
+        autoComplete="email"
+        placeholder={element.placeholder}
+        value={typeof value === "string" ? value : ""}
+        readOnly={readOnly}
+        aria-invalid={Boolean(error)}
+        maxLength={254}
+        onChange={(event) => onChange(event.target.value)}
+        className={theme.input}
       />
-    </div>
+    </FieldShell>
   );
 }
 

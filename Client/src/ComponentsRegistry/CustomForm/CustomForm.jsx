@@ -17,6 +17,13 @@ import StarRating from "./Elements/StarRating.jsx";
 import DateInput from "./Elements/DateInput.jsx";
 import TimeInput from "./Elements/TimeInput.jsx";
 
+// unique Id : cf001
+// every previewData field arrives as a flat prop (FormPreview and the live page spread previewData into this component)
+// isPreview : true inside the builder -> nothing is submitted
+// onAnswer(elementId , value) : called on every change , onSubmit(answers) : async , called once on submit , answers = { [elementId] : value }
+// uploadFile(file) : optional , stores a file and resolves { url } . Without it the file fields are left out of a live page
+//
+// the form is drawn from inputElements : each element's "name" (its type) picks the component below , the element's id keys the answer
 
 const ELEMENTS = {
   "name" : NameInput,
@@ -117,7 +124,8 @@ function CustomForm({
     }
   };
 
-  // creator supplied images : https only , and the avatar falls back to nothing when it can't load
+  // creator supplied images : https only , and the avatar falls back to nothing when it can't load.
+  // getSafeUrl returns the url the parser has already escaped (a quote becomes %22) , so it is safe inside url("...") as it is
   const backgroundUrl = getSafeUrl(backgroundImage , ["https:"]);
   const avatarUrl = getSafeUrl(avatarImgSrc , ["https:"]);
   const showAvatar = Boolean(avatarUrl) && failedAvatar !== avatarUrl;
@@ -127,7 +135,7 @@ function CustomForm({
       className={`flex w-full items-center justify-center p-4 sm:p-6 ${isPreview ? "" : "min-h-screen"}`}
       style={{
         backgroundColor : pageBackground,
-        ...(backgroundUrl && { backgroundImage : `url("${encodeURI(backgroundUrl)}")` , backgroundSize : "cover" , backgroundPosition : "center" })
+        ...(backgroundUrl && { backgroundImage : `url("${backgroundUrl}")` , backgroundSize : "cover" , backgroundPosition : "center" })
       }}
     >
       <div
