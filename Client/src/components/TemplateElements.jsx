@@ -222,7 +222,7 @@ function TemplateElements() {
   const sectionNames = useSelector(selectSectionNames, shallowEqual);
 
   return (
-    <aside className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.06)] sm:p-5 lg:sticky lg:top-4 lg:col-span-3 lg:max-h-[calc(100vh-2rem)] lg:self-start lg:overflow-y-auto">
+<aside className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.06)] sm:p-5 lg:col-span-3 lg:h-full lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
       <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#8a9690]">
         Template elements
       </p>

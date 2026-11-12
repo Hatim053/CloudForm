@@ -21,28 +21,32 @@ function FormCreationPage() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-4 text-center text-sm text-red-600">
+<div className="min-h-screen bg-white font-sans lg:flex lg:h-screen lg:flex-col lg:overflow-hidden">
         Something went wrong: {String(error?.message ?? error)}
       </div>
     );
   }
 
   return (
-    <div className="max-h-screen bg-white font-sans">
-      <Header />
-      <main className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 bg-[#faf9f6] p-3 sm:gap-5 sm:p-4 lg:grid-cols-12 lg:p-6">
-        <div className="min-w-0 lg:col-span-3">
-          <TemplateElements />
-        </div>
-        <div className="min-w-0 lg:col-span-6">
-          <FormPreview id={id} />
-        </div>
-        <div className="min-w-0 lg:col-span-3">
-          <ElementsConfiguration />
-        </div>
-      </main>
-    </div>
-  );
-}
+  <div className="min-h-screen bg-white font-sans lg:flex lg:h-screen lg:flex-col lg:overflow-hidden">
+    <Header />
+    <main className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-4 bg-[#faf9f6] p-3 sm:gap-5 sm:p-4 lg:min-h-0 lg:flex-1 lg:grid-cols-12 lg:grid-rows-1 lg:p-6">
+
+      <div className="min-w-0 lg:col-span-3 lg:h-full lg:min-h-0">
+        <TemplateElements />
+      </div>
+
+  <div className="min-w-0 lg:col-span-6 lg:h-full lg:min-h-0">
+  <FormPreview id={id} />
+</div>
+
+     
+      <div className="min-w-0 lg:col-span-3 lg:h-full lg:min-h-0">
+        <ElementsConfiguration />
+      </div>
+    </main>
+  </div>
+);
+};
 
 export default FormCreationPage;

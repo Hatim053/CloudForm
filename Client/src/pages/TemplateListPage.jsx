@@ -2,8 +2,7 @@ import CategoryPanel from "../components/CategoryPanel.jsx";
 import TemplateCard from "../components/TemplateCard.jsx";
 import TemplateTopBar from "../components/TemplateTopBar.jsx";
 import useFetchTemplateCategoryList from "../CustomHooks/useFetchTemplateCategoryList.js";
-import { useSelector , useDispatch } from "react-redux";
-import { addFilterTemplateCategoryList } from "../app/TemplateSlice.js";
+import { useSelector } from "react-redux";
 
 function TemplateListPage() {
   const { templateCategoryList, isLoading, error } = useFetchTemplateCategoryList();

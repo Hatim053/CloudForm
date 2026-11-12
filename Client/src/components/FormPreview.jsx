@@ -10,7 +10,7 @@ function FormPreview({ id }) {
   const previewData = useSelector(selectPreviewData);
 
     return (
-          <section className="col-span-6 flex max-h-screen overflow-y-auto rounded-2xl bg-[#f4f3ef] p-2">
+     <section className="flex max-h-screen min-w-0 overflow-y-auto rounded-2xl bg-[#f4f3ef] p-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:h-full lg:max-h-none">
             {/* my-auto centers vertically like before, but unlike items-center it never pushes overflowing content out of reach */}
             <div className="my-auto flex w-full justify-center">
               {previewData ? (
