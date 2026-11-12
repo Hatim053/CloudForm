@@ -1,7 +1,5 @@
 
 import { createSlice, createSelector, nanoid } from "@reduxjs/toolkit";
-import TemplatesCategoryList from "../utils/TemplatesCategoryList.js";
-
 
 export const HIDDEN_KEYS = ["_key", "enabled", "id", "name", "platform", "type", "icon", "color", "selectedOption"];
 
@@ -62,7 +60,8 @@ const setIn = (target, path, value) => {
 /* ------------------------------------------------------------------ */
 
 const initialState = {
-templatesCategoryList : TemplatesCategoryList,
+initailTemplateCategoryList : null,
+templatesCategoryList : null,
 templatePreviewData : [],   // cache of pristine fetched data: [{ id, data }]
 draft : null,               // editable copy: { id, data }
 editing : null,             // { kind: "field", field } | { kind: "item", section, key } | null
@@ -72,6 +71,12 @@ export const TemplateSlice = createSlice({
     name : "template",
     initialState,
     reducers : {
+        addinitailTemplateCategoryList : (state , action) => {
+         const list = action.payload;
+         state.initailTemplateCategoryList = list;
+         state.templatesCategoryList = list;
+        }
+        ,
         addFilterTemplateCategoryList : (state , action) => {
             // payloadStructure ---> [{}]
             const updatedList = action.payload;
@@ -79,13 +84,8 @@ export const TemplateSlice = createSlice({
         },
         removeFilterTemplateCategoryList : (state , action) => {
             // return the initail list
-            const currentTemplateCategoryList = state.templatesCategoryList;
-            const isListAlreadyUpdated = currentTemplateCategoryList.length === TemplatesCategoryList.length;
-            console.log(isListAlreadyUpdated , "store");
-            if(isListAlreadyUpdated) return;
-            else {
-            state.templatesCategoryList = TemplatesCategoryList;
-            }
+            const currentTemplateCategoryList = state.initailTemplateCategoryList;
+            state.templatesCategoryList = currentTemplateCategoryList;
         },
         addTemplatePreviewData : (state , action) => {
             // payload ---> {id , data}
@@ -188,6 +188,7 @@ export const selectField = (state , field) => selectData(state)?.[field];
 export const selectPreviewData = createSelector([selectData] , (data) => (data ? buildPayload(data) : null));
 
 export const {
+    addinitailTemplateCategoryList,
     addFilterTemplateCategoryList ,
     removeFilterTemplateCategoryList ,
     addTemplatePreviewData ,

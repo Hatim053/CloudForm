@@ -2,10 +2,13 @@ import CategoryPanel from "../components/CategoryPanel.jsx";
 import TemplateCard from "../components/TemplateCard.jsx";
 import TemplateTopBar from "../components/TemplateTopBar.jsx";
 import useFetchTemplateCategoryList from "../CustomHooks/useFetchTemplateCategoryList.js";
+import { useSelector , useDispatch } from "react-redux";
+import { addFilterTemplateCategoryList } from "../app/TemplateSlice.js";
 
 function TemplateListPage() {
   const { templateCategoryList, isLoading, error } = useFetchTemplateCategoryList();
-
+  const activeTemplateCategoryList = useSelector((state) => state?.template?.templatesCategoryList);
+ 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-[#5c6b60]">
@@ -36,13 +39,13 @@ function TemplateListPage() {
             </p>
           </div>
 
-          {templateCategoryList.length === 0 ? (
+          {activeTemplateCategoryList.length === 0 ? (
             <p className="py-10 text-center text-sm text-[#8a9690]">
               No templates found in this category.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
-              {templateCategoryList.map(({ id, name, description, icon, tag, cover }) => (
+              {activeTemplateCategoryList.map(({ id, name, description, icon, tag, cover }) => (
                 <TemplateCard
                   key={id}
                   id={id}

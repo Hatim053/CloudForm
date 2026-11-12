@@ -12,7 +12,6 @@ export const UserSlice = createSlice({
         setLoggedInUser : (state , action) => {
             // payload ---> {username , email , profileImage}
             const user = action.payload;
-            console.log("User In The Store" , user);
             state.loggedInUser = user;
         
         },

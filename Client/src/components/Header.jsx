@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Login from "./Signup.jsx";
+import { useSelector } from "react-redux";
 
 const links = [
     { to: "/", label: "Home", end: true },
@@ -11,7 +12,8 @@ const links = [
 
 function Header() {
     const [open, setOpen] = useState(false);
-
+    const loggedInUser = useSelector((state) => state?.user?.loggedInUser);
+    console.log("LoggedInSer" , loggedInUser);
     // Close the menu with Escape, and when the screen grows to desktop size
     useEffect(() => {
         const onKey = (e) => e.key === "Escape" && setOpen(false);
@@ -64,7 +66,7 @@ function Header() {
 
                     {/* Login + hamburger */}
                     <div className="flex items-center gap-2">
-                        <Login name={"Login"} />
+                        <Login name={loggedInUser ? "Logout" : "Login"} />
 
                         <button
                             type="button"

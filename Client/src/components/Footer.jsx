@@ -54,7 +54,7 @@ function Logo() {
 export default function Footer({
   ctaTitleBold = "Ready to build your form?",
   ctaTitleItalic = "It takes a minute.",
-  cta = { label: "Start for free", href: "#signup" },
+  cta = { label: "Start for free", href: "/templates" },
   tagline = "Build forms, waitlists, and link pages. Collect every response in one place.",
   columns = DEFAULT_COLUMNS,
   year = new Date().getFullYear(),

@@ -26,6 +26,7 @@ function CategoryPanel() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("selectedCategory" , selectedCategory);
     if (selectedCategory === "All Templates") {
       dispatch(removeFilterTemplateCategoryList());
       return;
@@ -33,7 +34,7 @@ function CategoryPanel() {
     const filteredList = templateCategoryList.filter(
       (templateObj) => templateObj.tag === selectedCategory
     );
-    dispatch(addFilterTemplateCategoryList(filteredList));
+    dispatch(addFilterTemplateCategoryList([...filteredList]));
   }, [selectedCategory]);
 
   return (

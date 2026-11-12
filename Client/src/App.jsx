@@ -10,13 +10,14 @@ import FormResponsesPage from "./pages/FormResponsesPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import PricingPage from "./pages/PricingPage.jsx";
 import AiTemplatePage from "./pages/AiTemplatePage.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
 
 
 function App() {
 
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden">
+    <div className="w-full max-w-full max-h-screen overflow-x-hidden">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/templates" element={<TemplateListPage />} />
@@ -27,8 +28,9 @@ function App() {
         <Route path="/analytics/:formId" element={<FormResponsesPage />} />
         <Route path="/analytics/response/:responseId" element={<ResponseDetailPage />} />
         <Route path="/pricing" element={<PricingPage/>} />
-        <Route path="/about-us" element={<MyFormsPage/>} />
+        <Route path="/about-us" element={<AboutPage/>} />
         <Route path="/generate-ai-template" element={<AiTemplatePage />}/>
+        <Route path="*" element={<PageNotFound />}/>
       </Routes>
     </div>
   )
