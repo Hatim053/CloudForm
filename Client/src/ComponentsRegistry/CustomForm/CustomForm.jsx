@@ -132,7 +132,7 @@ function CustomForm({
 
   return (
     <div
-      className={`flex w-full items-center justify-center p-4 sm:p-6 ${isPreview ? "" : "min-h-screen"}`}
+  className={`flex w-full items-center justify-center p-4 sm:p-6 ${isPreview ? "min-h-full" : "min-h-screen"}`}
       style={{
         backgroundColor : pageBackground,
         ...(backgroundUrl && { backgroundImage : `url("${backgroundUrl}")` , backgroundSize : "cover" , backgroundPosition : "center" })

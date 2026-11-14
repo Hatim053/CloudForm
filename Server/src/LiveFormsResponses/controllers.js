@@ -20,7 +20,7 @@ const SESSION_ID_REGEX = /^[A-Za-z0-9_-]{8,64}$/;
 const saveResponse = async (req , res) => {
     try {
         const { formId , sessionId , status , answers , totalElements , lastElementId , timeSpentSeconds } = req?.body ?? {};
-
+       console.log("FormID" , formId , "answers" , answers);
         if(typeof formId !== "string" || !OBJECT_ID_REGEX.test(formId)) {
             return res
                    .status(400)

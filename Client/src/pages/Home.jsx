@@ -8,6 +8,7 @@ import Accordion from "@/components/Accordian.jsx";
 import IncludedGrid from "@/components/IncludedGrid.jsx";
 import FreeSlider from "@/components/FreeSlider.jsx";
 import Reveal from "@/components/Reveal.jsx";
+import ReviewsSection from "@/components/Review/ReviewsSection.jsx";
 
 function Home() {
     
@@ -61,6 +62,7 @@ function Home() {
                                   </div>
                                 </div>
                               </section>
+                              <ReviewsSection />
           <Accordion/>
          <Footer />
          </>

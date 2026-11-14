@@ -111,7 +111,7 @@ export default function Accordion({
     });
 
   return (
-    <section className="bg-cf-bg py-16 sm:py-24" aria-labelledby="faq-title">
+    <section className="mt-16 bg-cf-bg py-16 sm:mt-24 sm:py-24" aria-labelledby="faq-title">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-20 lg:px-10">
         {/* Heading */}
         <div className="lg:sticky lg:top-24 lg:self-start">

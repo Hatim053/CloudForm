@@ -1,34 +1,3 @@
-// import { Timestamp } from "mongodb";
-// import mongoose from "mongoose";
-
-
-// const liveFormResponsesSchema = new mongoose.Schema({
-// formId : {
-//     type : mongoose.Schema.Types.ObjectId,
-//     ref : 'liveForm'
-// },
-// response : {
-//     type : Object,
-//     required : true
-// },
-// } , {timestamps : true});
-
-// // response : {
-// //     data : {
-//          feilds what ever the form creator has declared like name , number , email or any anything  
-// //     },
-// // now below is the additional data that we are collecting for the user
-// //    device : 
-// //     location : "",
-// //       totalTimeSpent on the page : in mins,
-// //       email : trough which user has loggedin to our platfrom if he is or else not
-// // }
-
-// const liveFormResponses = mongoose.model("liveFormResponses" , liveFormResponsesSchema);
-
-// export default liveFormResponses;
-
-
 import mongoose from "mongoose";
 
 // one answered element. Labels are snapshotted because the creator can edit the form after people have answered

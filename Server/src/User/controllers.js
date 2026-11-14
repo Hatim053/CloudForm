@@ -37,6 +37,7 @@ const Login = async (req , res) => {
         role : "user"
     })
     
+    
     const {accessToken , refreshToken} = await generateAccessAndRefreshToken(newUser);
     
     return res
@@ -46,8 +47,7 @@ const Login = async (req , res) => {
     .json({
         status : 500,
         message : "user registered successfully",
-        username : username,
-        profileImage : profileImage
+        user : newUser
     })
 };
 
