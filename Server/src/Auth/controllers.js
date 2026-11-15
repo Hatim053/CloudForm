@@ -3,6 +3,8 @@ import RefreshToken from "./model.js";
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from "uuid";
 
+const isProd = process.env.NODE_ENV === "production";
+
 
 const accessCookieOptions = {
     httpOnly: true,
