@@ -15,13 +15,15 @@ const TEMPLATE_CATALOG = {
     useWhen : "collecting e-mails before a product, app, course or event launches (shows a countdown)",
     fields : {
       brandOrEventName : text(60 , "product, brand or event name"),
-      brandOrEventNameColor : color("#000000" , "must contrast with backgroundColorHexcode"),
+      brandOrEventNameColor : color("#000000" , "text color on the page background (name, and heading in split/minimal); must contrast with backgroundColorHexcode"),
       heading : text(80),
       subHeading : text(160),
       launchDate : { type : "date" },
       submitButtonName : text(30),
       backgroundColorHexcode : color("#FEF3C7"),
-      backgroundImageUrl : url(true)
+      backgroundImageUrl : url(true),
+      layout : { type : "enum" , values : ["centered" , "split" , "minimal"] , fallback : "centered" , hint : "centered = signup card in the middle; split = big heading left, signup card right; minimal = no card, large left-aligned text" },
+      theme : { type : "enum" , values : ["light" , "dark"] , fallback : "light" , hint : "look of the signup card and its inputs" }
     },
     sections : {}
   },
@@ -91,32 +93,6 @@ const TEMPLATE_CATALOG = {
         max : 8,
         item : { text : text(100) , url : url() },
         requiredKeys : ["text"]
-      }
-    }
-  },
-
-  ic002 : {
-    name : "Profile card",
-    useWhen : "a personal profile card with a photo, a short bio, social icons and one follow button",
-    fields : {
-      name : text(40),
-      bio : text(160),
-      avatar : url(true),
-      followText : text(20),
-      followUrl : url(),
-      backgroundColorHexcode : color("#ffffff"),
-      cardColorHexcode : color("#8B0000" , "must contrast with backgroundColorHexcode")
-    },
-    sections : {
-      socialHandles : {
-        min : 0,
-        max : 6,
-        item : {
-          platform : { type : "enum" , values : ["twitter" , "instagram" , "linkedin" , "website" , "youtube" , "github" , "facebook"] , fallback : "website" },
-          url : url(),
-          icon : text(8 , "one emoji that matches the platform")
-        },
-        requiredKeys : ["platform"]
       }
     }
   }

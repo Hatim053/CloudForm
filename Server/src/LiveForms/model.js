@@ -36,14 +36,7 @@ elements_data : { // whole preview data obj
 }
 } , { timestamps : true} );
 
-// elements_data : { // fields can be less or more completly depending on the type of template user has selected  but format is going to be the same
 
-// name : event form,
-// heading : secure your slot,
-// links : [{}],
-// socialhandles : [{}],
-// inputElements : [{}],
-// }
 
 const LiveForms = mongoose.model("LiveForms" , liveFormsSchema);
 
