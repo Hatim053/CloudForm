@@ -16,7 +16,7 @@ function Home() {
         <>
         <Header />
          <HeroSection />
-         <TimeLine />
+         {/* <TimeLine /> */}
           <AnalyticsSection/>
           <PartialSubmissionsSection/>
           <IncludedGrid/>

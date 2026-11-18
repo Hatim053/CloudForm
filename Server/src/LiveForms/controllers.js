@@ -211,7 +211,7 @@ const createForm = async(req , res) => {
         // creator is always authorized, duplicates removed
         const authorizedUsers = [...new Set([creatorEmail , ...requestedEmails])];
  
-        const baseUrl = (process.env.FRONTEND_BASE_URL ?? "").replace(/\/$/ , "");
+        const baseUrl = (process.env.CLIENT_ENDPOINT ?? "").replace(/\/$/ , "");
         if(!baseUrl) {
             console.log("FRONTEND_BASE_URL is not set");
             return res

@@ -2,13 +2,12 @@
 const AI_TEMPLATE_NAMES = {
   wf001 : "Waitlist page",
   sf001 : "Booking form",
-  ic001 : "Link page",
-  ic002 : "Profile card"
+  ic001 : "Link page"
 };
 
 const getTemplateName = (templateId) => AI_TEMPLATE_NAMES[templateId] ?? "Page";
 
 // TODO: set this to the route of your form creation page (the one that reads :id with useParams)
-const BUILDER_PATH = (templateId) => `/form-creation/${templateId}`;
+const BUILDER_PATH = (templateId) => `//createform/${templateId}`;
 
 export { AI_TEMPLATE_NAMES , getTemplateName , BUILDER_PATH };

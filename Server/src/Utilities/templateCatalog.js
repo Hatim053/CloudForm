@@ -37,7 +37,9 @@ const TEMPLATE_CATALOG = {
       submitButtonName : text(30),
       successHeading : text(60 , "shown after sending"),
       successMessage : text(160 , "shown after sending"),
-      backgroundColorHexcode : color("#FEF3C7")
+      backgroundColorHexcode : color("#FEF3C7"),
+      layout : { type : "enum" , values : ["card" , "split" , "minimal"] , fallback : "card" , hint : "card = form in a card; split = heading panel left, form right; minimal = no card, large left-aligned text" },
+      theme : { type : "enum" , values : ["light" , "dark"] , fallback : "light" , hint : "look of the form; minimal uses it for the text color on the page" }
     },
     sections : {
       inputElements : {
@@ -73,7 +75,9 @@ const TEMPLATE_CATALOG = {
       subscribeText : text(20),
       subscribeUrl : url(),
       backgroundColorHexcode : color("#6b5a14"),
-      cardColorHexcode : color("#8a7218" , "must contrast with backgroundColorHexcode")
+      cardColorHexcode : color("#8a7218" , "must contrast with backgroundColorHexcode"),
+      layout : { type : "enum" , values : ["stack" , "links-first" , "compact"] , fallback : "stack" , hint : "stack = social cards, banner, then links; links-first = links on top; compact = small header row, links, then small social cards" },
+      theme : { type : "enum" , values : ["dark" , "light"] , fallback : "dark" , hint : "style of the tiles on the card: dark = near-black tiles, light = white tiles; keep cardColorHexcode clearly different from the tile color" }
     },
     sections : {
       socialHandles : {

@@ -17,6 +17,7 @@ import {
   removeListEntry,
 } from "../app/TemplateSlice.js";
 import usePublishLiveForm from "../CustomHooks/usePublishLiveForm.js";
+import { getFieldOptions, isDateTimeField } from "../utils/fieldOptions.js";
 
 // TODO: set this to your real "My forms" route
 const MY_FORMS_PATH = "/my-forms";
@@ -181,21 +182,126 @@ function ItemEditor({ section, itemKey }) {
   );
 }
 
+// a field with a fixed set of choices (layout, theme ...) is picked with buttons instead of typed
+function OptionPicker({ label, value, options, onChange }) {
+  const current = String(value ?? "").trim().toLowerCase();
+
+  return (
+    <div>
+      <span className={labelClass}>{label}</span>
+      <div role="radiogroup" aria-label={label} className="flex flex-col gap-2">
+        {options.map((option) => {
+          const selected = current === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => onChange(option.value)}
+              className={`cursor-pointer rounded-xl px-3 py-2.5 text-left ${
+                selected ? "bg-[#fdf6e8] ring-2 ring-[#f2a93b]" : "bg-[#f4f3ef] hover:bg-[#ecebe5]"
+              }`}
+            >
+              <span className="block text-sm font-medium text-[#1a2b21]">{option.label}</span>
+              {option.description && (
+                <span className="block text-xs text-[#5c6b60]">{option.description}</span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// "2027-03-01T10:00:00.000Z" (or "2027-03-01") -> "2027-03-01T15:30" in the creator's own time zone,
+// which is the format a datetime-local box needs
+const toLocalInputValue = (value) => {
+  const date = new Date(value);
+  if (!value || Number.isNaN(date.getTime())) return "";
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
+
+// launch date and time: the creator picks it in their own time zone, it is saved as one exact moment (ISO, UTC),
+// so every visitor counts down to the same instant wherever they are
+function DateTimePicker({ label, value, onChange }) {
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const hasValue = Boolean(value) && !Number.isNaN(new Date(value).getTime());
+  const hasPassed = hasValue && new Date(value).getTime() <= Date.now();
+
+  const handleChange = (event) => {
+    const picked = event.target.value;
+    if (!picked) return onChange(""); // cleared -> the page shows no countdown
+    const date = new Date(picked);
+    if (!Number.isNaN(date.getTime())) onChange(date.toISOString());
+  };
+
+  return (
+    <div>
+      <label className="block">
+        <span className={labelClass}>{label}</span>
+        <input
+          type="datetime-local"
+          value={toLocalInputValue(value)}
+          min={toLocalInputValue(new Date().toISOString())}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </label>
+      <p className="mt-1.5 text-xs text-[#8a9690]">
+        Your time zone: {timeZone}. Clear the box to hide the countdown.
+      </p>
+      {hasPassed && (
+        <p role="alert" className="mt-2 rounded-lg bg-[#fdf6e8] px-3 py-2 text-xs text-[#9a6a10]">
+          This time has already passed, so the countdown shows zeros.
+        </p>
+      )}
+    </div>
+  );
+}
+
 // top-level text field (heading, subHeading, ...)
 function FieldEditor({ field }) {
   const dispatch = useDispatch();
+  const { id: templateId } = useParams();
   const value = useSelector((state) => selectField(state, field));
   if (typeof value !== "string") return null;
+
+  const options = getFieldOptions(templateId, field);
+
+  if (isDateTimeField(field)) {
+    return (
+      <>
+        <PanelTitle title={formatKey(field)} />
+        <DateTimePicker
+          label={formatKey(field)}
+          value={value}
+          onChange={(next) => dispatch(updateField({ field, value: next }))}
+        />
+      </>
+    );
+  }
 
   return (
     <>
       <PanelTitle title={formatKey(field)} />
-      <ValueEditor
-        label={formatKey(field)}
-        path={[field]}
-        value={value}
-        onChange={(path, next) => dispatch(updateField({ field, value: next }))}
-      />
+      {options ? (
+        <OptionPicker
+          label={formatKey(field)}
+          value={value}
+          options={options}
+          onChange={(next) => dispatch(updateField({ field, value: next }))}
+        />
+      ) : (
+        <ValueEditor
+          label={formatKey(field)}
+          path={[field]}
+          value={value}
+          onChange={(path, next) => dispatch(updateField({ field, value: next }))}
+        />
+      )}
     </>
   );
 }

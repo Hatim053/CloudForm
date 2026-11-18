@@ -1,9 +1,8 @@
-
 import { createSlice, createSelector, nanoid } from "@reduxjs/toolkit";
 
 export const HIDDEN_KEYS = ["_key", "enabled", "id", "name", "platform", "type", "icon", "color", "selectedOption"];
 
-const NON_EDITABLE_FIELDS = ["id", "launchDate"];
+const NON_EDITABLE_FIELDS = ["id"];
 
 
 const TITLE_KEYS = ["name", "platform", "text", "label"];

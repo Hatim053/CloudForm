@@ -63,7 +63,7 @@ function FileInputBase({ element , id , value , onChange , theme , readOnly , er
     <FieldShell id={id} label={element.label} required={element.isRequired === true} hint={multiple ? `(up to ${maxFiles})` : undefined} theme={theme} error={shownError}>
       <label
         htmlFor={id}
-        className={`flex cursor-pointer flex-col items-center gap-1 border-dashed px-4 py-5 text-center transition-all focus-within:ring-2 focus-within:ring-amber-400/60 hover:brightness-110 ${theme.panel} ${readOnly || isUploading ? "opacity-60" : ""}`}
+        className={`relative flex cursor-pointer flex-col items-center gap-1 border-dashed px-4 py-5 text-center transition-all focus-within:ring-2 focus-within:ring-amber-400/60 hover:brightness-110 ${theme.panel} ${readOnly || isUploading ? "opacity-60" : ""}`}
       >
         <span aria-hidden="true" className="text-2xl text-amber-500/70">⊕</span>
         <span className={`text-sm font-semibold ${theme.muted}`}>{isUploading ? "Uploading..." : (element.placeholder || "Choose a file")}</span>

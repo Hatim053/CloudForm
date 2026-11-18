@@ -21,6 +21,7 @@ class RefusedError extends Error {
 const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 const MAX_URL_LENGTH = 500;
 const DAY_MS = 24 * 60 * 60 * 1000;
+const DEFAULT_LAUNCH_TIME = "T09:00:00.000Z"; // the AI only picks a day , so the launch time of day is a sensible default the creator can change
 
 const isPlainObject = (value) => Object.prototype.toString.call(value) === "[object Object]";
 
@@ -54,12 +55,14 @@ const toIsoDay = (date) => date.toISOString().slice(0 , 10);
 
 // a launch date in the past (or nonsense) would show an already finished countdown , so it becomes today + 30 days
 const cleanDate = (value , today) => {
-  const fallback = toIsoDay(new Date(today.getTime() + 30 * DAY_MS));
+  const fallback = `${toIsoDay(new Date(today.getTime() + 30 * DAY_MS))}${DEFAULT_LAUNCH_TIME}`;
   const parsed = new Date(value);
   if(typeof value !== "string" || Number.isNaN(parsed.getTime())) return fallback;
   const day = toIsoDay(parsed);
   const latest = toIsoDay(new Date(today.getTime() + 5 * 365 * DAY_MS));
-  return day >= toIsoDay(today) && day <= latest ? day : fallback;
+  if(day < toIsoDay(today) || day > latest) return fallback;
+  // a plain day (what the AI sends) gets the default time of day , a full date and time keeps its own time
+  return /^\d{4}-\d{2}-\d{2}$/.test(value.trim()) ? `${day}${DEFAULT_LAUNCH_TIME}` : parsed.toISOString();
 };
 
 const matchEnum = (value , values) => (

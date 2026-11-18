@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const BASE_URL = import.meta.env.VITE_SERVER_UR || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
 
 const ENDPOINTS = {
     list: `${BASE_URL}/reviews/get`,
