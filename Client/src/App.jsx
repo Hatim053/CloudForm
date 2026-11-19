@@ -11,6 +11,7 @@ import AboutPage from "./pages/AboutPage.jsx";
 import PricingPage from "./pages/PricingPage.jsx";
 import AiTemplatePage from "./pages/AiTemplatePage.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
+import { Analytics } from "@vercel/analytics/next"
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/generate-ai-template" element={<AiTemplatePage />}/>
         <Route path="*" element={<PageNotFound />}/>
       </Routes>
+      <Analytics />
     </div>
   )
 }
